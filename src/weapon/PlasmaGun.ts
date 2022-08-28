@@ -1,3 +1,5 @@
+import { angleToTarget, GameObject, imageAssets, Sprite } from 'kontra';
+import { TOWER_POSITION } from '../main';
 import Weapon from './Weapon';
 
 export default class PlasmaGun extends Weapon {
@@ -12,13 +14,20 @@ export default class PlasmaGun extends Weapon {
     });
   }
 
-  fire(enemy: any) {
-    if (super.fire(enemy)) {
-      // 총알 생성
-      console.log('fire');
-      return true;
-    }
+  fire(enemy: GameObject) {
+    if (!this.canFire()) return null;
 
-    return false;
+    // 총알 생성
+    const bullet = Sprite({
+      image: imageAssets['assets/plasma.png'],
+      x: TOWER_POSITION,
+      y: 100,
+      width: 3,
+      height: 3,
+      speed: 10,
+      targetEnemy: enemy,
+    });
+
+    return bullet;
   }
 }

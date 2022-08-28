@@ -1,3 +1,5 @@
+import { GameObject } from 'kontra';
+
 type WeaponTarget = 'land' | 'air';
 
 export interface WeaponProps {
@@ -52,13 +54,8 @@ export default class Weapon {
     return this.fireTimer >= this.fireCooltime;
   }
 
-  fire(_enemy: any) {
-    if (this.canFire()) {
-      this.fireTimer = 0;
-      return true;
-    }
-
-    return false;
+  fire(_enemy: GameObject): GameObject | null {
+    return null;
   }
 
   update(dt: number) {
