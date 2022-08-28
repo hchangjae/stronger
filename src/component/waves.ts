@@ -37,10 +37,10 @@ const createWave = (waveRecipe: WaveRecipe) => {
     return [...acc, ...summonList]
   }, [])
 
-  return wave.sort(compareSummon)
+  return wave
 }
 
-const createWaves = (waveRecipes: WaveRecipe[]) => waveRecipes.flatMap(createWave)
+const createWaves = (waveRecipes: WaveRecipe[]) => waveRecipes.flatMap(createWave).sort(compareSummon)
 
 const waveRecipes: WaveRecipe[] =[
   {
