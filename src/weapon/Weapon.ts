@@ -52,7 +52,7 @@ export default class Weapon {
     return this.fireTimer >= this.fireCooltime;
   }
 
-  protected fire(_enemy: any) {
+  fire(_enemy: any) {
     if (this.canFire()) {
       this.fireTimer = 0;
       return true;

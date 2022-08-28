@@ -4,8 +4,7 @@ body {
 
 canvas {
   background: #000;
-  width: 100%;
-  max-width: 480px;
+  width: 1024px;
   margin: auto;
   display: block;
 }

@@ -6,16 +6,16 @@ export default class PlasmaGun extends Weapon {
       name: 'plasma-gun',
       targets: ['air', 'land'],
       attackPower: 3,
-      attackRange: 10,
+      attackRange: 400,
       splashRadius: 0,
-      fireCooltime: 500,
+      fireCooltime: 30,
     });
   }
 
   fire(enemy: any) {
     if (super.fire(enemy)) {
       // 총알 생성
-
+      console.log('fire');
       return true;
     }
 
