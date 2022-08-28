@@ -52,8 +52,13 @@ export default class Weapon {
     return this.fireTimer >= this.fireCooltime;
   }
 
-  protected fire() {
-    this.fireTimer = 0;
+  protected fire(_enemy: any) {
+    if (this.canFire()) {
+      this.fireTimer = 0;
+      return true;
+    }
+
+    return false;
   }
 
   update(dt: number) {

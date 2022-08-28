@@ -12,7 +12,13 @@ export default class PlasmaGun extends Weapon {
     });
   }
 
-  fire() {
-    super.fire();
+  fire(enemy: any) {
+    if (super.fire(enemy)) {
+      // 총알 생성
+
+      return true;
+    }
+
+    return false;
   }
 }
