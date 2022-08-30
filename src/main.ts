@@ -38,64 +38,16 @@ const getDistanceFromTower = (enemy: GameObject) => enemy.x - TOWER_POSITION;
 
 const buttonList: ButtonArgs[] = [
   {
-    text: 'button 1',
+    text: 'Strengthen walls +30%',
+    price: 100,
   },
   {
-    text: 'button 2',
+    text: 'Enhance damage +30%',
+    price: 100,
   },
   {
-    text: 'button 3',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
-  },
-  {
-    text: 'button 4',
+    text: 'Add laser cannon',
+    price: 100000
   },
 ]
 initPointer();

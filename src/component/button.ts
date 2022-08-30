@@ -2,12 +2,14 @@ import { Button } from 'kontra';
 
 export type ButtonArgs = {
   text: string;
+  price?: number;
   fontSize?: number;
   onClick?: () => void;
 };
 
 const createButton = ({
   text,
+  price = 0,
   fontSize = 20,
   onClick = () => {
     console.log(`${text} clicked`);
@@ -15,9 +17,10 @@ const createButton = ({
 }: ButtonArgs) =>
   Button({
     text: {
-      text,
+      text: `${text}\n$${price}`,
       color: 'white',
       font: `${fontSize}px Arial, sans-serit`,
+      textAlign: 'center',
     },
     onDown: onClick,
   });
