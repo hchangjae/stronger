@@ -5,7 +5,10 @@ import {
   loadImage,
   angleToTarget,
   collides,
+  initPointer,
 } from 'kontra';
+import { ButtonArgs } from './component/button';
+import createButtonGrid from './component/buttonGrid';
 import { createUnit, initUnitSpriteSheets } from './component/unit';
 import waves from './component/waves';
 import PlasmaGun from './weapon/PlasmaGun';
@@ -32,6 +35,72 @@ const getPlayTime = () => Date.now() - startAt;
 
 // Compute the distance from the tower to the given enemy.
 const getDistanceFromTower = (enemy: GameObject) => enemy.x - TOWER_POSITION;
+
+const buttonList: ButtonArgs[] = [
+  {
+    text: 'button 1',
+  },
+  {
+    text: 'button 2',
+  },
+  {
+    text: 'button 3',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+  {
+    text: 'button 4',
+  },
+]
+initPointer();
+
+const buttonGrid = createButtonGrid(buttonList, {x: 0, y: 400});
 
 Promise.all([
   loadImage('assets/Slime.png'),
@@ -101,6 +170,7 @@ Promise.all([
     render: () => {
       renderList.forEach((item) => item.render());
       bulletList.forEach((bullet) => bullet.render());
+      buttonGrid.render();
     },
   });
   loop.start();
