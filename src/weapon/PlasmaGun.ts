@@ -28,6 +28,8 @@ export default class PlasmaGun extends Weapon {
       height: 33,
       anchor: { x: 0.5, y: 0.5 },
       speed: 10,
+      attackPower: this.attackPower,
+      splashRadius: this.splashRadius,
       targetEnemy: enemy,
     });
 
