@@ -1,4 +1,4 @@
-import { angleToTarget, GameObject, imageAssets, Sprite } from 'kontra';
+import { GameObject, imageAssets, Sprite } from 'kontra';
 import { TOWER_POSITION } from '../main';
 import Weapon from './Weapon';
 
@@ -24,8 +24,8 @@ export default class PlasmaGun extends Weapon {
       image: imageAssets['assets/plasma.png'],
       x: TOWER_POSITION,
       y: 100,
-      width: 3,
-      height: 3,
+      width: 20,
+      height: 33,
       anchor: { x: 0.5, y: 0.5 },
       speed: 10,
       targetEnemy: enemy,
