@@ -10,13 +10,12 @@ export default class PlasmaGun extends Weapon {
       attackPower: 3,
       attackRange: 400,
       splashRadius: 0,
-      fireCooltime: 20,
+      fireCooltime: 3,
     });
   }
 
   fire(enemy: GameObject) {
     if (!this.canFire()) return null;
-
     this.fireTimer = 0;
 
     // 총알 생성
