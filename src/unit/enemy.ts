@@ -1,4 +1,4 @@
-import {Sprite} from 'kontra';
+import { Sprite } from 'kontra';
 
 const enemy = Sprite({
   x: 200,
@@ -7,6 +7,6 @@ const enemy = Sprite({
   height: 2,
   dx: -2,
   color: 'red',
-})
+});
 
 export default enemy;
