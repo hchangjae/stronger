@@ -140,7 +140,7 @@ Promise.all([
         text: user.getCurrentMoney(),
         x: 0,
         y: 0,
-        color: 'white'
+        color: 'white',
       }).render();
     },
   });
