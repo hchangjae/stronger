@@ -7,6 +7,8 @@ import {
   collides,
   initPointer,
   Text,
+  Sprite,
+  imageAssets,
 } from 'kontra';
 import { ButtonArgs } from './component/button';
 import createButtonGrid from './component/buttonGrid';
@@ -28,6 +30,9 @@ const weaponList: Weapon[] = [new PlasmaGun()];
 
 // Bullets
 let bulletList: GameObject[] = [];
+
+// Statics
+const staticList: GameObject[] = [];
 
 // GameWave
 const gameWave = new GameWave(waveRecipes);
@@ -69,9 +74,20 @@ const buttonList: ButtonArgs[] = [
 const buttonGrid = createButtonGrid(buttonList, { x: 0, y: 400 });
 
 Promise.all([
+  loadImage('assets/tower.png'),
   loadImage('assets/Slime.png'),
   loadImage('assets/plasma.png'),
 ]).then(() => {
+  staticList.push(
+    Sprite({
+      image: imageAssets['assets/tower.png'],
+      x: 10,
+      y: 140,
+      scaleX: 2,
+      scaleY: 2,
+    })
+  );
+
   initUnitSpriteSheets();
 
   const loop = GameLoop({
@@ -136,6 +152,7 @@ Promise.all([
       });
     },
     render: () => {
+      staticList.forEach((item) => item.render());
       renderList.forEach((item) => item.render());
       bulletList.forEach((bullet) => bullet.render());
       buttonGrid.render();
