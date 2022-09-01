@@ -16,9 +16,10 @@ import { createUnit, initUnitSpriteSheets } from './component/unit';
 import waves, { waveRecipes } from './component/waves';
 import PlasmaGun from './weapon/PlasmaGun';
 import Weapon from './weapon/Weapon';
-import User from './player/user';
+import User from './domain/User';
 import GameWave from './component/waves';
 import infoScene from './scene/info';
+import Game from './controller/Game';
 
 export const TOWER_POSITION = 100;
 
@@ -45,7 +46,8 @@ const subRender = (obj: GameObject) =>
 // Compute the distance from the tower to the given enemy.
 const getDistanceFromTower = (enemy: GameObject) => enemy.x - TOWER_POSITION;
 
-const user = new User(1000000);
+const game = new Game({userName: 'jackie', userImage: ''});
+const user = game.getUser();
 
 initPointer();
 const buttonList: ButtonArgs[] = [
@@ -53,21 +55,21 @@ const buttonList: ButtonArgs[] = [
     text: 'Strengthen walls +30%',
     price: 100,
     onClick: () => {
-      user.updateMoney(-100);
+      user.setResource(-100);
     },
   },
   {
     text: 'Enhance damage +30%',
     price: 100,
     onClick: () => {
-      user.updateMoney(-100);
+      user.setResource(-100);
     },
   },
   {
     text: 'Add laser cannon',
     price: 100000,
     onClick: () => {
-      user.updateMoney(-100000);
+      user.setResource(-100000);
     },
   },
 ];
@@ -79,15 +81,20 @@ Promise.all([
   loadImage('assets/Slime.png'),
   loadImage('assets/plasma.png'),
 ]).then(() => {
-  staticList.push(
-    Sprite({
-      image: imageAssets['assets/tower.png'],
-      x: 10,
-      y: 140,
-      scaleX: 2,
-      scaleY: 2,
-    })
-  );
+  // staticList.push(
+  //   Sprite({
+  //     image: imageAssets['assets/tower.png'],
+  //     x: 10,
+  //     y: 140,
+  //     scaleX: 2,
+  //     scaleY: 2,
+  //   })
+  // );
+
+  const game = new Game({
+    userName: 'jackie',
+    userImage: 'assets/tower.png',
+  })
 
   initUnitSpriteSheets();
 
@@ -153,11 +160,12 @@ Promise.all([
       });
     },
     render: () => {
-      staticList.forEach((item) => item.render());
+      // staticList.forEach((item) => item.render());
+      game.render();
       renderList.forEach((item) => item.render());
       bulletList.forEach((bullet) => bullet.render());
       buttonGrid.render();
-      infoScene(user.getCurrentMoney(), 1, 3).render();
+      infoScene(user.getResource(), 1, 3).render();
     },
   });
   loop.start();

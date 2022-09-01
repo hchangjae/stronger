@@ -9,6 +9,8 @@ export interface WeaponProps {
   attackRange: number;
   splashRadius: number;
   fireCooltime: number;
+  attackRate: number;
+  killProbaility: number;
 }
 
 export default class Weapon {
@@ -16,9 +18,11 @@ export default class Weapon {
   protected targets: WeaponTarget[];
   protected attackPower: number;
   protected attackRange: number;
+  protected attackRate: number;
   protected splashRadius: number;
   protected fireCooltime: number;
   protected fireTimer: number;
+  protected killProbaility: number;
 
   constructor({
     name,
@@ -27,6 +31,8 @@ export default class Weapon {
     attackRange,
     splashRadius,
     fireCooltime,
+    attackRate = 1,
+    killProbaility = 0.5,
   }: WeaponProps) {
     this.name = name;
     this.targets = targets;
@@ -34,6 +40,8 @@ export default class Weapon {
     this.attackRange = attackRange;
     this.splashRadius = splashRadius;
     this.fireCooltime = fireCooltime;
+    this.attackRate = attackRate;
+    this.killProbaility = killProbaility,
 
     this.fireTimer = 0;
   }
@@ -60,5 +68,21 @@ export default class Weapon {
 
   update(dt: number) {
     this.fireTimer += dt;
+  }
+
+  setAttackPower(dp: number) {
+    this.attackPower = dp;
+  }
+
+  setAttackRate(dr: number) {
+    this.attackRate = dr;
+  }
+
+  setAttackRange(dr: number) {
+    this.attackRange = dr;
+  }
+
+  setKillProbability(dp: number) {
+    this.killProbaility = dp;
   }
 }
