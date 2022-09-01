@@ -59,7 +59,10 @@ export default class Unit {
       dx: speed,
       scaleX: scale,
       scaleY: scale,
-      animations: getSpriteAnimation(spriteAnimationKey),
+      animations: {
+        ...getSpriteAnimation(spriteAnimationKey),
+        ...getSpriteAnimation('smoke'),
+      },
     });
 
     this.HPSprite = Sprite({
@@ -89,11 +92,27 @@ export default class Unit {
 
   hit(value: number) {
     this.HP -= Math.max(value - this.defensePower, 0);
-    this.HPSprite.width = (this.Sprite.height * this.HP) / this.HPMax;
+    this.HPSprite.width = Math.max(
+      (this.Sprite.height * this.HP) / this.HPMax,
+      0
+    );
+
+    if (this.HP <= 0) {
+      this.Sprite.playAnimation('smoke');
+      this.Sprite.dx = 0;
+    }
   }
 
   isAlive() {
     return this.HP > 0;
+  }
+
+  isDone() {
+    return (
+      !this.isAlive() &&
+      this.Sprite.currentAnimation._f ===
+        this.Sprite.currentAnimation.frames.length - 1
+    );
   }
 
   stop() {
@@ -103,8 +122,10 @@ export default class Unit {
   }
 
   render() {
-    this.HPWrapSprite.render();
-    this.HPSprite.render();
+    if (this.isAlive()) {
+      this.HPWrapSprite.render();
+      this.HPSprite.render();
+    }
     this.Sprite.render();
   }
 

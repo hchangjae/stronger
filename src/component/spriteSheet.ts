@@ -18,6 +18,21 @@ export const initUnitSpriteSheets = () => {
       },
     })
   );
+  spriteSheetMap.set(
+    'smoke',
+    SpriteSheet({
+      image: imageAssets['assets/smoke.png'],
+      frameWidth: 16,
+      frameHeight: 16,
+      animations: {
+        smoke: {
+          frames: '0..7',
+          frameRate: 10,
+          loop: false,
+        },
+      },
+    })
+  );
 };
 
 export const getSpriteAnimation = (key: string) =>

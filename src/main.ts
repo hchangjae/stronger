@@ -73,6 +73,7 @@ Promise.all([
   loadImage('assets/tower.png'),
   loadImage('assets/Slime.png'),
   loadImage('assets/plasma.png'),
+  loadImage('assets/smoke.png'),
 ]).then(() => {
   staticList.push(
     Sprite({
@@ -104,10 +105,9 @@ Promise.all([
         );
       }
 
-      weaponList.forEach((w) => {
-        w.update(dt);
-      });
+      weaponList.forEach((w) => w.update(dt));
 
+      enemyList = enemyList.filter((e) => !e.isDone());
       enemyList.forEach((item) => {
         // Stop at the tower.
         if (item.Sprite.x < TOWER_POSITION) {
@@ -117,7 +117,7 @@ Promise.all([
         // For each weapon, fire at the enemy if the conditions are met.
         weaponList.forEach((w) => {
           if (w.isInRange(getDistanceFromTower(item.Sprite))) {
-            if (w.canFire()) {
+            if (w.canFire() && item.isAlive()) {
               const bullet = w.fire(item);
 
               if (bullet) bulletList.push(bullet);
@@ -144,7 +144,6 @@ Promise.all([
           enemy.hit(bullet.attackPower);
           bullet.ttl = 0;
           bulletList = bulletList.filter((b) => b.isAlive());
-          enemyList = enemyList.filter((e) => e.isAlive());
         }
 
         bullet.update(dt);
