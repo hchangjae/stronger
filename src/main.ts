@@ -18,6 +18,7 @@ import PlasmaGun from './weapon/PlasmaGun';
 import Weapon from './weapon/Weapon';
 import User from './player/user';
 import GameWave from './component/waves';
+import infoScene from './scene/info';
 
 export const TOWER_POSITION = 100;
 
@@ -156,12 +157,7 @@ Promise.all([
       renderList.forEach((item) => item.render());
       bulletList.forEach((bullet) => bullet.render());
       buttonGrid.render();
-      Text({
-        text: user.getCurrentMoney(),
-        x: 0,
-        y: 0,
-        color: 'white',
-      }).render();
+      infoScene(user.getCurrentMoney(), 1, 3).render();
     },
   });
   loop.start();
