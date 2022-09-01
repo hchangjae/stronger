@@ -1,12 +1,4 @@
-import { imageAssets, Sprite, SpriteSheet } from 'kontra';
-
-export type CreateUnitProps = {
-  scale: number;
-  speed: number;
-  x?: number;
-  y?: number;
-  color?: string;
-};
+import { imageAssets, SpriteSheet } from 'kontra';
 
 const spriteSheetMap = new Map<string, SpriteSheet>();
 
@@ -28,13 +20,5 @@ export const initUnitSpriteSheets = () => {
   );
 };
 
-export const createUnit = (props: CreateUnitProps) => {
-  const { scale, speed, x, y, color } = props;
-
-  return Sprite({
-    dx: speed,
-    x,
-    y,
-    animations: spriteSheetMap.get('slime')?.animations,
-  });
-};
+export const getSpriteAnimation = (key: string) =>
+  spriteSheetMap.get(key)?.animations;

@@ -1,4 +1,5 @@
 import { GameObject } from 'kontra';
+import Unit from '../unit/Unit';
 
 type WeaponTarget = 'land' | 'air';
 
@@ -54,7 +55,7 @@ export default class Weapon {
     return this.fireTimer >= this.fireCooltime;
   }
 
-  fire(_enemy: GameObject): GameObject | null {
+  fire(_enemy: Unit): GameObject | null {
     return null;
   }
 

@@ -12,18 +12,18 @@ import {
 } from 'kontra';
 import { ButtonArgs } from './component/button';
 import createButtonGrid from './component/buttonGrid';
-import { createUnit, initUnitSpriteSheets } from './component/unit';
-import waves, { waveRecipes } from './component/waves';
+import { initUnitSpriteSheets } from './component/spriteSheet';
 import PlasmaGun from './weapon/PlasmaGun';
 import Weapon from './weapon/Weapon';
 import User from './player/user';
-import GameWave from './component/waves';
+import Enemy from './unit/Enemy';
+import GameWave, { waveRecipes } from './wave/Wave';
 
 export const TOWER_POSITION = 100;
 
 const { canvas } = init();
 
-const renderList: GameObject[] = [];
+let enemyList: Enemy[] = [];
 
 // Weapons built into the tower.
 const weaponList: Weapon[] = [new PlasmaGun()];
@@ -36,10 +36,6 @@ const staticList: GameObject[] = [];
 
 // GameWave
 const gameWave = new GameWave(waveRecipes);
-
-const addRender = (obj: GameObject) => renderList.push(obj);
-const subRender = (obj: GameObject) =>
-  renderList.splice(renderList.indexOf(obj), 1);
 
 // Compute the distance from the tower to the given enemy.
 const getDistanceFromTower = (enemy: GameObject) => enemy.x - TOWER_POSITION;
@@ -92,34 +88,35 @@ Promise.all([
 
   const loop = GameLoop({
     update: (dt) => {
+      // console.log(gameWave.level);
       // next level
-      if (renderList.length === 0 && gameWave.getWave()?.length === 0)
-        gameWave.next();
+      if (enemyList.length === 0 && gameWave.isWaveDone()) gameWave.next();
 
       if (gameWave.isReadyToSummon()) {
         const summon = gameWave.summon();
-        addRender(
-          createUnit({
-            scale: 20,
-            speed: -1.5,
+
+        enemyList.push(
+          new Enemy({
+            name: summon?.type,
             x: canvas.width - 1,
-            y: 280,
-            color: 'red',
+            y: 280 + Math.round(Math.random() * 20),
           })
         );
       }
 
-      renderList.forEach((item) => {
+      weaponList.forEach((w) => {
+        w.update(dt);
+      });
+
+      enemyList.forEach((item) => {
         // Stop at the tower.
-        if (item.x < TOWER_POSITION) {
-          item.x = TOWER_POSITION;
+        if (item.Sprite.x < TOWER_POSITION) {
+          item.stop();
         }
 
         // For each weapon, fire at the enemy if the conditions are met.
         weaponList.forEach((w) => {
-          w.update(dt);
-
-          if (w.isInRange(getDistanceFromTower(item))) {
+          if (w.isInRange(getDistanceFromTower(item.Sprite))) {
             if (w.canFire()) {
               const bullet = w.fire(item);
 
@@ -133,19 +130,21 @@ Promise.all([
 
       bulletList.forEach((bullet) => {
         const enemy = bullet.targetEnemy;
+        const eSprite = enemy.Sprite;
 
         const distance = Math.sqrt(
-          Math.pow(enemy.x - bullet.x, 2) + Math.pow(enemy.y - bullet.y, 2)
+          Math.pow(eSprite.x - bullet.x, 2) + Math.pow(eSprite.y - bullet.y, 2)
         );
-        bullet.x += ((enemy.x - bullet.x) / distance) * bullet.speed;
-        bullet.y += ((enemy.y - bullet.y) / distance) * bullet.speed;
+        bullet.x += ((eSprite.x - bullet.x) / distance) * bullet.speed;
+        bullet.y += ((eSprite.y - bullet.y) / distance) * bullet.speed;
 
-        bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, enemy);
+        bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, eSprite);
 
-        if (collides(bullet, enemy)) {
+        if (collides(bullet, eSprite)) {
+          enemy.hit(bullet.attackPower);
           bullet.ttl = 0;
           bulletList = bulletList.filter((b) => b.isAlive());
-          subRender(enemy);
+          enemyList = enemyList.filter((e) => e.isAlive());
         }
 
         bullet.update(dt);
@@ -153,7 +152,7 @@ Promise.all([
     },
     render: () => {
       staticList.forEach((item) => item.render());
-      renderList.forEach((item) => item.render());
+      enemyList.forEach((item) => item.render());
       bulletList.forEach((bullet) => bullet.render());
       buttonGrid.render();
       Text({

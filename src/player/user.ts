@@ -11,7 +11,7 @@ export class User {
   }
 
   getCurrentMoney() {
-    return `$${this.currentMoney}`;
+    return `🦴${this.currentMoney}`;
   }
 }
 
