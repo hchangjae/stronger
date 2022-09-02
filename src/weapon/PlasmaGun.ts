@@ -1,5 +1,6 @@
-import { GameObject, imageAssets, Sprite } from 'kontra';
+import { imageAssets, Sprite } from 'kontra';
 import { TOWER_POSITION } from '../main';
+import Unit from '../unit/Unit';
 import Weapon from './Weapon';
 
 export default class PlasmaGun extends Weapon {
@@ -12,11 +13,11 @@ export default class PlasmaGun extends Weapon {
       attackRate: 1,
       killProbaility: 1,
       splashRadius: 0,
-      fireCooltime: 3,
+      fireCooltime: 0.3,
     });
   }
 
-  fire(enemy: GameObject) {
+  fire(enemy: Unit) {
     if (!this.canFire()) return null;
     this.fireTimer = 0;
 
