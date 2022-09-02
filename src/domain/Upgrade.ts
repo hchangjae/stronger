@@ -27,8 +27,8 @@ class Upgrade {
     return this.activated;
   }
 
-  getTarget() {
-    return this.target;
+  getTarget(): string {
+    return this.target.toString();
   }
 
   getAmount() {

@@ -16,6 +16,8 @@ import Game from './controller/Game';
 import GameWave, { waveRecipes } from './wave/Wave';
 import Enemy from './unit/enemy';
 import Bullet from './domain/Bullet';
+import { appendUpgradeWeapon } from './controller/Button';
+import Upgrade from './domain/Upgrade';
 
 export const TOWER_POSITION = 100;
 
@@ -73,6 +75,9 @@ Promise.all([
 
   const user = game.getUser();
   const weapons = user.getWeapons();
+
+  appendUpgradeWeapon(new Upgrade(false, 'ATTACK_POWER', 30));
+  appendUpgradeWeapon(new Upgrade(false, 'ATTACK_RANGE', 30));
 
   initUnitSpriteSheets();
 

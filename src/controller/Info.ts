@@ -1,4 +1,5 @@
-const $ = (selector: string) => document.querySelector(selector);
+import {$} from '../util';
+
 const update = (
   $el: Element | null,
   value: string,
