@@ -8,3 +8,22 @@ canvas {
   margin: auto;
   display: block;
 }
+
+p {
+  margin: 0;
+  color: #fff;
+}
+
+.info {
+  height: 36px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wave_generation {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
