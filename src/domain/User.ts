@@ -77,13 +77,14 @@ class User extends Unit {
   }
 
   render() {
-    return Sprite({
+    Sprite({
       image: imageAssets[this.image],
       x: 10,
       y: 140,
       scaleX: 2,
       scaleY: 2,
     }).render();
+    this.weapons.forEach(weapon => weapon.render());
   }
 
   private filterInstantUpgrade() {

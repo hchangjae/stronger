@@ -11,11 +11,11 @@ import { ButtonArgs } from './component/button';
 import createButtonGrid from './component/buttonGrid';
 import { initUnitSpriteSheets } from './component/spriteSheet';
 import PlasmaGun from './weapon/PlasmaGun';
-import Weapon from './weapon/Weapon';
 import infoScene from './scene/info';
 import Game from './controller/Game';
 import GameWave, { waveRecipes } from './wave/Wave';
 import Enemy from './unit/enemy';
+import Bullet from './domain/Bullet';
 
 export const TOWER_POSITION = 100;
 
@@ -23,22 +23,13 @@ const { canvas } = init();
 
 let enemyList: Enemy[] = [];
 
-// Weapons built into the tower.
-const weaponList: Weapon[] = [new PlasmaGun()];
-
-// Bullets
-let bulletList: GameObject[] = [];
-
-// Statics
-const staticList: GameObject[] = [];
-
 // GameWave
 const gameWave = new GameWave(waveRecipes);
 
 // Compute the distance from the tower to the given enemy.
 const getDistanceFromTower = (enemy: GameObject) => enemy.x - TOWER_POSITION;
 
-const game = new Game({userName: 'jackie', userImage: ''});
+const game = new Game({ userName: 'jackie', userImage: '' });
 const user = game.getUser();
 
 initPointer();
@@ -74,20 +65,14 @@ Promise.all([
   loadImage('assets/plasma.png'),
   loadImage('assets/smoke.png'),
 ]).then(() => {
-  // staticList.push(
-  //   Sprite({
-  //     image: imageAssets['assets/tower.png'],
-  //     x: 10,
-  //     y: 140,
-  //     scaleX: 2,
-  //     scaleY: 2,
-  //   })
-  // );
-
   const game = new Game({
     userName: 'jackie',
     userImage: 'assets/tower.png',
-  })
+    userWeapons: [new PlasmaGun()],
+  });
+
+  const user = game.getUser();
+  const weapons = user.getWeapons();
 
   initUnitSpriteSheets();
 
@@ -109,7 +94,7 @@ Promise.all([
         );
       }
 
-      weaponList.forEach((w) => w.update(dt));
+      weapons.forEach((w) => w.update(dt));
 
       enemyList = enemyList.filter((e) => !e.isDone());
       enemyList.forEach((item) => {
@@ -119,12 +104,12 @@ Promise.all([
         }
 
         // For each weapon, fire at the enemy if the conditions are met.
-        weaponList.forEach((w) => {
+        weapons.forEach((w) => {
           if (w.isInRange(getDistanceFromTower(item.Sprite))) {
             if (w.canFire() && item.isAlive()) {
-              const bullet = w.fire(item);
+              const bullet = w.fire(item) as Bullet;
 
-              if (bullet) bulletList.push(bullet);
+              if (bullet) w.reload(bullet);
             }
           }
         });
@@ -132,32 +117,37 @@ Promise.all([
         item.update();
       });
 
-      bulletList.forEach((bullet) => {
-        const enemy = bullet.targetEnemy;
-        const eSprite = enemy.Sprite;
+      weapons.forEach((weapon) => {
+        const bulletList = weapon.getBulltes();
+        bulletList.forEach((bullet) => {
+          const enemy = bullet.targetEnemy;
+          const eSprite = enemy.Sprite;
 
-        const distance = Math.sqrt(
-          Math.pow(eSprite.x - bullet.x, 2) + Math.pow(eSprite.y - bullet.y, 2)
-        );
-        bullet.x += ((eSprite.x - bullet.x) / distance) * bullet.speed;
-        bullet.y += ((eSprite.y - bullet.y) / distance) * bullet.speed;
+          const distance = Math.sqrt(
+            Math.pow(eSprite.x - bullet.x, 2) +
+              Math.pow(eSprite.y - bullet.y, 2)
+          );
+          bullet.x += ((eSprite.x - bullet.x) / distance) * bullet.speed;
+          bullet.y += ((eSprite.y - bullet.y) / distance) * bullet.speed;
 
-        bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, eSprite);
+          bullet.rotation = angleToTarget(
+            { x: bullet.x, y: bullet.y },
+            eSprite
+          );
 
-        if (collides(bullet, eSprite)) {
-          enemy.hit(bullet.attackPower);
-          bullet.ttl = 0;
-          bulletList = bulletList.filter((b) => b.isAlive());
-        }
+          if (collides(bullet, eSprite)) {
+            enemy.hit(bullet.attackPower);
+            bullet.ttl = 0;
+            weapon.setBullets(bulletList.filter((b) => b.isAlive()));
+          }
 
-        bullet.update(dt);
+          bullet.update(dt);
+        });
       });
     },
     render: () => {
-      // staticList.forEach((item) => item.render());
       game.render();
       enemyList.forEach((item) => item.render());
-      bulletList.forEach((bullet) => bullet.render());
       buttonGrid.render();
       infoScene(user.getResource(), 1, 3).render();
     },

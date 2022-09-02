@@ -1,4 +1,5 @@
 import { GameObject } from 'kontra';
+import Bullet from '../domain/Bullet';
 import Unit from '../unit/Unit';
 
 type WeaponTarget = 'land' | 'air';
@@ -12,6 +13,7 @@ export interface WeaponProps {
   fireCooltime: number;
   attackRate: number;
   killProbaility: number;
+  bullets?: Bullet[];
 }
 
 export default class Weapon {
@@ -24,6 +26,7 @@ export default class Weapon {
   protected fireCooltime: number;
   protected fireTimer: number;
   protected killProbaility: number;
+  protected bullets: Bullet[];
 
   constructor({
     name,
@@ -34,6 +37,7 @@ export default class Weapon {
     fireCooltime,
     attackRate = 1,
     killProbaility = 0.5,
+    bullets = [],
   }: WeaponProps) {
     this.name = name;
     this.targets = targets;
@@ -43,6 +47,7 @@ export default class Weapon {
     this.fireCooltime = fireCooltime;
     this.attackRate = attackRate;
     this.killProbaility = killProbaility,
+    this.bullets = bullets,
 
     this.fireTimer = 0;
   }
@@ -85,5 +90,21 @@ export default class Weapon {
 
   setKillProbability(dp: number) {
     this.killProbaility = dp;
+  }
+
+  getBulltes() {
+    return this.bullets;
+  }
+
+  reload(bullet: Bullet) {
+    this.bullets = [...this.bullets, bullet];
+  }
+
+  setBullets(bullets: Bullet[]) {
+    this.bullets = bullets;
+  }
+
+  render() {
+    this.bullets.forEach(bullet => bullet.render());
   }
 }
