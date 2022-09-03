@@ -18,6 +18,22 @@ export const initUnitSpriteSheets = () => {
       },
     })
   );
+
+  spriteSheetMap.set(
+    'slime2',
+    SpriteSheet({
+      image: imageAssets['assets/slime2.png'],
+      frameWidth: 20,
+      frameHeight: 20,
+      animations: {
+        move: {
+          frames: '0..3',
+          frameRate: 4,
+        },
+      },
+    })
+  );
+
   spriteSheetMap.set(
     'smoke',
     SpriteSheet({

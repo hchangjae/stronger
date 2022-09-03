@@ -1,7 +1,7 @@
 import Unit, { UnitProps } from './Unit';
 
 export const enum EnemySpeed {
-  FAST = -3,
+  FAST = -2,
   SLOW = -0.5,
   NORMAL = -1.5,
 }
@@ -27,16 +27,16 @@ const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     spriteAnimationKey: 'slime',
   },
   [EnemyName.G2]: {
-    HP: 12,
+    HP: 7,
     name: EnemyName.G1,
-    speed: EnemySpeed.NORMAL,
-    width: 48,
-    height: 48,
+    speed: EnemySpeed.FAST,
+    width: 20,
+    height: 20,
     attackPower: 3,
     attackRange: 5,
     defensePower: 0,
     fireCooltime: 5,
-    spriteAnimationKey: 'slime',
+    spriteAnimationKey: 'slime2',
   },
   [EnemyName.G3]: {
     HP: 34,

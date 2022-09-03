@@ -62,6 +62,7 @@ const buttonGrid = createButtonGrid(buttonList, { x: 0, y: 400 });
 Promise.all([
   loadImage('assets/tower.png'),
   loadImage('assets/Slime.png'),
+  loadImage('assets/slime2.png'),
   loadImage('assets/plasma.png'),
   loadImage('assets/smoke.png'),
 ]).then(() => {
@@ -97,24 +98,24 @@ Promise.all([
       weapons.forEach((w) => w.update(dt));
 
       enemyList = enemyList.filter((e) => !e.isDone());
-      enemyList.forEach((item) => {
+      enemyList.forEach((enemy) => {
         // Stop at the tower.
-        if (item.Sprite.x < TOWER_POSITION) {
-          item.stop();
+        if (enemy.Sprite.x < TOWER_POSITION) {
+          enemy.stop();
         }
 
         // For each weapon, fire at the enemy if the conditions are met.
         weapons.forEach((w) => {
-          if (w.isInRange(getDistanceFromTower(item.Sprite))) {
-            if (w.canFire() && item.isAlive()) {
-              const bullet = w.fire(item) as Bullet;
+          if (w.isInRange(getDistanceFromTower(enemy.Sprite))) {
+            if (w.canFire() && enemy.isAlive()) {
+              const bullet = w.fire(enemy) as Bullet;
 
               if (bullet) w.reload(bullet);
             }
           }
         });
 
-        item.update();
+        enemy.update();
       });
 
       weapons.forEach((weapon) => {
