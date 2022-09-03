@@ -89,7 +89,7 @@ Promise.all([
           new Enemy({
             name: summon?.type,
             x: canvas.width - 1,
-            y: 280 + Math.round(Math.random() * 20),
+            y: 310,
           })
         );
       }

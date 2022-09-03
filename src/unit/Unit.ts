@@ -7,7 +7,8 @@ export type UnitProps = {
   HP: number;
   name: string;
   speed: number;
-  scale: number;
+  width: number;
+  height: number;
   attackPower: number;
   attackRange: number;
   defensePower: number;
@@ -36,7 +37,8 @@ export default class Unit {
     HP,
     name,
     speed,
-    scale,
+    width,
+    height,
     attackPower,
     attackRange,
     defensePower,
@@ -55,10 +57,10 @@ export default class Unit {
 
     this.Sprite = Sprite({
       x,
-      y,
+      y: y - height,
+      width,
+      height,
       dx: speed,
-      scaleX: scale,
-      scaleY: scale,
       animations: {
         ...getSpriteAnimation(spriteAnimationKey),
         ...getSpriteAnimation('smoke'),
@@ -66,28 +68,23 @@ export default class Unit {
     });
 
     this.HPSprite = Sprite({
-      x,
-      y: y + this.Sprite.height * scale + 5,
-      dx: speed,
-      scaleX: scale,
-      scaleY: scale,
-      width: this.Sprite.height,
+      x: 1,
+      y: 1,
+      width: width - 2,
       height: 5,
       color: 'red',
     });
 
-    const padding = 1 * scale;
-
     this.HPWrapSprite = Sprite({
-      x: x - padding,
-      y: y + this.Sprite.height * scale + 5 - padding,
-      dx: speed,
-      scaleX: scale,
-      scaleY: scale,
-      width: this.Sprite.height + padding * 2,
+      x: 0,
+      y: height + 15,
+      width,
       height: 7,
       color: '#fff',
     });
+
+    this.HPWrapSprite.addChild(this.HPSprite);
+    this.Sprite.addChild(this.HPWrapSprite);
   }
 
   hit(value: number) {
@@ -100,6 +97,8 @@ export default class Unit {
     if (this.HP <= 0) {
       this.Sprite.playAnimation('smoke');
       this.Sprite.dx = 0;
+
+      this.Sprite.removeChild(this.HPSprite, this.HPWrapSprite);
     }
   }
 
@@ -116,16 +115,10 @@ export default class Unit {
   }
 
   stop() {
-    this.HPWrapSprite.dx = 0;
-    this.HPSprite.dx = 0;
     this.Sprite.dx = 0;
   }
 
   render() {
-    if (this.isAlive()) {
-      this.HPWrapSprite.render();
-      this.HPSprite.render();
-    }
     this.Sprite.render();
   }
 
