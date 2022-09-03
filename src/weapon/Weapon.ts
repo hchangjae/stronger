@@ -11,7 +11,6 @@ export interface WeaponProps {
   attackRange: number;
   splashRadius: number;
   fireCooltime: number;
-  attackRate: number;
   killProbaility: number;
   bullets?: Bullet[];
 }
@@ -21,7 +20,6 @@ export default class Weapon {
   protected targets: WeaponTarget[];
   protected attackPower: number;
   protected attackRange: number;
-  protected attackRate: number;
   protected splashRadius: number;
   protected fireCooltime: number;
   protected fireTimer: number;
@@ -35,7 +33,6 @@ export default class Weapon {
     attackRange,
     splashRadius,
     fireCooltime,
-    attackRate = 1,
     killProbaility = 0.5,
     bullets = [],
   }: WeaponProps) {
@@ -45,11 +42,9 @@ export default class Weapon {
     this.attackRange = attackRange;
     this.splashRadius = splashRadius;
     this.fireCooltime = fireCooltime;
-    this.attackRate = attackRate;
-    this.killProbaility = killProbaility,
-    this.bullets = bullets,
-
-    this.fireTimer = 0;
+    (this.killProbaility = killProbaility),
+      (this.bullets = bullets),
+      (this.fireTimer = 0);
   }
 
   canAttackLand() {
@@ -80,10 +75,6 @@ export default class Weapon {
     this.attackPower = dp;
   }
 
-  setAttackRate(dr: number) {
-    this.attackRate = dr;
-  }
-
   setAttackRange(dr: number) {
     this.attackRange = dr;
   }
@@ -105,6 +96,6 @@ export default class Weapon {
   }
 
   render() {
-    this.bullets.forEach(bullet => bullet.render());
+    this.bullets.forEach((bullet) => bullet.render());
   }
 }
