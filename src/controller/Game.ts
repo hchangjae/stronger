@@ -4,19 +4,23 @@ import User from '../domain/User';
 import { TOWER_POSITION } from '../main';
 import Enemy from '../unit/enemy';
 import GameWave, { waveRecipes } from '../wave/Wave';
+import Info from './Info';
 
 const getDistanceFromTower = (enemy: Enemy) => enemy.Sprite.x - TOWER_POSITION;
 
 class Game extends GameObjectClass {
   protected user: User;
-  protected wave: GameWave;
+  protected info: Info;
   protected enemies: Enemy[];
   protected canvas: HTMLCanvasElement;
 
   constructor(user: User, canvas: HTMLCanvasElement) {
     super();
     this.user = user;
-    this.wave = new GameWave(waveRecipes);
+    this.info = new Info({
+      wave: new GameWave(waveRecipes),
+      generation: 1,
+    });
     this.enemies = [];
     this.canvas = canvas;
   }
@@ -27,15 +31,16 @@ class Game extends GameObjectClass {
 
   render() {
     this.user.render();
-    this.enemies.forEach(enemy => enemy.render());
+    this.enemies.forEach((enemy) => enemy.render());
   }
 
   update(dt: number): void {
-    if (this.enemies.length === 0 && this.wave.isWaveDone()) {
-      this.wave.next();
+    const wave = this.info.getWave();
+    if (this.enemies.length === 0 && wave.isWaveDone()) {
+      wave.next();
     }
-    if (this.wave.isReadyToSummon()) {
-      const summon = this.wave.summon();
+    if (wave.isReadyToSummon()) {
+      const summon = wave.summon();
       this.enemies.push(
         new Enemy({
           name: summon?.type,
@@ -44,9 +49,9 @@ class Game extends GameObjectClass {
         })
       );
     }
-    
+
     const weapons = this.user.getWeapons();
-    weapons.forEach(w => w.update(dt));
+    weapons.forEach((w) => w.update(dt));
 
     this.enemies = this.enemies.filter((e) => !e.isDone());
     this.enemies.forEach((enemy) => {
@@ -69,16 +74,12 @@ class Game extends GameObjectClass {
         const enemy = bullet.targetEnemy;
         const eSprite = enemy.Sprite;
         const distance = Math.sqrt(
-          Math.pow(eSprite.x - bullet.x, 2) +
-            Math.pow(eSprite.y - bullet.y, 2)
+          Math.pow(eSprite.x - bullet.x, 2) + Math.pow(eSprite.y - bullet.y, 2)
         );
         bullet.x += ((eSprite.x - bullet.x) / distance) * bullet.speed;
         bullet.y += ((eSprite.y - bullet.y) / distance) * bullet.speed;
 
-        bullet.rotation = angleToTarget(
-          { x: bullet.x, y: bullet.y },
-          eSprite
-        );
+        bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, eSprite);
 
         if (collides(bullet, eSprite)) {
           enemy.hit(bullet.attackPower);
