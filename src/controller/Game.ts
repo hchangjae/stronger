@@ -1,29 +1,17 @@
+import { GameObjectClass } from 'kontra';
 import User from '../domain/User';
-import Enemy from '../domain/enemy';
-import Weapon from '../weapon/Weapon';
+import Enemy from '../unit/enemy';
 
-type UserProps = {
-  userName: string;
-  userImage: string;
-  userResource?: number;
-  userWeapons?: Weapon[];
-  userLife?: number;
-};
-class Game {
+class Game extends GameObjectClass {
   protected user: User;
   protected wave: number;
   protected enemies: Enemy[];
 
-  constructor({userName, userImage, userResource = 100, userWeapons = [], userLife = 100}: UserProps) {
-    this.user = new User({
-      name: userName,
-      image: userImage,
-      resource: userResource,
-      weapons: userWeapons,
-      life: userLife,
-    });
+  constructor(user: User, enemies: Enemy[]) {
+    super();
+    this.user = user;
     this.wave = 1;
-    this.enemies = [];
+    this.enemies = enemies;
   }
 
   getUser() {

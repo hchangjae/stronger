@@ -12,9 +12,10 @@ import Game from './controller/Game';
 import GameWave, { waveRecipes } from './wave/Wave';
 import Enemy from './unit/enemy';
 import Bullet from './domain/Bullet';
-import { appendUpgradePassive, appendUpgradeWeapon } from './controller/Button';
+import { appendUpgradePassive } from './controller/Button';
 import Upgrade from './domain/Upgrade';
 import PASSIVES from './data/upgrade/passive';
+import User from './domain/User';
 
 export const TOWER_POSITION = 100;
 
@@ -34,11 +35,13 @@ Promise.all([
   loadImage('assets/plasma.png'),
   loadImage('assets/smoke.png'),
 ]).then(() => {
-  const game = new Game({
-    userName: 'jackie',
-    userImage: 'assets/tower.png',
-    userWeapons: [new PlasmaGun()],
-  });
+  const game = new Game(new User({
+    name: 'jackie',
+    image: 'assets/tower.png',
+    weapons: [new PlasmaGun()],
+    resource: 100,
+    life: 100,
+  }), enemyList);
 
   const user = game.getUser();
   const weapons = user.getWeapons();
@@ -66,7 +69,7 @@ Promise.all([
           new Enemy({
             name: summon?.type,
             x: canvas.width - 1,
-            y: 280 + Math.round(Math.random() * 20),
+            y: 160 + Math.round(Math.random() * 10),
           })
         );
       }
@@ -121,6 +124,8 @@ Promise.all([
           bullet.update(dt);
         });
       });
+
+      game.update(dt);
     },
     render: () => {
       game.render();

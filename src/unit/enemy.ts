@@ -1,9 +1,9 @@
 import Unit, { UnitProps } from './Unit';
 
 export const enum EnemySpeed {
-  FAST = -4,
-  SLOW = -1,
-  NORMAL = -2,
+  FAST = -3,
+  SLOW = -0.75,
+  NORMAL = -1.5,
 }
 
 export const enum EnemyName {
@@ -18,7 +18,7 @@ const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     HP: 8,
     name: EnemyName.G1,
     speed: EnemySpeed.NORMAL,
-    scale: 1,
+    scale: 0.8,
     attackPower: 2,
     attackRange: 5,
     defensePower: 0,
@@ -29,7 +29,7 @@ const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     HP: 12,
     name: EnemyName.G1,
     speed: EnemySpeed.NORMAL,
-    scale: 1.5,
+    scale: 1,
     attackPower: 3,
     attackRange: 5,
     defensePower: 0,
@@ -40,7 +40,7 @@ const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     HP: 34,
     name: EnemyName.G1,
     speed: EnemySpeed.SLOW,
-    scale: 2,
+    scale: 1.5,
     attackPower: 8,
     attackRange: 5,
     defensePower: 0,

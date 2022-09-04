@@ -90,8 +90,8 @@ class User extends Unit {
       image: imageAssets[this.image],
       x: 10,
       y: 140,
-      scaleX: 2,
-      scaleY: 2,
+      scaleX: 1,
+      scaleY: 1,
     }).render();
     this.weapons.forEach(weapon => weapon.render());
   }
