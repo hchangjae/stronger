@@ -18,6 +18,7 @@ import Enemy from './unit/enemy';
 import Bullet from './domain/Bullet';
 import { appendUpgradeWeapon } from './controller/Button';
 import Upgrade from './domain/Upgrade';
+import PASSIVES from './data/upgrade/passive';
 
 export const TOWER_POSITION = 100;
 
@@ -76,8 +77,13 @@ Promise.all([
   const user = game.getUser();
   const weapons = user.getWeapons();
 
-  appendUpgradeWeapon(new Upgrade(false, 'ATTACK_POWER', 30));
-  appendUpgradeWeapon(new Upgrade(false, 'ATTACK_RANGE', 30));
+  PASSIVES.forEach(passive => {
+    const upgrade = new Upgrade(passive);
+    appendUpgradeWeapon(upgrade, () => {
+      user.addUpgrade(upgrade);
+      console.log(upgrade);
+    })
+  })
 
   initUnitSpriteSheets();
 

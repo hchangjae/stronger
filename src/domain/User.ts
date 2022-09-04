@@ -42,12 +42,21 @@ class User extends Unit {
     return this.weapons;
   }
 
+  
   addWeapon(newWeapon: Weapon) {
     this.weapons = [...this.weapons, newWeapon];
   }
-
+  
   increaseGeneration(dg = 1) {
     this.generation += dg;
+  }
+  
+  getUpgrades() {
+    return this.upgrades;
+  }
+  
+  addUpgrade(upgrade: Upgrade) {
+    this.upgrades = [...this.upgrades, upgrade];
   }
 
   applyUpgrades() {

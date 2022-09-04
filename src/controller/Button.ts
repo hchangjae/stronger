@@ -9,9 +9,7 @@ export const createButton = (
   const button = document.createElement('button');
   button.textContent = text;
   button.classList.add(className);
-  button.onclick = () => {
-    onClick();
-  };
+  button.addEventListener('click', onClick);
   return button;
 };
 
@@ -20,12 +18,17 @@ const appendButton = ($target: Element | null, $button: HTMLButtonElement) => {
 };
 
 const $upgradeWeapon = $('.upgrades .weapons');
-export const appendUpgradeWeapon = (upgrade: Upgrade) => {
-  console.log(upgrade);
+export const appendUpgradeWeapon = (upgrade: Upgrade, onClick: () => void) => {
   appendButton(
     $upgradeWeapon,
-    createButton(upgrade.getTarget(), 'weapon', () => {
-      upgrade.activate();
-    })
+    createButton(upgrade.getTarget(), 'weapon', onClick)
   );
 };
+
+const $upgradePassive = $('.upgrades .passive');
+export const appendUpgradePassive = (upgrade: Upgrade, onClick: () => void) => {
+  appendButton(
+    $upgradePassive,
+    createButton(upgrade.getTarget(), 'passive', onClick)
+  )
+}

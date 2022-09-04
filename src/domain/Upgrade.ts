@@ -6,21 +6,27 @@ type UpgradeTarget =
   | 'KILL_PROBABILITY'
   | 'LOOT_AMOUNT'; /** ? */
 
+export type UpgradeProps = {
+  isPassive: boolean;
+  target: UpgradeTarget,
+  amount: number;
+}
+
 class Upgrade {
-  protected isInstant: boolean;
+  protected isPassive: boolean;
   protected target: UpgradeTarget;
   protected activated: boolean;
   protected amount: number;
 
-  constructor(isInstant: boolean, target: UpgradeTarget, amount: number) {
-    this.isInstant = isInstant;
+  constructor({isPassive, target, amount}: UpgradeProps) {
+    this.isPassive = isPassive;
     this.target = target;
     this.activated = false;
     this.amount = amount;
   }
 
   getIsInstant() {
-    return this.isInstant;
+    return this.isPassive;
   }
 
   getIsActivated() {
