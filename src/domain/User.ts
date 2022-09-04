@@ -3,6 +3,7 @@ import { imageAssets, Sprite } from 'kontra';
 import Weapon from '../weapon/Weapon';
 import Upgrade from './Upgrade';
 import Unit from './Unit';
+import Resource from './Resource';
 
 type UserProps = {
   name: string;
@@ -14,24 +15,24 @@ type UserProps = {
 class User extends Unit {
   protected name: string;
   protected image: string;
-  protected resource: number;
+  protected resource: Resource;
   protected weapons: Weapon[];
-  protected generation: number;
   protected upgrades: Upgrade[];
 
   constructor({ name, image, resource, weapons, life }: UserProps) {
     super(life);
     this.name = name;
     this.image = image;
-    this.resource = resource;
+    this.resource = new Resource(resource);
     this.weapons = weapons;
     this.generation = 1;
     this.upgrades = [];
   }
 
   setResource(dm: number) {
-    if (this.resource + dm < 0) return;
-    this.resource += dm;
+    const currentResource = this.resource.getResource();
+    if (currentResource + dm < 0) return;
+    this.resource.update(currentResource + dm);
   }
 
   getResource() {
