@@ -75,6 +75,15 @@ export const waveRecipes: WaveRecipe[] = [
       { type: EnemyName.G2, ratio: 1 },
     ],
   },
+  {
+    total: 15,
+    duration: 5 * 1000,
+    summonRecipes: [
+      { type: EnemyName.G1, ratio: 1 },
+      { type: EnemyName.G2, ratio: 1 },
+      { type: EnemyName.G3, ratio: 0.5 },
+    ],
+  },
 ];
 
 export default class GameWave {
