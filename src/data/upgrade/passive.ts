@@ -5,26 +5,31 @@ const PASSIVES: UpgradeProps[] = [
     isPassive: true,
     target: 'ATTACK_POWER',
     amount: 10,
+    resourceNeeded: 100,
   },
   {
     isPassive: true,
     target: 'HEALTH',
     amount: 10,
+    resourceNeeded: 100,
   },
   {
     isPassive: true,
     target: 'ATTACK_RANGE',
     amount: 10,
+    resourceNeeded: 100,
   },
   {
     isPassive: true,
     target: 'ATTACK_RATE',
     amount: 10,
+    resourceNeeded: 100,
   },
   {
     isPassive: true,
     target: 'KILL_PROBABILITY',
     amount: 5,
+    resourceNeeded: 100,
   },
 ];
 

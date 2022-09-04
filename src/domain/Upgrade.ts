@@ -8,21 +8,24 @@ type UpgradeTarget =
 
 export type UpgradeProps = {
   isPassive: boolean;
-  target: UpgradeTarget,
+  target: UpgradeTarget;
   amount: number;
-}
+  resourceNeeded: number;
+};
 
 class Upgrade {
   protected isPassive: boolean;
   protected target: UpgradeTarget;
   protected activated: boolean;
   protected amount: number;
+  protected resourceNeeded: number;
 
-  constructor({isPassive, target, amount}: UpgradeProps) {
+  constructor({ isPassive, target, amount, resourceNeeded }: UpgradeProps) {
     this.isPassive = isPassive;
     this.target = target;
     this.activated = false;
     this.amount = amount;
+    this.resourceNeeded = resourceNeeded;
   }
 
   getIsInstant() {
@@ -39,6 +42,10 @@ class Upgrade {
 
   getAmount() {
     return this.amount;
+  }
+
+  getResourceNeeded() {
+    return this.resourceNeeded;
   }
 
   activate() {

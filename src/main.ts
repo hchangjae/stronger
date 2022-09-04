@@ -77,15 +77,15 @@ Promise.all([
   const user = game.getUser();
   const weapons = user.getWeapons();
 
-  PASSIVES.forEach(passive => {
+  initUnitSpriteSheets();
+
+  PASSIVES.forEach((passive) => {
     const upgrade = new Upgrade(passive);
     appendUpgradeWeapon(upgrade, () => {
       user.addUpgrade(upgrade);
-      console.log(upgrade);
-    })
-  })
-
-  initUnitSpriteSheets();
+      user.setResource(-1 * upgrade.getResourceNeeded());
+    });
+  });
 
   const loop = GameLoop({
     update: (dt) => {

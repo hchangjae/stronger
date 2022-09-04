@@ -21,7 +21,7 @@ const $upgradeWeapon = $('.upgrades .weapons');
 export const appendUpgradeWeapon = (upgrade: Upgrade, onClick: () => void) => {
   appendButton(
     $upgradeWeapon,
-    createButton(upgrade.getTarget(), 'weapon', onClick)
+    createButton(`${upgrade.getTarget()} +${upgrade.getAmount()} (👻${upgrade.getResourceNeeded()})`, 'weapon', onClick)
   );
 };
 
