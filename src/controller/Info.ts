@@ -40,6 +40,10 @@ class Info extends GameObjectClass {
   getWave() {
     return this.wave;
   }
+
+  updateWave() {
+    update(Info.$wave, `${this.wave.level}`, (value) => `Wave ${value}`)
+  }
 }
 
 export default Info;

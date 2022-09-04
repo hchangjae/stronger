@@ -47,10 +47,6 @@ class User extends Unit {
     this.weapons = [...this.weapons, newWeapon];
   }
 
-  increaseGeneration(dg = 1) {
-    this.generation += dg;
-  }
-
   getUpgrades() {
     return this.upgrades;
   }
@@ -94,12 +90,6 @@ class User extends Unit {
       scaleY: 1,
     }).render();
     this.weapons.forEach((weapon) => weapon.render());
-  }
-
-  private filterInstantUpgrade() {
-    this.upgrades = this.upgrades.filter(
-      (upgrade) => !(upgrade.getIsInstant() || upgrade.getIsActivated())
-    );
   }
 
   update(dt: number): void {

@@ -1,5 +1,6 @@
 import { angleToTarget, collides, GameObjectClass } from 'kontra';
 import Bullet from '../domain/Bullet';
+import Corp from '../domain/Corp';
 import User from '../domain/User';
 import { TOWER_POSITION } from '../main';
 import Enemy from '../unit/enemy';
@@ -11,7 +12,7 @@ const getDistanceFromTower = (enemy: Enemy) => enemy.Sprite.x - TOWER_POSITION;
 class Game extends GameObjectClass {
   protected user: User;
   protected info: Info;
-  protected enemies: Enemy[];
+  protected corp: Corp;
   protected canvas: HTMLCanvasElement;
 
   constructor(user: User, canvas: HTMLCanvasElement) {
@@ -21,7 +22,7 @@ class Game extends GameObjectClass {
       wave: new GameWave(waveRecipes),
       generation: 1,
     });
-    this.enemies = [];
+    this.corp = new Corp(canvas);
     this.canvas = canvas;
   }
 
@@ -31,30 +32,24 @@ class Game extends GameObjectClass {
 
   render() {
     this.user.render();
-    this.enemies.forEach((enemy) => enemy.render());
+    this.corp.render();
   }
 
   update(dt: number): void {
     const wave = this.info.getWave();
-    if (this.enemies.length === 0 && wave.isWaveDone()) {
+    if (this.corp.getCount() === 0 && wave.isWaveDone()) {
+      console.log(this.info.getWave());
       wave.next();
+      this.info.updateWave();
     }
     if (wave.isReadyToSummon()) {
-      const summon = wave.summon();
-      this.enemies.push(
-        new Enemy({
-          name: summon?.type,
-          x: this.canvas.width - 1,
-          y: 160 + Math.round(Math.random() * 10),
-        })
-      );
+      this.corp.buildUp(wave);
     }
 
     const weapons = this.user.getWeapons();
     weapons.forEach((w) => w.update(dt));
 
-    this.enemies = this.enemies.filter((e) => !e.isDone());
-    this.enemies.forEach((enemy) => {
+    this.corp.getAliveEnemies().forEach((enemy) => {
       if (enemy.Sprite.x < TOWER_POSITION) {
         enemy.stop();
       }
@@ -68,6 +63,7 @@ class Game extends GameObjectClass {
       });
       enemy.update();
     });
+    
     weapons.forEach((weapon) => {
       const bulletList = weapon.getBullets();
       bulletList.forEach((bullet) => {
