@@ -14,6 +14,10 @@ class Corp extends GameObjectClass {
     this.canvas = canvas;
   }
 
+  isDestroyed() {
+    return this.getAliveEnemies().length === 0;
+  }
+
   getCount() {
     return this.enemies.length;
   }

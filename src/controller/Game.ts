@@ -37,8 +37,7 @@ class Game extends GameObjectClass {
 
   update(dt: number): void {
     const wave = this.info.getWave();
-    if (this.corp.getCount() === 0 && wave.isWaveDone()) {
-      console.log(this.info.getWave());
+    if (this.corp.isDestroyed() && wave.isWaveDone()) {
       wave.next();
       this.info.updateWave();
     }
