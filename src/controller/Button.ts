@@ -18,17 +18,17 @@ const appendButton = ($target: Element | null, $button: HTMLButtonElement) => {
 };
 
 const $upgradeWeapon = $('.upgrades .weapons');
-export const appendUpgradeWeapon = (upgrade: Upgrade, onClick: () => void) => {
-  appendButton(
-    $upgradeWeapon,
-    createButton(`${upgrade.getTarget()} +${upgrade.getAmount()} (👻${upgrade.getResourceNeeded()})`, 'weapon', onClick)
+const createUpgradeButton = (upgrade: Upgrade, onClick: () => void) =>
+  createButton(
+    `${upgrade.getTarget()} +${upgrade.getAmount()} (👻${upgrade.getResourceNeeded()})`,
+    'button',
+    onClick
   );
+export const appendUpgradeWeapon = (upgrade: Upgrade, onClick: () => void) => {
+  appendButton($upgradeWeapon, createUpgradeButton(upgrade, onClick));
 };
 
-const $upgradePassive = $('.upgrades .passive');
+const $upgradePassive = $('.upgrades .passives');
 export const appendUpgradePassive = (upgrade: Upgrade, onClick: () => void) => {
-  appendButton(
-    $upgradePassive,
-    createButton(upgrade.getTarget(), 'passive', onClick)
-  )
-}
+  appendButton($upgradePassive, createUpgradeButton(upgrade, onClick));
+};

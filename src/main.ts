@@ -5,18 +5,14 @@ import {
   loadImage,
   angleToTarget,
   collides,
-  initPointer,
 } from 'kontra';
-import { ButtonArgs } from './component/button';
-import createButtonGrid from './component/buttonGrid';
 import { initUnitSpriteSheets } from './component/spriteSheet';
 import PlasmaGun from './weapon/PlasmaGun';
-import infoScene from './scene/info';
 import Game from './controller/Game';
 import GameWave, { waveRecipes } from './wave/Wave';
 import Enemy from './unit/enemy';
 import Bullet from './domain/Bullet';
-import { appendUpgradeWeapon } from './controller/Button';
+import { appendUpgradePassive, appendUpgradeWeapon } from './controller/Button';
 import Upgrade from './domain/Upgrade';
 import PASSIVES from './data/upgrade/passive';
 
@@ -31,36 +27,6 @@ const gameWave = new GameWave(waveRecipes);
 
 // Compute the distance from the tower to the given enemy.
 const getDistanceFromTower = (enemy: GameObject) => enemy.x - TOWER_POSITION;
-
-const game = new Game({ userName: 'jackie', userImage: '' });
-const user = game.getUser();
-
-initPointer();
-const buttonList: ButtonArgs[] = [
-  {
-    text: 'Strengthen walls +30%',
-    price: 100,
-    onClick: () => {
-      user.setResource(-100);
-    },
-  },
-  {
-    text: 'Enhance damage +30%',
-    price: 100,
-    onClick: () => {
-      user.setResource(-100);
-    },
-  },
-  {
-    text: 'Add laser cannon',
-    price: 100000,
-    onClick: () => {
-      user.setResource(-100000);
-    },
-  },
-];
-
-const buttonGrid = createButtonGrid(buttonList, { x: 0, y: 400 });
 
 Promise.all([
   loadImage('assets/tower.png'),
@@ -81,7 +47,7 @@ Promise.all([
 
   PASSIVES.forEach((passive) => {
     const upgrade = new Upgrade(passive);
-    appendUpgradeWeapon(upgrade, () => {
+    appendUpgradePassive(upgrade, () => {
       user.addUpgrade(upgrade);
       user.setResource(-1 * upgrade.getResourceNeeded());
     });
@@ -159,8 +125,6 @@ Promise.all([
     render: () => {
       game.render();
       enemyList.forEach((item) => item.render());
-      buttonGrid.render();
-      infoScene(user.getResource(), 1, 3).render();
     },
   });
   loop.start();
