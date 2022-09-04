@@ -1,7 +1,10 @@
-class Unit {
+import { GameObjectClass } from "kontra";
+
+class Unit extends GameObjectClass {
   protected life: number;
 
   constructor(life: number) {
+    super();
     this.life = life;
   }
 

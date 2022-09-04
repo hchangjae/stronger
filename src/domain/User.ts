@@ -42,38 +42,37 @@ class User extends Unit {
     return this.weapons;
   }
 
-  
   addWeapon(newWeapon: Weapon) {
     this.weapons = [...this.weapons, newWeapon];
   }
-  
+
   increaseGeneration(dg = 1) {
     this.generation += dg;
   }
-  
+
   getUpgrades() {
     return this.upgrades;
   }
-  
+
   addUpgrade(upgrade: Upgrade) {
     this.upgrades = [...this.upgrades, upgrade];
   }
 
   applyUpgrades() {
-    this.upgrades.forEach(upgrade => {
+    this.upgrades.forEach((upgrade) => {
       const amount = upgrade.getAmount();
       switch (upgrade.getTarget()) {
         case 'ATTACK_POWER':
-          this.weapons.forEach(weapon => weapon.setAttackPower(amount));
+          this.weapons.forEach((weapon) => weapon.setAttackPower(amount));
           break;
         case 'ATTACK_RANGE':
-          this.weapons.forEach(weapon => weapon.setAttackRange(amount));
-          break
+          this.weapons.forEach((weapon) => weapon.setAttackRange(amount));
+          break;
         case 'ATTACK_RATE':
-          this.weapons.forEach(weapon => weapon.setAttackRate(amount));
+          this.weapons.forEach((weapon) => weapon.setAttackRate(amount));
           break;
         case 'KILL_PROBABILITY':
-          this.weapons.forEach(weapon => weapon.setKillProbability(amount));
+          this.weapons.forEach((weapon) => weapon.setKillProbability(amount));
           break;
         case 'HEALTH':
           this.life += amount;
@@ -81,7 +80,7 @@ class User extends Unit {
         default:
       }
       upgrade.activate();
-    })
+    });
     this.filterInstantUpgrade();
   }
 
@@ -93,13 +92,17 @@ class User extends Unit {
       scaleX: 1,
       scaleY: 1,
     }).render();
-    this.weapons.forEach(weapon => weapon.render());
+    this.weapons.forEach((weapon) => weapon.render());
   }
 
   private filterInstantUpgrade() {
     this.upgrades = this.upgrades.filter(
       (upgrade) => !(upgrade.getIsInstant() || upgrade.getIsActivated())
     );
+  }
+
+  update(dt: number): void {
+    this.weapons.forEach((w) => w.update(dt));
   }
 }
 

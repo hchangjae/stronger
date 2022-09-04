@@ -92,7 +92,7 @@ export default class Weapon {
     this.killProbaility = dp;
   }
 
-  getBulltes() {
+  getBullets() {
     return this.bullets;
   }
 
