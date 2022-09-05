@@ -9,6 +9,7 @@ export type UnitProps = {
   speed: number;
   width: number;
   height: number;
+  soulPoint: number;
   attackPower: number;
   attackRange: number;
   defensePower: number;
@@ -19,6 +20,7 @@ export type UnitProps = {
 export default class Unit {
   protected HP: number;
   protected name: string;
+  protected soulPoint: number;
   protected attackPower: number;
   protected attackRange: number;
   protected defensePower: number;
@@ -39,6 +41,7 @@ export default class Unit {
     speed,
     width,
     height,
+    soulPoint,
     attackPower,
     attackRange,
     defensePower,
@@ -47,6 +50,7 @@ export default class Unit {
   }: UnitProps) {
     this.HP = HP;
     this.name = name;
+    this.soulPoint = soulPoint;
     this.attackPower = attackPower;
     this.attackRange = attackRange;
     this.defensePower = defensePower;
@@ -77,7 +81,7 @@ export default class Unit {
 
     this.HPWrapSprite = Sprite({
       x: 0,
-      y: height + 15,
+      y: height + 5,
       width,
       height: 7,
       color: '#fff',
@@ -88,18 +92,20 @@ export default class Unit {
   }
 
   hit(value: number) {
-    this.HP -= Math.max(value - this.defensePower, 0);
-    this.HPSprite.width = Math.max(
-      (this.Sprite.height * this.HP) / this.HPMax,
-      0
-    );
+    const damage = Math.max(value - this.defensePower, 0);
+    let isDead = false;
 
-    if (this.HP <= 0) {
+    if (this.HP > 0 && this.HP - damage <= 0) {
       this.Sprite.playAnimation('smoke');
       this.Sprite.dx = 0;
 
       this.Sprite.removeChild(this.HPSprite, this.HPWrapSprite);
+      isDead = true;
     }
+
+    this.HP -= damage;
+    this.HPSprite.width = Math.max((this.Sprite.height * this.HP) / this.HPMax, 0);
+    return isDead;
   }
 
   isAlive() {
@@ -107,11 +113,7 @@ export default class Unit {
   }
 
   isDone() {
-    return (
-      !this.isAlive() &&
-      this.Sprite.currentAnimation._f ===
-        this.Sprite.currentAnimation.frames.length - 1
-    );
+    return !this.isAlive() && this.Sprite.currentAnimation._f === this.Sprite.currentAnimation.frames.length - 1;
   }
 
   getAttackPower() {

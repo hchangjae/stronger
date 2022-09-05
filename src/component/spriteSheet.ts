@@ -7,7 +7,7 @@ export const initUnitSpriteSheets = () => {
   spriteSheetMap.set(
     'slime',
     SpriteSheet({
-      image: imageAssets['assets/Slime.png'],
+      image: imageAssets['assets/slime.png'],
       frameWidth: 32,
       frameHeight: 32,
       animations: {
@@ -23,8 +23,23 @@ export const initUnitSpriteSheets = () => {
     'slime2',
     SpriteSheet({
       image: imageAssets['assets/slime2.png'],
-      frameWidth: 20,
+      frameWidth: 24,
       frameHeight: 20,
+      animations: {
+        move: {
+          frames: '0..3',
+          frameRate: 4,
+        },
+      },
+    })
+  );
+
+  spriteSheetMap.set(
+    'slime3',
+    SpriteSheet({
+      image: imageAssets['assets/slime3.png'],
+      frameWidth: 32,
+      frameHeight: 32,
       animations: {
         move: {
           frames: '0..3',
@@ -51,5 +66,4 @@ export const initUnitSpriteSheets = () => {
   );
 };
 
-export const getSpriteAnimation = (key: string) =>
-  spriteSheetMap.get(key)?.animations;
+export const getSpriteAnimation = (key: string) => spriteSheetMap.get(key)?.animations;

@@ -20,6 +20,7 @@ export default class Weapon {
   protected targets: WeaponTarget[];
   protected attackPower: number;
   protected attackRange: number;
+  protected attackRate: number;
   protected splashRadius: number;
   protected fireCooltime: number;
   protected fireTimer: number;
@@ -41,10 +42,9 @@ export default class Weapon {
     this.attackPower = attackPower;
     this.attackRange = attackRange;
     this.splashRadius = splashRadius;
+    this.attackRate = 1;
     this.fireCooltime = fireCooltime;
-    (this.killProbaility = killProbaility),
-      (this.bullets = bullets),
-      (this.fireTimer = 0);
+    (this.killProbaility = killProbaility), (this.bullets = bullets), (this.fireTimer = 0);
   }
 
   canAttackLand() {
@@ -60,7 +60,7 @@ export default class Weapon {
   }
 
   canFire() {
-    return this.fireTimer >= this.fireCooltime;
+    return this.fireTimer >= this.fireCooltime / this.attackRate;
   }
 
   fire(_enemy: Unit): GameObject | null {
@@ -77,6 +77,10 @@ export default class Weapon {
 
   setAttackRange(dr: number) {
     this.attackRange = dr;
+  }
+
+  addAttackRate(dr: number) {
+    this.attackRate += dr;
   }
 
   setKillProbability(dp: number) {

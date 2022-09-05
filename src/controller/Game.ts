@@ -1,7 +1,8 @@
-import { angleToTarget, collides, GameObjectClass } from 'kontra';
+import { angleToTarget, collides, GameObject, GameObjectClass } from 'kontra';
 import Bullet from '../domain/Bullet';
 import Corp from '../domain/Corp';
 import User from '../domain/User';
+import Soul from '../effect/soul';
 import { TOWER_POSITION } from '../main';
 import Enemy from '../unit/enemy';
 import GameWave, { waveRecipes } from '../wave/Wave';
@@ -13,6 +14,7 @@ class Game extends GameObjectClass {
   protected user: User;
   protected info: Info;
   protected corp: Corp;
+  protected effect: GameObject[];
   protected canvas: HTMLCanvasElement;
 
   constructor(user: User, canvas: HTMLCanvasElement) {
@@ -23,6 +25,7 @@ class Game extends GameObjectClass {
       generation: 1,
     });
     this.corp = new Corp(canvas);
+    this.effect = [];
     this.canvas = canvas;
   }
 
@@ -33,6 +36,7 @@ class Game extends GameObjectClass {
   render() {
     this.user.render();
     this.corp.render();
+    this.effect.forEach((e) => e.render());
   }
 
   update(dt: number): void {
@@ -61,30 +65,52 @@ class Game extends GameObjectClass {
           }
         }
       });
-      enemy.update();
     });
-    
+
+    this.corp.update();
+
     weapons.forEach((weapon) => {
       const bulletList = weapon.getBullets();
       bulletList.forEach((bullet) => {
         const enemy = bullet.targetEnemy;
         const eSprite = enemy.Sprite;
-        const distance = Math.sqrt(
-          Math.pow(eSprite.x - bullet.x, 2) + Math.pow(eSprite.y - bullet.y, 2)
-        );
-        bullet.x += ((eSprite.x - bullet.x) / distance) * bullet.speed;
-        bullet.y += ((eSprite.y - bullet.y) / distance) * bullet.speed;
+        const targetCenter = {
+          x: eSprite.x + eSprite.width / 2,
+          y: eSprite.y + eSprite.height / 2,
+        };
+        const distance = Math.sqrt(Math.pow(targetCenter.x - bullet.x, 2) + Math.pow(targetCenter.y - bullet.y, 2));
+        bullet.x += ((targetCenter.x - bullet.x) / distance) * bullet.speed;
+        bullet.y += ((targetCenter.y - bullet.y) / distance) * bullet.speed;
 
-        bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, eSprite);
+        bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, targetCenter);
 
         if (collides(bullet, eSprite)) {
-          enemy.hit(bullet.attackPower);
+          const isDead = enemy.hit(bullet.attackPower);
+          if (isDead) {
+            const soulList = new Array(enemy.soulPoint).fill('').map(
+              () =>
+                new Soul({
+                  x: enemy.Sprite.x,
+                  y: enemy.Sprite.y,
+                })
+            );
+            this.effect.push(...soulList);
+          }
           bullet.ttl = 0;
           weapon.setBullets(bulletList.filter((b) => b.isAlive()));
         }
 
         bullet.update(dt);
       });
+    });
+
+    this.effect.forEach((e) => e.update());
+    this.effect = this.effect.filter((e) => {
+      if (e.isDone()) {
+        this.user.setResource(1);
+        return false;
+      }
+      return true;
     });
   }
 }

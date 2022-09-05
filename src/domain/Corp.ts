@@ -1,16 +1,17 @@
-import { GameObjectClass } from 'kontra';
-import { TOWER_POSITION } from '../main';
+import { GameObjectClass, Sprite } from 'kontra';
 
 import Enemy from '../unit/Enemy';
 import GameWave from '../wave/Wave';
 
 class Corp extends GameObjectClass {
   protected enemies: Enemy[];
+  protected soul: Sprite[];
   protected canvas: HTMLCanvasElement;
 
   constructor(canvas: HTMLCanvasElement) {
     super();
     this.enemies = [];
+    this.soul = [];
     this.canvas = canvas;
   }
 
@@ -23,7 +24,7 @@ class Corp extends GameObjectClass {
   }
 
   getAliveEnemies() {
-    return this.enemies.filter(enemy => !enemy.isDone());
+    return this.enemies.filter((enemy) => !enemy.isDone());
   }
 
   buildUp(wave: GameWave) {
@@ -33,26 +34,18 @@ class Corp extends GameObjectClass {
       new Enemy({
         name: summon?.type,
         x: this.canvas.width - 1,
-        y: 160 + Math.round(Math.random() * 10),
+        y: 160 + Math.round(Math.random() * 50),
       }),
     ];
   }
 
-  move() {
-    const aliveEnemies = this.getAliveEnemies();
-    aliveEnemies.forEach(enemy => {
-      if (enemy.Sprite.x < TOWER_POSITION) {
-        enemy.stop();
-      }
-    })
-  }
-
   update() {
-    this.enemies.forEach(enemy => enemy.update());
+    this.enemies.forEach((enemy) => enemy.update());
+    this.enemies = this.enemies.filter((enemy) => !enemy.isDone());
   }
 
   render(): void {
-    this.enemies.forEach(enemy => enemy.render());
+    this.enemies.forEach((enemy) => enemy.render());
   }
 }
 

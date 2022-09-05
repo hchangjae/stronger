@@ -56,28 +56,30 @@ class User extends Unit {
   }
 
   applyUpgrades() {
-    this.upgrades.filter(upgrade => !upgrade.getIsActivated()).forEach((upgrade) => {
-      const amount = upgrade.getAmount();
-      switch (upgrade.getTarget()) {
-        case 'ATTACK_POWER':
-          this.weapons.forEach((weapon) => weapon.setAttackPower(amount));
-          break;
-        case 'ATTACK_RANGE':
-          this.weapons.forEach((weapon) => weapon.setAttackRange(amount));
-          break;
-        // case 'ATTACK_RATE':
-          // this.weapons.forEach((weapon) => weapon.setAttackRate(amount));
-          // break;
-        case 'KILL_PROBABILITY':
-          this.weapons.forEach((weapon) => weapon.setKillProbability(amount));
-          break;
-        case 'HEALTH':
-          this.life += amount;
-          break;
-        default:
-      }
-      upgrade.activate();
-    });
+    this.upgrades
+      .filter((upgrade) => !upgrade.getIsActivated())
+      .forEach((upgrade) => {
+        const amount = upgrade.getAmount();
+        switch (upgrade.getTarget()) {
+          case 'ATTACK_POWER':
+            this.weapons.forEach((weapon) => weapon.setAttackPower(amount));
+            break;
+          case 'ATTACK_RANGE':
+            this.weapons.forEach((weapon) => weapon.setAttackRange(amount));
+            break;
+          case 'ATTACK_RATE':
+            this.weapons.forEach((weapon) => weapon.addAttackRate(amount));
+            break;
+          case 'KILL_PROBABILITY':
+            this.weapons.forEach((weapon) => weapon.setKillProbability(amount));
+            break;
+          case 'HEALTH':
+            this.life += amount;
+            break;
+          default:
+        }
+        upgrade.activate();
+      });
   }
 
   render() {

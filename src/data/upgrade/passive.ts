@@ -22,7 +22,7 @@ const PASSIVES: UpgradeProps[] = [
   {
     isPassive: true,
     target: 'ATTACK_RATE',
-    amount: 10,
+    amount: 0.1,
     resourceNeeded: 100,
   },
   {

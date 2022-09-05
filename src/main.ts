@@ -1,8 +1,4 @@
-import {
-  init,
-  GameLoop,
-  loadImage,
-} from 'kontra';
+import { init, GameLoop, loadImage } from 'kontra';
 import { initUnitSpriteSheets } from './component/spriteSheet';
 import PlasmaGun from './weapon/PlasmaGun';
 import Game from './controller/Game';
@@ -17,18 +13,22 @@ const { canvas } = init();
 
 Promise.all([
   loadImage('assets/tower.png'),
-  loadImage('assets/Slime.png'),
+  loadImage('assets/slime.png'),
   loadImage('assets/slime2.png'),
+  loadImage('assets/slime3.png'),
   loadImage('assets/plasma.png'),
   loadImage('assets/smoke.png'),
 ]).then(() => {
-  const game = new Game(new User({
-    name: 'jackie',
-    image: 'assets/tower.png',
-    weapons: [new PlasmaGun()],
-    resource: 100000,
-    life: 100,
-  }), canvas);
+  const game = new Game(
+    new User({
+      name: 'jackie',
+      image: 'assets/tower.png',
+      weapons: [new PlasmaGun()],
+      resource: 100000,
+      life: 100,
+    }),
+    canvas
+  );
 
   const user = game.getUser();
 
