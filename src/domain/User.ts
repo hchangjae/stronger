@@ -65,9 +65,9 @@ class User extends Unit {
         case 'ATTACK_RANGE':
           this.weapons.forEach((weapon) => weapon.setAttackRange(amount));
           break;
-        case 'ATTACK_RATE':
-          this.weapons.forEach((weapon) => weapon.setAttackRate(amount));
-          break;
+        // case 'ATTACK_RATE':
+          // this.weapons.forEach((weapon) => weapon.setAttackRate(amount));
+          // break;
         case 'KILL_PROBABILITY':
           this.weapons.forEach((weapon) => weapon.setKillProbability(amount));
           break;
@@ -78,7 +78,6 @@ class User extends Unit {
       }
       upgrade.activate();
     });
-    this.filterInstantUpgrade();
   }
 
   render() {
@@ -94,6 +93,7 @@ class User extends Unit {
 
   update(dt: number): void {
     this.weapons.forEach((w) => w.update(dt));
+    this.applyUpgrades();
   }
 }
 

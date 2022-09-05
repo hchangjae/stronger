@@ -7,6 +7,7 @@ class Resource {
 
   constructor(value: number) {
     this.resource = value;
+    this.update(value);
   }
 
   getResource() {

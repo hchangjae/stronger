@@ -26,7 +26,7 @@ Promise.all([
     name: 'jackie',
     image: 'assets/tower.png',
     weapons: [new PlasmaGun()],
-    resource: 100,
+    resource: 100000,
     life: 100,
   }), canvas);
 

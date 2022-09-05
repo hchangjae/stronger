@@ -46,7 +46,7 @@ class Game extends GameObjectClass {
     }
 
     const weapons = this.user.getWeapons();
-    weapons.forEach((w) => w.update(dt));
+    this.user.update(dt);
 
     this.corp.getAliveEnemies().forEach((enemy) => {
       if (enemy.Sprite.x < TOWER_POSITION) {
