@@ -18,6 +18,7 @@ const { canvas } = init();
 Promise.all([
   loadImage('assets/tower.png'),
   loadImage('assets/Slime.png'),
+  loadImage('assets/slime2.png'),
   loadImage('assets/plasma.png'),
   loadImage('assets/smoke.png'),
 ]).then(() => {
