@@ -12,10 +12,8 @@ const update = (
   }
 };
 
-export const updateResource = (value: number) => {
-  console.log(value);
+export const updateResource = (value: number) => 
   update($('.resource'), `${value}`, (value) => `👻 ${value}`);
-}
 
 export const updateWave = (value: number) =>
   update($('.wave'), `${value}`, (value) => `Wave ${value}`);
