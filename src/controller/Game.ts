@@ -51,6 +51,7 @@ class Game extends GameObjectClass {
     this.corp.getAliveEnemies().forEach((enemy) => {
       if (enemy.Sprite.x < TOWER_POSITION) {
         enemy.stop();
+        this.user.setLife(-1 * enemy.getAttackPower());
       }
       weapons.forEach((w) => {
         if (w.isInRange(getDistanceFromTower(enemy))) {

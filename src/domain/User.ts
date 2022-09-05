@@ -56,7 +56,7 @@ class User extends Unit {
   }
 
   applyUpgrades() {
-    this.upgrades.forEach((upgrade) => {
+    this.upgrades.filter(upgrade => !upgrade.getIsActivated()).forEach((upgrade) => {
       const amount = upgrade.getAmount();
       switch (upgrade.getTarget()) {
         case 'ATTACK_POWER':

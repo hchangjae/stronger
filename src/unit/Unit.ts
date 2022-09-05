@@ -114,6 +114,10 @@ export default class Unit {
     );
   }
 
+  getAttackPower() {
+    return this.attackPower;
+  }
+
   stop() {
     this.Sprite.dx = 0;
   }
