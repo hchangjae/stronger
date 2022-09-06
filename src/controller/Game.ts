@@ -52,20 +52,23 @@ class Game extends GameObjectClass {
     const weapons = this.user.getWeapons();
     this.user.update(dt);
 
-    this.corp.getAliveEnemies().forEach((enemy) => {
-      if (enemy.Sprite.x < TOWER_POSITION) {
-        enemy.stop();
-        this.user.setLife(-1 * enemy.getAttackPower());
-      }
-      weapons.forEach((w) => {
-        if (w.isInRange(getDistanceFromTower(enemy))) {
-          if (w.canFire() && enemy.isAlive()) {
-            const bullet = w.fire(enemy) as Bullet;
-            if (bullet) w.reload(bullet);
-          }
+    this.corp
+      .getAliveEnemies()
+      .sort((a, b) => a.Sprite.x - b.Sprite.x)
+      .forEach((enemy) => {
+        if (enemy.Sprite.x < TOWER_POSITION) {
+          enemy.stop();
+          this.user.setLife(-1 * enemy.getAttackPower());
         }
+        weapons.forEach((w) => {
+          if (w.isInRange(getDistanceFromTower(enemy))) {
+            if (w.canFire() && enemy.isAlive()) {
+              const bullet = w.fire(enemy) as Bullet;
+              if (bullet) w.reload(bullet);
+            }
+          }
+        });
       });
-    });
 
     this.corp.update();
 
