@@ -1,6 +1,7 @@
 import { angleToTarget, collides, GameObject, GameObjectClass } from 'kontra';
 import Bullet from '../domain/Bullet';
 import Corp from '../domain/Corp';
+import Ground from '../domain/Ground';
 import User from '../domain/User';
 import Soul from '../effect/soul';
 import { TOWER_POSITION } from '../main';
@@ -14,6 +15,7 @@ class Game extends GameObjectClass {
   protected user: User;
   protected info: Info;
   protected corp: Corp;
+  protected ground: Ground;
   protected effect: GameObject[];
   protected canvas: HTMLCanvasElement;
 
@@ -25,6 +27,7 @@ class Game extends GameObjectClass {
       generation: 1,
     });
     this.corp = new Corp(canvas);
+    this.ground = new Ground();
     this.effect = [];
     this.canvas = canvas;
   }
@@ -34,6 +37,7 @@ class Game extends GameObjectClass {
   }
 
   render() {
+    this.ground.render();
     this.user.render();
     this.corp.render();
     this.effect.forEach((e) => e.render());

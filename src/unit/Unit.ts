@@ -81,7 +81,7 @@ export default class Unit {
 
     this.HPWrapSprite = Sprite({
       x: 0,
-      y: height + 5,
+      y: -10,
       width,
       height: 7,
       color: '#fff',

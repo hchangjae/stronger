@@ -7,3 +7,4 @@
 - NYKNCK (itch.io)
 - Yvodlyn Paul (itch.io)
 - benmhenry@gmail.com (FreePixelMob)
+- Lil Cthulhu (itch.io)
