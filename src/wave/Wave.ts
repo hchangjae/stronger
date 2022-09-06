@@ -18,42 +18,24 @@ type Summon = {
 
 const compareSummon = (a: Summon, b: Summon) => b.at - a.at;
 
-const createSummon = (
-  summonRecipe: SummonRecipe,
-  numOfSummon: number,
-  duration: number
-) => {
-  const summonList = new Array<Summon>(numOfSummon)
-    .fill({ at: 0, type: '' })
-    .map(() => ({
-      at: Math.floor(Math.random() * duration),
-      type: summonRecipe.type,
-    }));
+const createSummon = (summonRecipe: SummonRecipe, numOfSummon: number, duration: number) => {
+  const summonList = new Array<Summon>(numOfSummon).fill({ at: 0, type: '' }).map(() => ({
+    at: Math.floor(Math.random() * duration),
+    type: summonRecipe.type,
+  }));
 
   return summonList;
 };
 
 const createSummonList = (waveRecipe: WaveRecipe) => {
-  const totalRatio = waveRecipe.summonRecipes.reduce(
-    (acc, cur) => acc + cur.ratio,
-    0
-  );
+  const totalRatio = waveRecipe.summonRecipes.reduce((acc, cur) => acc + cur.ratio, 0);
   const numOfTotalSummon = waveRecipe.total;
 
-  const wave = waveRecipe.summonRecipes.reduce<Summon[]>(
-    (acc, summonRecipe) => {
-      const numOfSummon = Math.ceil(
-        numOfTotalSummon * (summonRecipe.ratio / totalRatio)
-      );
-      const summonList = createSummon(
-        summonRecipe,
-        numOfSummon,
-        waveRecipe.duration
-      );
-      return [...acc, ...summonList];
-    },
-    []
-  );
+  const wave = waveRecipe.summonRecipes.reduce<Summon[]>((acc, summonRecipe) => {
+    const numOfSummon = Math.ceil(numOfTotalSummon * (summonRecipe.ratio / totalRatio));
+    const summonList = createSummon(summonRecipe, numOfSummon, waveRecipe.duration);
+    return [...acc, ...summonList];
+  }, []);
 
   return wave.sort(compareSummon);
 };
@@ -120,6 +102,17 @@ export default class GameWave {
     this.level += 1;
     this.summonList = createSummonList(waveRecipe);
     this.startAt = Date.now();
+
+    const banner = document.querySelector('.banner');
+
+    if (banner) {
+      banner.innerHTML = `Wave ${this.level}`;
+      banner.classList.add('show');
+
+      window.setTimeout(() => {
+        banner.classList.remove('show');
+      }, 2000);
+    }
   }
 
   summon() {

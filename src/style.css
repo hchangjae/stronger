@@ -53,3 +53,21 @@ p {
   background: cyan;
   color: #000;
 }
+
+.banner {
+  position: absolute;
+  top: 170px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 600px;
+  height: 70px;
+  text-align: center;
+  color: #fff;
+  font-size: 70px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.banner.show {
+  opacity: 1;
+}
