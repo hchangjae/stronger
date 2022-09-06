@@ -1,12 +1,25 @@
 body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
   margin: 0;
-  background: #000;
+  background: repeating-linear-gradient(-45deg, #222, #222 10px, #333 10px, #333 20px);
+}
+
+#app {
+  position: relative;
+  width: 1024px;
+  height: 440px;
+  border: 15px solid #6c6c6c;
+  background-color: #000;
 }
 
 canvas {
   background: #000;
-  width: 100%;
-  height: 100%;
+  width: 1024px;
+  height: 256px;
 }
 
 p {
@@ -32,6 +45,7 @@ p {
   display: flex;
   gap: 100px;
   border-top: #fff 3px solid;
+  background-color: #000;
 }
 
 .upgrades .passives,
