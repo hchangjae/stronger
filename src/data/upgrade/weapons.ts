@@ -33,7 +33,7 @@ const WEAPONS: WeaponUpgradeType[] = [
     unlockWave: 3,
   },
   {
-    label: 'Goo Missle',
+    label: 'Goo Bomb',
     weaponClass: PlasmaGun,
     targets: ['land'],
     resourceNeeded: 100,
