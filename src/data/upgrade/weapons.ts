@@ -1,3 +1,4 @@
+import Cannon from '../../weapon/Cannon';
 import PlasmaGun from '../../weapon/PlasmaGun';
 import Weapon from '../../weapon/Weapon';
 
@@ -17,7 +18,7 @@ const WEAPONS: WeaponUpgradeType[] = [
   },
   {
     label: 'Cannon',
-    weaponClass: PlasmaGun,
+    weaponClass: Cannon,
     targets: ['land'],
     resourceNeeded: 100,
   },

@@ -75,32 +75,39 @@ class Game extends GameObjectClass {
     weapons.forEach((weapon) => {
       const bulletList = weapon.getBullets();
       bulletList.forEach((bullet) => {
-        const enemy = bullet.targetEnemy;
-        const eSprite = enemy.Sprite;
-        const targetCenter = {
-          x: eSprite.x + eSprite.width / 2,
-          y: eSprite.y + eSprite.height / 2,
-        };
-        const distance = Math.sqrt(Math.pow(targetCenter.x - bullet.x, 2) + Math.pow(targetCenter.y - bullet.y, 2));
-        bullet.x += ((targetCenter.x - bullet.x) / distance) * bullet.speed;
-        bullet.y += ((targetCenter.y - bullet.y) / distance) * bullet.speed;
+        if (bullet.followEnemy) {
+          const enemy = bullet.targetEnemy;
+          const eSprite = enemy.Sprite;
+          const targetCenter = {
+            x: eSprite.x + eSprite.width / 2,
+            y: eSprite.y + eSprite.height / 2,
+          };
+          const distance = Math.sqrt(Math.pow(targetCenter.x - bullet.x, 2) + Math.pow(targetCenter.y - bullet.y, 2));
+          bullet.x += ((targetCenter.x - bullet.x) / distance) * bullet.speed;
+          bullet.y += ((targetCenter.y - bullet.y) / distance) * bullet.speed;
 
-        bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, targetCenter);
+          bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, targetCenter);
 
-        if (collides(bullet, eSprite)) {
-          const isDead = enemy.hit(bullet.attackPower);
-          if (isDead) {
-            const soulList = new Array(enemy.soulPoint).fill('').map(
-              () =>
-                new Soul({
-                  x: enemy.Sprite.x,
-                  y: enemy.Sprite.y,
-                })
-            );
-            this.effect.push(...soulList);
+          if (collides(bullet, eSprite)) {
+            const isDead = enemy.hit(bullet.attackPower);
+            if (isDead) {
+              const soulList = new Array(enemy.soulPoint).fill('').map(
+                () =>
+                  new Soul({
+                    x: enemy.Sprite.x,
+                    y: enemy.Sprite.y,
+                  })
+              );
+              this.effect.push(...soulList);
+            }
+            bullet.ttl = 0;
+            weapon.setBullets(bulletList.filter((b) => b.isAlive()));
           }
-          bullet.ttl = 0;
-          weapon.setBullets(bulletList.filter((b) => b.isAlive()));
+        } else {
+          if (bullet.y > 220) {
+            bullet.ttl = 0;
+            weapon.setBullets(bulletList.filter((b) => b.isAlive()));
+          }
         }
 
         bullet.update(dt);
