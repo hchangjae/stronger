@@ -34,7 +34,7 @@ class Corp extends GameObjectClass {
       new Enemy({
         name: summon?.type,
         x: this.canvas.width - 1,
-        y: 160 + Math.round(Math.random() * 50),
+        y: 220,
       }),
     ];
   }
