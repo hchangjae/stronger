@@ -4,7 +4,7 @@ import Corp from '../domain/Corp';
 import Ground from '../domain/Ground';
 import User from '../domain/User';
 import Soul from '../effect/soul';
-import { TOWER_POSITION } from '../main';
+import { particles, TOWER_POSITION } from '../main';
 import Enemy from '../unit/enemy';
 import GameWave, { waveRecipes } from '../wave/Wave';
 import Info from './Info';
@@ -129,6 +129,19 @@ class Game extends GameObjectClass {
 
             bullet.ttl = 0;
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
+          } else {
+            for (let i = 1; i < 2; i++) {
+              particles.get({
+                x: bullet.x + bullet.width / 2,
+                y: bullet.y + bullet.height / 2,
+                width: 6,
+                height: 6,
+                color: '#666',
+                ttl: 20,
+                opacity: 1,
+                rotation: Math.random() * 2 * Math.PI,
+              });
+            }
           }
         }
 
