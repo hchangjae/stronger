@@ -8,11 +8,11 @@ export default class Cannon extends Weapon {
     super({
       name: 'cannon',
       targets: ['land'],
-      attackPower: 8,
-      attackRange: 600,
+      attackPower: 12,
+      attackRange: 800,
       killProbaility: 1,
-      splashRadius: 40,
-      fireCooltime: 2,
+      splashRadius: 50,
+      fireCooltime: 3,
     });
   }
 
@@ -25,9 +25,9 @@ export default class Cannon extends Weapon {
       image: imageAssets['assets/cannon.png'],
       x: TOWER_POSITION,
       y: 160,
-      ddy: 50,
-      dy: -80,
-      dx: enemy.Sprite.x / 10,
+      ddy: 500,
+      dy: -300,
+      dx: enemy.Sprite.x * 0.5,
       width: 10,
       height: 10,
       anchor: { x: 0.5, y: 0.5 },

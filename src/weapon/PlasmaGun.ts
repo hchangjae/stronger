@@ -12,7 +12,7 @@ export default class PlasmaGun extends Weapon {
       attackRange: 500,
       killProbaility: 1,
       splashRadius: 0,
-      fireCooltime: 0.5,
+      fireCooltime: 0.6,
     });
   }
 
@@ -25,8 +25,8 @@ export default class PlasmaGun extends Weapon {
       image: imageAssets['assets/plasma.png'],
       x: TOWER_POSITION,
       y: 160,
-      width: 20,
-      height: 33,
+      width: 10,
+      height: 17,
       anchor: { x: 0.5, y: 0.5 },
       speed: 10,
       followEnemy: true,

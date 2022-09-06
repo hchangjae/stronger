@@ -120,6 +120,10 @@ export default class Unit {
     return this.attackPower;
   }
 
+  getSoulPoint() {
+    return this.soulPoint;
+  }
+
   stop() {
     this.Sprite.dx = 0;
   }

@@ -76,7 +76,7 @@ class Game extends GameObjectClass {
       const bulletList = weapon.getBullets();
       bulletList.forEach((bullet) => {
         if (bullet.followEnemy) {
-          const enemy = bullet.targetEnemy;
+          const enemy = bullet.targetEnemy as Enemy;
           const eSprite = enemy.Sprite;
           const targetCenter = {
             x: eSprite.x + eSprite.width / 2,
@@ -91,7 +91,7 @@ class Game extends GameObjectClass {
           if (collides(bullet, eSprite)) {
             const isDead = enemy.hit(bullet.attackPower);
             if (isDead) {
-              const soulList = new Array(enemy.soulPoint).fill('').map(
+              const soulList = new Array(enemy.getSoulPoint()).fill('').map(
                 () =>
                   new Soul({
                     x: enemy.Sprite.x,
@@ -105,6 +105,24 @@ class Game extends GameObjectClass {
           }
         } else {
           if (bullet.y > 220) {
+            this.corp.getAliveEnemies().forEach((enemy) => {
+              if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.splashRadius) {
+                const power = bullet.attackPower * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.splashRadius);
+
+                const isDead = enemy.hit(power);
+                if (isDead) {
+                  const soulList = new Array(enemy.getSoulPoint()).fill('').map(
+                    () =>
+                      new Soul({
+                        x: enemy.Sprite.x,
+                        y: enemy.Sprite.y,
+                      })
+                  );
+                  this.effect.push(...soulList);
+                }
+              }
+            });
+
             bullet.ttl = 0;
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
           }
