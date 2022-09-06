@@ -29,16 +29,19 @@ p {
 }
 
 .upgrades {
+  display: flex;
+  gap: 100px;
   border-top: #fff 3px solid;
 }
 
 .upgrades .passives,
 .upgrades .weapons {
-  width: 50%;
-  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .button {
+  flex-basis: 33%;
   display: block;
   width: 100%;
   background: transparent;

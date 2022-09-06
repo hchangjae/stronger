@@ -2,10 +2,11 @@ import { init, GameLoop, loadImage } from 'kontra';
 import { initUnitSpriteSheets } from './component/spriteSheet';
 import PlasmaGun from './weapon/PlasmaGun';
 import Game from './controller/Game';
-import { appendUpgradePassive } from './controller/Button';
+import { appendUpgradePassive, appendUpgradeWeapon } from './controller/Button';
 import Upgrade from './domain/Upgrade';
 import PASSIVES from './data/upgrade/passive';
 import User from './domain/User';
+import WEAPONS from './data/upgrade/weapons';
 
 export const TOWER_POSITION = 100;
 
@@ -39,6 +40,14 @@ Promise.all([
     appendUpgradePassive(upgrade, () => {
       user.addUpgrade(upgrade);
       user.setResource(-1 * upgrade.getResourceNeeded());
+    });
+  });
+
+  WEAPONS.forEach((weapon) => {
+    appendUpgradeWeapon(weapon, () => {
+      const w = new weapon.weaponClass();
+      user.addWeapon(w);
+      user.setResource(-1 * weapon.resourceNeeded);
     });
   });
 
