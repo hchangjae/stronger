@@ -29,7 +29,7 @@ export const appendUpgradeWeapon = (upgrade: WeaponUpgradeType, onClick: () => v
 const $upgradePassive = $('.upgrades .passives');
 const createUpgradeButton = (upgrade: Upgrade, onClick: () => void) =>
   createButton(
-    `<div>${upgrade.getTarget()} <span class="amount">+${upgrade.getAmount()}</span> <span class="resource">👻 ${upgrade.getResourceNeeded()}</span></div>`,
+    `<div>${upgrade.getLabel()} <span class="amount">+${upgrade.getAmount()}</span> <span class="resource">👻 ${upgrade.getResourceNeeded()}</span></div>`,
     'button',
     onClick
   );

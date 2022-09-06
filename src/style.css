@@ -47,20 +47,31 @@ p {
 
 .upgrades {
   display: flex;
-  gap: 100px;
+  gap: 30px;
   background-color: #000;
   position: absolute;
   top: 300px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.passives-container > span,
+.weapons-container > span {
+  display: block;
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 2px;
 }
 
 .upgrades .passives,
 .upgrades .weapons {
   display: flex;
   flex-wrap: wrap;
+  gap: 6px;
 }
 
 .button {
-  flex-basis: 33%;
+  flex-basis: 30%;
   display: block;
   width: 100%;
   background: transparent;
@@ -68,16 +79,18 @@ p {
   border: 2px solid #bbb;
   font-size: 16px;
   height: 48px;
-  margin: 8px 0;
 }
 
 .button:hover {
-  background: cyan;
-  color: #000;
+  cursor: pointer;
+}
+
+.button:active {
+  background: #00db00;
 }
 
 .button > div {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .button .amount {

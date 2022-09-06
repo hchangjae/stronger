@@ -7,6 +7,7 @@ export type WeaponUpgradeType = {
   weaponClass: new () => Weapon;
   targets: string[];
   resourceNeeded: number;
+  unlockWave: number;
 };
 
 const WEAPONS: WeaponUpgradeType[] = [
@@ -15,36 +16,42 @@ const WEAPONS: WeaponUpgradeType[] = [
     weaponClass: PlasmaGun,
     targets: ['air', 'land'],
     resourceNeeded: 100,
+    unlockWave: 1,
   },
   {
     label: 'Cannon',
     weaponClass: Cannon,
     targets: ['land'],
     resourceNeeded: 100,
+    unlockWave: 2,
   },
   {
-    label: 'Cannon',
+    label: 'Electric Fence',
     weaponClass: PlasmaGun,
     targets: ['land'],
     resourceNeeded: 100,
+    unlockWave: 3,
   },
   {
-    label: 'Cannon',
+    label: 'Goo Missle',
     weaponClass: PlasmaGun,
     targets: ['land'],
     resourceNeeded: 100,
+    unlockWave: 4,
   },
   {
-    label: 'Cannon',
+    label: 'Laser Gun',
     weaponClass: PlasmaGun,
     targets: ['land'],
     resourceNeeded: 100,
+    unlockWave: 5,
   },
   {
-    label: 'Cannon',
+    label: 'Sniper Gun',
     weaponClass: PlasmaGun,
     targets: ['land'],
     resourceNeeded: 100,
+    unlockWave: 6,
   },
 ];
 
