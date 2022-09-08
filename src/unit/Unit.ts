@@ -113,6 +113,7 @@ export default class Unit {
   }
 
   isDone() {
+    // @ts-ignore
     return !this.isAlive() && this.Sprite.currentAnimation._f === this.Sprite.currentAnimation.frames.length - 1;
   }
 

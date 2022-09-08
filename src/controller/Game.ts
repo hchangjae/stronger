@@ -48,6 +48,7 @@ class Game extends GameObjectClass {
     if (this.corp.isDestroyed() && wave.isWaveDone()) {
       wave.next();
       this.info.updateWave();
+      this.info.updateGeneration();
     }
     if (wave.isReadyToSummon()) {
       this.corp.buildUp(wave);
@@ -76,6 +77,18 @@ class Game extends GameObjectClass {
 
     this.corp.update();
 
+    const createSouls = (enemy: Enemy) => {
+      const soulList = new Array(enemy.getSoulPoint()).fill('').map(
+        () =>
+          new Soul({
+            x: enemy.Sprite.x,
+            y: enemy.Sprite.y,
+          })
+      );
+
+      this.effect.push(...soulList);
+    };
+
     weapons.forEach((weapon) => {
       const bulletList = weapon.getBullets();
       bulletList.forEach((bullet) => {
@@ -95,14 +108,7 @@ class Game extends GameObjectClass {
           if (collides(bullet, eSprite)) {
             const isDead = enemy.hit(bullet.attackPower);
             if (isDead) {
-              const soulList = new Array(enemy.getSoulPoint()).fill('').map(
-                () =>
-                  new Soul({
-                    x: enemy.Sprite.x,
-                    y: enemy.Sprite.y,
-                  })
-              );
-              this.effect.push(...soulList);
+              createSouls(enemy);
             }
             bullet.ttl = 0;
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
@@ -115,14 +121,7 @@ class Game extends GameObjectClass {
 
                 const isDead = enemy.hit(power);
                 if (isDead) {
-                  const soulList = new Array(enemy.getSoulPoint()).fill('').map(
-                    () =>
-                      new Soul({
-                        x: enemy.Sprite.x,
-                        y: enemy.Sprite.y,
-                      })
-                  );
-                  this.effect.push(...soulList);
+                  createSouls(enemy);
                 }
               }
             });

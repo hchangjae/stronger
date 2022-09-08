@@ -42,24 +42,24 @@ const createSummonList = (waveRecipe: WaveRecipe) => {
 
 export const waveRecipes: WaveRecipe[] = [
   {
-    total: 5,
-    duration: 5 * 1000,
+    total: 10,
+    duration: 10 * 1000,
     summonRecipes: [
       { type: EnemyName.G1, ratio: 3 },
       { type: EnemyName.G2, ratio: 1 },
     ],
   },
   {
-    total: 10,
-    duration: 5 * 1000,
+    total: 15,
+    duration: 15 * 1000,
     summonRecipes: [
       { type: EnemyName.G1, ratio: 1 },
       { type: EnemyName.G2, ratio: 1 },
     ],
   },
   {
-    total: 15,
-    duration: 5 * 1000,
+    total: 20,
+    duration: 15 * 1000,
     summonRecipes: [
       { type: EnemyName.G1, ratio: 1 },
       { type: EnemyName.G2, ratio: 1 },

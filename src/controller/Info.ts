@@ -2,29 +2,19 @@ import { GameObjectClass } from 'kontra';
 import { $ } from '../util';
 import GameWave from '../wave/Wave';
 
-const update = (
-  $el: Element | null,
-  value: string,
-  template: (value: string) => string
-) => {
+const update = ($el: Element | null, value: string, template: (value: string) => string) => {
   if ($el) {
     $el.textContent = template(value);
   }
 };
 
-export const updateResource = (value: number) => 
-  update($('.resource'), `${value}`, (value) => `👻 ${value}`);
-
-export const updateWave = (value: number) =>
-  update($('.wave'), `${value}`, (value) => `Wave ${value}`);
-
-export const updateGeneration = (value: number) =>
-  update($('.generation'), `${value}`, (value) => `(Generation ${value})`);
+export const updateResource = (value: number) => update($('.info .resource'), `${value}`, (value) => `👻 ${value}`);
 
 type InfoProps = {
   wave: GameWave;
   generation: number;
 };
+
 class Info extends GameObjectClass {
   protected wave: GameWave;
   protected generation: number;
@@ -42,7 +32,21 @@ class Info extends GameObjectClass {
   }
 
   updateWave() {
-    update(Info.$wave, `${this.wave.level}`, (value) => `Wave ${value}`)
+    update(Info.$wave, `${this.wave.level}`, (value) => `Wave ${value}`);
+  }
+
+  updateGeneration() {
+    update(Info.$generation, `${this.generation}`, (value) => {
+      if (value === '1') {
+        return `${value}st Generation`;
+      } else if (value === '2') {
+        return `${value}nd Generation`;
+      } else if (value === '3') {
+        return `${value}rd Generation`;
+      } else {
+        return `${value}th Generation`;
+      }
+    });
   }
 }
 

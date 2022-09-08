@@ -71,16 +71,36 @@ export default class Weapon {
     this.fireTimer += dt;
   }
 
+  getAttackPower() {
+    return this.attackPower;
+  }
+
   setAttackPower(dp: number) {
     this.attackPower = dp;
+  }
+
+  increaseAttackPower(percent: number) {
+    this.attackPower += Math.max((this.attackPower * percent) / 100, 1);
+  }
+
+  getAttackRange() {
+    return this.attackRange;
   }
 
   setAttackRange(dr: number) {
     this.attackRange = dr;
   }
 
-  addAttackRate(dr: number) {
-    this.attackRate += dr;
+  getAttackRate() {
+    return 1 / this.fireCooltime / 1000;
+  }
+
+  setAttackRate(ar: number) {
+    this.fireCooltime = (1 / ar) * 1000;
+  }
+
+  getKillProbability() {
+    return this.killProbaility;
   }
 
   setKillProbability(dp: number) {

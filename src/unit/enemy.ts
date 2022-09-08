@@ -17,12 +17,12 @@ export const enum EnemyName {
 
 const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
   [EnemyName.G1]: {
-    HP: 8,
+    HP: 10,
     name: EnemyName.G1,
     speed: EnemySpeed.NORMAL,
     width: 32,
     height: 32,
-    soulPoint: 1,
+    soulPoint: 3,
     attackPower: 2,
     attackRange: 5,
     defensePower: 0,
@@ -44,7 +44,7 @@ const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
   },
   [EnemyName.G3]: {
     HP: 34,
-    name: EnemyName.G1,
+    name: EnemyName.G3,
     speed: EnemySpeed.SLOWER,
     width: 40,
     height: 40,

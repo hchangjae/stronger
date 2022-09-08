@@ -24,6 +24,7 @@ canvas {
   background: #000;
   width: 1024px;
   height: 256px;
+  margin-top: 20px;
 }
 
 p {
@@ -32,17 +33,31 @@ p {
 }
 
 .info {
-  height: 36px;
-  background: #000;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.info .resource {
+  font-size: 24px;
 }
 
 .wave_generation {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
+  text-align: center;
+}
+
+.wave_generation .wave {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.wave_generation .generation {
+  font-size: 14px;
+  color: #aaa;
 }
 
 .upgrades {
@@ -52,7 +67,6 @@ p {
   position: absolute;
   top: 300px;
   padding-left: 20px;
-  padding-right: 20px;
 }
 
 .passives-container > span,
@@ -102,9 +116,13 @@ p {
   display: block;
 }
 
+.button.notenough .resource {
+  color: red;
+}
+
 .banner {
   position: absolute;
-  top: 170px;
+  top: 150px;
   left: 50%;
   transform: translate(-50%, -50%);
   min-width: 600px;

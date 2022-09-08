@@ -2,7 +2,7 @@ import { init, GameLoop, loadImage, Pool } from 'kontra';
 import { initUnitSpriteSheets } from './component/spriteSheet';
 import PlasmaGun from './weapon/PlasmaGun';
 import Game from './controller/Game';
-import { appendUpgradePassive, appendUpgradeWeapon } from './controller/Button';
+import { appendUpgradeWeapon } from './controller/Button';
 import Upgrade from './domain/Upgrade';
 import PASSIVES from './data/upgrade/passive';
 import User from './domain/User';
@@ -33,7 +33,7 @@ Promise.all([
       name: 'jackie',
       image: 'assets/tower.png',
       weapons: [new PlasmaGun()],
-      resource: 100000,
+      resource: 20,
       life: 100,
     }),
     canvas
@@ -43,13 +43,7 @@ Promise.all([
 
   initUnitSpriteSheets();
 
-  PASSIVES.forEach((passive) => {
-    const upgrade = new Upgrade(passive);
-    appendUpgradePassive(upgrade, () => {
-      user.addUpgrade(upgrade);
-      user.setResource(-1 * upgrade.getResourceNeeded());
-    });
-  });
+  const passiveUpgrades = PASSIVES.map((passive) => new Upgrade(user, passive));
 
   WEAPONS.forEach((weapon) => {
     appendUpgradeWeapon(weapon, () => {
@@ -63,6 +57,7 @@ Promise.all([
     update: (dt) => {
       game.update(dt);
       particles.update();
+      passiveUpgrades.forEach((upgrade) => upgrade.update());
     },
     render: () => {
       game.render();
