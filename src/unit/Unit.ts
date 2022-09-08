@@ -92,7 +92,7 @@ export default class Unit {
   }
 
   hit(value: number) {
-    const damage = Math.max(value - this.defensePower, 0);
+    const damage = Math.max(value - this.defensePower, 1);
     let isDead = false;
 
     if (this.HP > 0 && this.HP - damage <= 0) {
