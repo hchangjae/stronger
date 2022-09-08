@@ -2,8 +2,8 @@ import { TextClass } from 'kontra';
 
 const RANDOM_SPEED_MAX = 5;
 const ACC_SPEED = 0.1;
-const TARGET_X = -40;
-const TARGET_Y = -30;
+const TARGET_X = 20;
+const TARGET_Y = 10;
 
 export default class Soul extends TextClass {
   constructor(props: any) {
