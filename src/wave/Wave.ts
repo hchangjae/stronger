@@ -12,7 +12,7 @@ type WaveRecipe = {
 };
 
 type Summon = {
-  at: number; // ms
+  at: number; // second
   type: any;
 };
 
@@ -43,15 +43,16 @@ const createSummonList = (waveRecipe: WaveRecipe) => {
 export const waveRecipes: WaveRecipe[] = [
   {
     total: 10,
-    duration: 10 * 1000,
+    duration: 10,
     summonRecipes: [
       { type: EnemyName.G1, ratio: 3 },
       { type: EnemyName.G2, ratio: 1 },
+      { type: EnemyName.A1, ratio: 1 },
     ],
   },
   {
     total: 15,
-    duration: 15 * 1000,
+    duration: 15,
     summonRecipes: [
       { type: EnemyName.G1, ratio: 1 },
       { type: EnemyName.G2, ratio: 1 },
@@ -59,7 +60,7 @@ export const waveRecipes: WaveRecipe[] = [
   },
   {
     total: 20,
-    duration: 15 * 1000,
+    duration: 15,
     summonRecipes: [
       { type: EnemyName.G1, ratio: 1 },
       { type: EnemyName.G2, ratio: 1 },
@@ -72,12 +73,12 @@ export default class GameWave {
   waveRecipeList: WaveRecipe[];
   summonList: Summon[];
   level: number = 0;
-  startAt: number;
+  summonTimer: number;
 
   constructor(waveRecipeList: WaveRecipe[]) {
     this.waveRecipeList = waveRecipeList;
     this.summonList = [];
-    this.startAt = Date.now();
+    this.summonTimer = 0;
   }
 
   isWavesDone() {
@@ -92,7 +93,7 @@ export default class GameWave {
     if (this.isWaveDone()) return false;
     const summonAt = this.summonList[this.summonList.length - 1].at;
 
-    return summonAt < Date.now() - this.startAt;
+    return summonAt < this.summonTimer;
   }
 
   next() {
@@ -101,7 +102,7 @@ export default class GameWave {
     const [waveRecipe] = this.waveRecipeList.splice(0, 1);
     this.level += 1;
     this.summonList = createSummonList(waveRecipe);
-    this.startAt = Date.now();
+    this.summonTimer = 0;
 
     const banner = document.querySelector('.banner');
 
@@ -113,6 +114,10 @@ export default class GameWave {
         banner.classList.remove('show');
       }, 2000);
     }
+  }
+
+  update(dt: number) {
+    this.summonTimer += dt;
   }
 
   summon() {
