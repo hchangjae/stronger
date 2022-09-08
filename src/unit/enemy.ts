@@ -15,6 +15,8 @@ export const enum EnemyName {
   A1 = 'A1',
 }
 
+export const isAir = (name: EnemyName) => [EnemyName.A1].includes(name);
+
 const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
   [EnemyName.G1]: {
     HP: 10,
@@ -57,7 +59,7 @@ const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
   },
   [EnemyName.A1]: {
     HP: 8,
-    name: EnemyName.G1,
+    name: EnemyName.A1,
     speed: EnemySpeed.FAST,
     width: 32,
     height: 32,
@@ -66,7 +68,7 @@ const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     attackRange: 50,
     defensePower: 3,
     fireCooltime: 5,
-    spriteAnimationKey: 'slime',
+    spriteAnimationKey: 'bat',
   },
 };
 
