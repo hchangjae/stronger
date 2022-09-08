@@ -28,6 +28,7 @@ Promise.all([
   loadImage('assets/cannon.png'),
   loadImage('assets/ground.png'),
   loadImage('assets/bat.png'),
+  loadImage('assets/golem.png'),
 ]).then(() => {
   const game = new Game(
     new User({

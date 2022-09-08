@@ -19,8 +19,9 @@ type Summon = {
 const compareSummon = (a: Summon, b: Summon) => b.at - a.at;
 
 const createSummon = (summonRecipe: SummonRecipe, numOfSummon: number, duration: number) => {
+  const MIN_GAP = 0.3; // second
   const summonList = new Array<Summon>(numOfSummon).fill({ at: 0, type: '' }).map(() => ({
-    at: Math.floor(Math.random() * duration),
+    at: Math.round((Math.random() * duration) / MIN_GAP) * MIN_GAP,
     type: summonRecipe.type,
   }));
 
@@ -42,30 +43,94 @@ const createSummonList = (waveRecipe: WaveRecipe) => {
 
 export const waveRecipes: WaveRecipe[] = [
   {
-    total: 10,
-    duration: 10,
+    total: 5, // point: 15
+    duration: 5,
+    summonRecipes: [{ type: EnemyName.G1, ratio: 1 }],
+  },
+  {
+    total: 10, // point: 23
+    duration: 5,
     summonRecipes: [
       { type: EnemyName.G1, ratio: 3 },
-      { type: EnemyName.G2, ratio: 1 },
+      { type: EnemyName.G2, ratio: 2 },
+    ],
+  },
+  {
+    total: 14, // point: 45
+    duration: 7,
+    summonRecipes: [
+      { type: EnemyName.G1, ratio: 1 },
+      { type: EnemyName.G2, ratio: 3 },
+    ],
+  },
+  {
+    total: 14, // point: 52
+    duration: 7,
+    summonRecipes: [
+      { type: EnemyName.G1, ratio: 2 },
+      { type: EnemyName.G2, ratio: 4 },
       { type: EnemyName.A1, ratio: 1 },
     ],
   },
   {
-    total: 15,
-    duration: 15,
+    total: 15, // Wave5, point: 80
+    duration: 7,
     summonRecipes: [
-      { type: EnemyName.G1, ratio: 1 },
-      { type: EnemyName.G2, ratio: 1 },
+      { type: EnemyName.G1, ratio: 4 },
+      { type: EnemyName.G2, ratio: 8 },
+      { type: EnemyName.B1, ratio: 1 },
+      { type: EnemyName.A1, ratio: 2 },
     ],
   },
   {
-    total: 20,
-    duration: 15,
+    total: 14, // point: 63
+    duration: 7,
     summonRecipes: [
       { type: EnemyName.G1, ratio: 1 },
-      { type: EnemyName.G2, ratio: 1 },
-      { type: EnemyName.G3, ratio: 0.5 },
+      { type: EnemyName.G3, ratio: 1 },
     ],
+  },
+  {
+    total: 14, // point: 66
+    duration: 7,
+    summonRecipes: [
+      { type: EnemyName.G1, ratio: 2 },
+      { type: EnemyName.G3, ratio: 4 },
+      { type: EnemyName.A1, ratio: 1 },
+    ],
+  },
+  {
+    total: 10, // point: 82
+    duration: 7,
+    summonRecipes: [
+      { type: EnemyName.G3, ratio: 5 },
+      { type: EnemyName.B1, ratio: 1 },
+      { type: EnemyName.A1, ratio: 2 },
+    ],
+  },
+  {
+    total: 25, // point: 100
+    duration: 7,
+    summonRecipes: [
+      { type: EnemyName.G2, ratio: 4 },
+      { type: EnemyName.A1, ratio: 1 },
+    ],
+  },
+  {
+    total: 24, // Wave 10, point: 230
+    duration: 7,
+    summonRecipes: [
+      { type: EnemyName.G1, ratio: 4 },
+      { type: EnemyName.G2, ratio: 10 },
+      { type: EnemyName.G3, ratio: 6 },
+      { type: EnemyName.B2, ratio: 1 },
+      { type: EnemyName.A1, ratio: 3 },
+    ],
+  },
+  {
+    total: 6, // point: 120
+    duration: 7,
+    summonRecipes: [{ type: EnemyName.G4, ratio: 1 }],
   },
 ];
 

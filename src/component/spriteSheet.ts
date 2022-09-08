@@ -65,6 +65,21 @@ export const initUnitSpriteSheets = () => {
   );
 
   spriteSheetMap.set(
+    'golem',
+    SpriteSheet({
+      image: imageAssets['assets/golem.png'],
+      frameWidth: 24,
+      frameHeight: 24,
+      animations: {
+        move: {
+          frames: '0..3',
+          frameRate: 4,
+        },
+      },
+    })
+  );
+
+  spriteSheetMap.set(
     'smoke',
     SpriteSheet({
       image: imageAssets['assets/smoke.png'],
