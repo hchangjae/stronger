@@ -86,8 +86,8 @@ class User extends Unit {
   render() {
     Sprite({
       image: imageAssets[this.image],
-      x: 10,
-      y: 140,
+      x: 50,
+      y: 130,
       scaleX: 1,
       scaleY: 1,
     }).render();
