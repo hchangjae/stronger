@@ -1,4 +1,4 @@
-import { init, GameLoop, loadImage, Pool } from 'kontra';
+import { init, GameLoop, loadImage, Pool, emit } from 'kontra';
 import { initUnitSpriteSheets } from './component/spriteSheet';
 import PlasmaGun from './weapon/PlasmaGun';
 import Game from './controller/Game';
@@ -9,6 +9,8 @@ import User from './domain/User';
 import WEAPONS from './data/upgrade/weapons';
 import TitleScene from './title';
 import Particle from './domain/Particle';
+import EndScene from './end';
+import Weapon from './weapon/Weapon';
 
 export const TOWER_POSITION = 100;
 
@@ -32,42 +34,53 @@ Promise.all([
   loadImage('assets/golem.png'),
 ]).then(() => {
   let started = false;
+  let passiveUpgrades: Upgrade[] = [];
 
-  const game = new Game(
-    new User({
+  const init = () => {
+    const user = new User({
       name: 'jackie',
       image: 'assets/tower.png',
-      weapons: [new PlasmaGun()],
+      // weapons: [new PlasmaGun()],
+      weapons: [],
       resource: 20,
       life: 100,
-    }),
-    canvas
-  );
-  const user = game.getUser();
+    });
+    passiveUpgrades = PASSIVES.map((passive) => new Upgrade(user, passive));
+    WEAPONS.forEach((weapon) => {
+      appendUpgradeWeapon(weapon, () => {
+        const w = new weapon.weaponClass();
+        user.addWeapon(w);
+        user.setResource(-1 * weapon.resourceNeeded);
+      });
+    });
+    return new Game(user, canvas);
+  };
 
   initUnitSpriteSheets();
 
-  const passiveUpgrades = PASSIVES.map((passive) => new Upgrade(user, passive));
+  let game = init();
 
-  const onClickStartButton = () => {
+  const onClickStartButton = (restart = false) => {
     started = true;
+    if (restart) {
+      game = init();
+    }
     game.start();
   };
 
   const titleScene = TitleScene(onClickStartButton);
-
-  WEAPONS.forEach((weapon) => {
-    appendUpgradeWeapon(weapon, () => {
-      const w = new weapon.weaponClass();
-      user.addWeapon(w);
-      user.setResource(-1 * weapon.resourceNeeded);
-    });
+  const endScene = EndScene(game, () => {
+    onClickStartButton(true);
   });
 
   const loop = GameLoop({
     update: (dt) => {
       if (!started) {
         titleScene.update();
+        return;
+      } else if (game.getUser().getIsDead()) {
+        game.end();
+        endScene.update();
         return;
       }
       game.update(dt);
@@ -77,6 +90,9 @@ Promise.all([
     render: () => {
       if (!started) {
         titleScene.render();
+        return;
+      } else if (game.getUser().getIsDead()) {
+        endScene.render();
         return;
       }
       game.render();

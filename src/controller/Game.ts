@@ -41,6 +41,14 @@ class Game extends GameObjectClass {
   end() {
     $('.info')?.classList.add('hide');
     $('.upgrades')?.classList.add('hide');
+    const $passives = $('.passives-container .passives');
+    while ($passives?.firstChild) {
+      $passives.removeChild($passives.firstChild);
+    }
+    const $weapons = $('.weapons-container .weapons');
+    while ($weapons?.firstChild) [
+      $weapons.removeChild($weapons.firstChild)
+    ]
   }
 
   getUser() {
