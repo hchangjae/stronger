@@ -1,5 +1,6 @@
 import { Sprite } from 'kontra';
 import { getSpriteAnimation } from '../component/spriteSheet';
+import { EnemyName } from './Enemy';
 
 const KNOCKBACK_SPEED = 1;
 
@@ -7,7 +8,7 @@ export type UnitProps = {
   x: number;
   y: number;
   HP: number;
-  name: string;
+  name: EnemyName;
   speed: number;
   width: number;
   height: number;
@@ -21,7 +22,7 @@ export type UnitProps = {
 
 export default class Unit {
   protected HP: number;
-  protected name: string;
+  protected name: EnemyName;
   protected speed: number;
   protected soulPoint: number;
   protected attackPower: number;
@@ -118,6 +119,10 @@ export default class Unit {
     if (!isDead) this.Sprite.dx = KNOCKBACK_SPEED;
 
     return isDead;
+  }
+
+  getName() {
+    return this.name;
   }
 
   isAlive() {

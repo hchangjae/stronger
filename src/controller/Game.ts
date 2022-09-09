@@ -4,8 +4,8 @@ import Corp from '../domain/Corp';
 import Ground from '../domain/Ground';
 import User from '../domain/User';
 import Soul from '../effect/soul';
-import { particles, TOWER_POSITION } from '../main';
-import Enemy from '../unit/enemy';
+import { GROUND_POSITION, TOWER_POSITION } from '../main';
+import Enemy, { isAir } from '../unit/enemy';
 import { $ } from '../util';
 import GameWave, { waveRecipes } from '../wave/Wave';
 import Info from './Info';
@@ -85,9 +85,10 @@ class Game extends GameObjectClass {
           enemy.stop();
           this.user.setLife(-1 * enemy.getAttackPower());
         }
+
         weapons.forEach((w) => {
-          if (w.isInRange(getDistanceFromTower(enemy))) {
-            if (w.canFire() && enemy.isAlive()) {
+          if (this.user.calculateIsInRange(w, getDistanceFromTower(enemy))) {
+            if (this.user.calculateCanFire(w) && enemy.isAlive()) {
               const bullet = w.fire(enemy) as Bullet;
               if (bullet) w.reload(bullet);
             }
@@ -111,6 +112,7 @@ class Game extends GameObjectClass {
 
     weapons.forEach((weapon) => {
       const bulletList = weapon.getBullets();
+
       bulletList.forEach((bullet) => {
         if (bullet.followEnemy) {
           const enemy = bullet.targetEnemy as Enemy;
@@ -126,7 +128,8 @@ class Game extends GameObjectClass {
           bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, targetCenter);
 
           if (collides(bullet, eSprite)) {
-            const isDead = enemy.hit(bullet.attackPower);
+            const power = this.user.calculateBulletDamage(bullet.attackPower);
+            const isDead = enemy.hit(power);
             if (isDead) {
               createSouls(enemy);
             }
@@ -134,12 +137,19 @@ class Game extends GameObjectClass {
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
           }
         } else {
-          if (bullet.y > 220) {
+          if (bullet.y > GROUND_POSITION) {
             this.corp.getAliveEnemies().forEach((enemy) => {
-              if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.splashRadius) {
-                const power = bullet.attackPower * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.splashRadius);
+              if (bullet.splashRadius !== 0) {
+                if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.splashRadius && !isAir(enemy.getName())) {
+                  const power = bullet.attackPower * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.splashRadius);
 
-                const isDead = enemy.hit(power);
+                  const isDead = enemy.hit(this.user.calculateBulletDamage(power));
+                  if (isDead) {
+                    createSouls(enemy);
+                  }
+                }
+              } else if (collides(bullet, enemy.Sprite)) {
+                const isDead = enemy.hit(this.user.calculateBulletDamage(bullet.attackPower));
                 if (isDead) {
                   createSouls(enemy);
                 }
@@ -148,19 +158,10 @@ class Game extends GameObjectClass {
 
             bullet.ttl = 0;
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
+
+            if (bullet.onDestroy) bullet.onDestroy();
           } else {
-            for (let i = 1; i < 2; i++) {
-              particles.get({
-                x: bullet.x + bullet.width / 2,
-                y: bullet.y + bullet.height / 2,
-                width: 6,
-                height: 6,
-                color: '#666',
-                ttl: 20,
-                opacity: 1,
-                rotation: Math.random() * 2 * Math.PI,
-              });
-            }
+            if (bullet.onFly) bullet.onFly();
           }
         }
 

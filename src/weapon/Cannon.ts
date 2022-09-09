@@ -1,5 +1,5 @@
 import { imageAssets, Sprite } from 'kontra';
-import { TOWER_POSITION } from '../main';
+import { GROUND_POSITION, particles, TOWER_POSITION } from '../main';
 import Unit from '../unit/Unit';
 import Weapon from './Weapon';
 
@@ -17,7 +17,6 @@ export default class Cannon extends Weapon {
   }
 
   fire(enemy: Unit) {
-    if (!this.canFire()) return null;
     this.fireTimer = 0;
 
     // 총알 생성
@@ -37,6 +36,39 @@ export default class Cannon extends Weapon {
       splashRadius: this.splashRadius,
       targetPosition: enemy.Sprite.x,
     });
+
+    bullet.onFly = () => {
+      for (let i = 1; i < 2; i++) {
+        particles.get({
+          x: bullet.x + bullet.width / 2,
+          y: bullet.y + bullet.height / 2,
+          width: 6,
+          height: 6,
+          color: '#666',
+          ttl: 20,
+          opacity: 1,
+          rotation: Math.random() * 2 * Math.PI,
+        });
+      }
+    };
+
+    bullet.onDestroy = () => {
+      for (let i = 1; i < 20; i++) {
+        particles.get({
+          x: bullet.x + bullet.width / 2,
+          y: GROUND_POSITION,
+          dx: (Math.random() - 0.5) * 4,
+          dy: Math.random() * 2 * -2,
+          ddy: 0.1,
+          width: 4,
+          height: 4,
+          color: 'orange',
+          ttl: 40,
+          opacity: 1,
+          rotation: Math.random() * 2 * Math.PI,
+        });
+      }
+    };
 
     return bullet;
   }

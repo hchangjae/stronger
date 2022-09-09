@@ -1,4 +1,5 @@
 import { GameObjectClass, Sprite } from 'kontra';
+import { AIR_POSITION, GROUND_POSITION } from '../main';
 
 import Enemy, { isAir } from '../unit/Enemy';
 import GameWave from '../wave/Wave';
@@ -34,7 +35,7 @@ class Corp extends GameObjectClass {
       new Enemy({
         name: summon?.type,
         x: this.canvas.width - 1,
-        y: isAir(summon?.type) ? 180 : 220,
+        y: isAir(summon?.type) ? AIR_POSITION : GROUND_POSITION,
       }),
     ];
   }
