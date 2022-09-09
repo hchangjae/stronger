@@ -62,31 +62,32 @@ class User extends Unit {
         const amount = upgrade.getAmount();
         switch (upgrade.getTarget()) {
           case 'ATTACK_POWER':
-            this.weapons.forEach((weapon) => weapon.setAttackPower(amount));
+            this.weapons.forEach((weapon) => weapon.increaseAttackPower(amount));
             break;
           case 'ATTACK_RANGE':
-            this.weapons.forEach((weapon) => weapon.setAttackRange(amount));
+            this.weapons.forEach((weapon) => weapon.setAttackRange(weapon.getAttackRange() * (1 + amount / 100)));
             break;
           case 'ATTACK_RATE':
-            this.weapons.forEach((weapon) => weapon.addAttackRate(amount));
+            this.weapons.forEach((weapon) => weapon.setAttackRate(weapon.getAttackRate() * (1 + amount / 100)));
             break;
           case 'KILL_PROBABILITY':
-            this.weapons.forEach((weapon) => weapon.setKillProbability(amount));
+            this.weapons.forEach((weapon) => weapon.setKillProbability(weapon.getAttackPower() * (1 + amount / 100)));
             break;
           case 'HEALTH':
-            this.life += amount;
+            this.life *= 1 + amount / 100;
             break;
           default:
         }
         upgrade.activate();
+        upgrade.increaseResourceNeeded();
       });
   }
 
   render() {
     Sprite({
       image: imageAssets[this.image],
-      x: 10,
-      y: 140,
+      x: 50,
+      y: 130,
       scaleX: 1,
       scaleY: 1,
     }).render();

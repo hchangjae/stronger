@@ -1,5 +1,4 @@
 import { $ } from '../util';
-import Upgrade from '../domain/Upgrade';
 import { WeaponUpgradeType } from '../data/upgrade/weapons';
 
 export const createButton = (text: string, className: string, onClick: () => void): HTMLButtonElement => {
@@ -24,16 +23,4 @@ const createWeaponButton = (upgrade: WeaponUpgradeType, onClick: () => void) =>
 
 export const appendUpgradeWeapon = (upgrade: WeaponUpgradeType, onClick: () => void) => {
   appendButton($upgradeWeapon, createWeaponButton(upgrade, onClick));
-};
-
-const $upgradePassive = $('.upgrades .passives');
-const createUpgradeButton = (upgrade: Upgrade, onClick: () => void) =>
-  createButton(
-    `<div>${upgrade.getTarget()} <span class="amount">+${upgrade.getAmount()}</span> <span class="resource">👻 ${upgrade.getResourceNeeded()}</span></div>`,
-    'button',
-    onClick
-  );
-
-export const appendUpgradePassive = (upgrade: Upgrade, onClick: () => void) => {
-  appendButton($upgradePassive, createUpgradeButton(upgrade, onClick));
 };

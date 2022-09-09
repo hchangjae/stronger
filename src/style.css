@@ -24,6 +24,7 @@ canvas {
   background: #000;
   width: 1024px;
   height: 256px;
+  margin-top: 20px;
 }
 
 p {
@@ -32,35 +33,59 @@ p {
 }
 
 .info {
-  height: 36px;
-  background: #000;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.info .resource {
+  font-size: 24px;
 }
 
 .wave_generation {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
+  text-align: center;
+}
+
+.wave_generation .wave {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.wave_generation .generation {
+  font-size: 14px;
+  color: #aaa;
 }
 
 .upgrades {
   display: flex;
-  gap: 100px;
+  gap: 30px;
   background-color: #000;
   position: absolute;
   top: 300px;
+  padding-left: 20px;
+}
+
+.passives-container > span,
+.weapons-container > span {
+  display: block;
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 2px;
 }
 
 .upgrades .passives,
 .upgrades .weapons {
   display: flex;
   flex-wrap: wrap;
+  gap: 6px;
 }
 
 .button {
-  flex-basis: 33%;
+  flex-basis: 30%;
   display: block;
   width: 100%;
   background: transparent;
@@ -68,16 +93,18 @@ p {
   border: 2px solid #bbb;
   font-size: 16px;
   height: 48px;
-  margin: 8px 0;
 }
 
 .button:hover {
-  background: cyan;
-  color: #000;
+  cursor: pointer;
+}
+
+.button:active {
+  background: #00db00;
 }
 
 .button > div {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .button .amount {
@@ -89,9 +116,13 @@ p {
   display: block;
 }
 
+.button.notenough .resource {
+  color: red;
+}
+
 .banner {
   position: absolute;
-  top: 170px;
+  top: 150px;
   left: 50%;
   transform: translate(-50%, -50%);
   min-width: 600px;

@@ -8,7 +8,7 @@ export default class Cannon extends Weapon {
     super({
       name: 'cannon',
       targets: ['land'],
-      attackPower: 12,
+      attackPower: 8,
       attackRange: 800,
       killProbaility: 1,
       splashRadius: 50,

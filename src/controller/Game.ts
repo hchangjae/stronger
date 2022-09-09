@@ -4,7 +4,7 @@ import Corp from '../domain/Corp';
 import Ground from '../domain/Ground';
 import User from '../domain/User';
 import Soul from '../effect/soul';
-import { TOWER_POSITION } from '../main';
+import { particles, TOWER_POSITION } from '../main';
 import Enemy from '../unit/enemy';
 import GameWave, { waveRecipes } from '../wave/Wave';
 import Info from './Info';
@@ -45,9 +45,11 @@ class Game extends GameObjectClass {
 
   update(dt: number): void {
     const wave = this.info.getWave();
+    wave.update(dt);
     if (this.corp.isDestroyed() && wave.isWaveDone()) {
       wave.next();
       this.info.updateWave();
+      this.info.updateGeneration();
     }
     if (wave.isReadyToSummon()) {
       this.corp.buildUp(wave);
@@ -76,6 +78,18 @@ class Game extends GameObjectClass {
 
     this.corp.update();
 
+    const createSouls = (enemy: Enemy) => {
+      const soulList = new Array(enemy.getSoulPoint()).fill('').map(
+        () =>
+          new Soul({
+            x: enemy.Sprite.x,
+            y: enemy.Sprite.y,
+          })
+      );
+
+      this.effect.push(...soulList);
+    };
+
     weapons.forEach((weapon) => {
       const bulletList = weapon.getBullets();
       bulletList.forEach((bullet) => {
@@ -95,14 +109,7 @@ class Game extends GameObjectClass {
           if (collides(bullet, eSprite)) {
             const isDead = enemy.hit(bullet.attackPower);
             if (isDead) {
-              const soulList = new Array(enemy.getSoulPoint()).fill('').map(
-                () =>
-                  new Soul({
-                    x: enemy.Sprite.x,
-                    y: enemy.Sprite.y,
-                  })
-              );
-              this.effect.push(...soulList);
+              createSouls(enemy);
             }
             bullet.ttl = 0;
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
@@ -115,20 +122,26 @@ class Game extends GameObjectClass {
 
                 const isDead = enemy.hit(power);
                 if (isDead) {
-                  const soulList = new Array(enemy.getSoulPoint()).fill('').map(
-                    () =>
-                      new Soul({
-                        x: enemy.Sprite.x,
-                        y: enemy.Sprite.y,
-                      })
-                  );
-                  this.effect.push(...soulList);
+                  createSouls(enemy);
                 }
               }
             });
 
             bullet.ttl = 0;
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
+          } else {
+            for (let i = 1; i < 2; i++) {
+              particles.get({
+                x: bullet.x + bullet.width / 2,
+                y: bullet.y + bullet.height / 2,
+                width: 6,
+                height: 6,
+                color: '#666',
+                ttl: 20,
+                opacity: 1,
+                rotation: Math.random() * 2 * Math.PI,
+              });
+            }
           }
         }
 

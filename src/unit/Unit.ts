@@ -1,6 +1,8 @@
 import { Sprite } from 'kontra';
 import { getSpriteAnimation } from '../component/spriteSheet';
 
+const KNOCKBACK_SPEED = 1;
+
 export type UnitProps = {
   x: number;
   y: number;
@@ -20,12 +22,14 @@ export type UnitProps = {
 export default class Unit {
   protected HP: number;
   protected name: string;
+  protected speed: number;
   protected soulPoint: number;
   protected attackPower: number;
   protected attackRange: number;
   protected defensePower: number;
   protected fireCooltime: number;
   protected fireTimer: number;
+  protected isStop: boolean;
 
   private HPWrapSprite: Sprite;
   private HPSprite: Sprite;
@@ -50,6 +54,7 @@ export default class Unit {
   }: UnitProps) {
     this.HP = HP;
     this.name = name;
+    this.speed = speed;
     this.soulPoint = soulPoint;
     this.attackPower = attackPower;
     this.attackRange = attackRange;
@@ -58,6 +63,7 @@ export default class Unit {
 
     this.fireTimer = 0;
     this.HPMax = HP;
+    this.isStop = false;
 
     this.Sprite = Sprite({
       x,
@@ -92,9 +98,10 @@ export default class Unit {
   }
 
   hit(value: number) {
-    const damage = Math.max(value - this.defensePower, 0);
+    const damage = Math.max(value - this.defensePower, 1);
     let isDead = false;
 
+    // check death
     if (this.HP > 0 && this.HP - damage <= 0) {
       this.Sprite.playAnimation('smoke');
       this.Sprite.dx = 0;
@@ -105,6 +112,11 @@ export default class Unit {
 
     this.HP -= damage;
     this.HPSprite.width = Math.max((this.Sprite.height * this.HP) / this.HPMax, 0);
+
+    // knockback
+    this.isStop = false;
+    if (!isDead) this.Sprite.dx = KNOCKBACK_SPEED;
+
     return isDead;
   }
 
@@ -113,6 +125,7 @@ export default class Unit {
   }
 
   isDone() {
+    // @ts-ignore
     return !this.isAlive() && this.Sprite.currentAnimation._f === this.Sprite.currentAnimation.frames.length - 1;
   }
 
@@ -125,16 +138,28 @@ export default class Unit {
   }
 
   stop() {
-    this.Sprite.dx = 0;
+    if (this.Sprite.dx < 0) {
+      this.isStop = true;
+    }
   }
 
   render() {
     this.Sprite.render();
   }
 
+  handleSpeed() {
+    if (this.isStop) {
+      this.Sprite.dx = 0;
+      return;
+    }
+    if (this.Sprite.dx > this.speed) this.Sprite.dx -= 0.1;
+  }
+
   update() {
     this.HPWrapSprite.update();
     this.HPSprite.update();
     this.Sprite.update();
+
+    this.handleSpeed();
   }
 }
