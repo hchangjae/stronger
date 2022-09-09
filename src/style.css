@@ -99,7 +99,7 @@ p {
   cursor: pointer;
 }
 
-.button:active {
+.button:not(.notenough):active {
   background: #00db00;
 }
 

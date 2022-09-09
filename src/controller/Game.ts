@@ -4,7 +4,7 @@ import Corp from '../domain/Corp';
 import Ground from '../domain/Ground';
 import User from '../domain/User';
 import Soul from '../effect/soul';
-import { particles, TOWER_POSITION } from '../main';
+import { GROUND_POSITION, particles, TOWER_POSITION } from '../main';
 import Enemy from '../unit/enemy';
 import GameWave, { waveRecipes } from '../wave/Wave';
 import Info from './Info';
@@ -66,6 +66,7 @@ class Game extends GameObjectClass {
           enemy.stop();
           this.user.setLife(-1 * enemy.getAttackPower());
         }
+
         weapons.forEach((w) => {
           if (w.isInRange(getDistanceFromTower(enemy))) {
             if (w.canFire() && enemy.isAlive()) {
@@ -92,6 +93,7 @@ class Game extends GameObjectClass {
 
     weapons.forEach((weapon) => {
       const bulletList = weapon.getBullets();
+
       bulletList.forEach((bullet) => {
         if (bullet.followEnemy) {
           const enemy = bullet.targetEnemy as Enemy;
@@ -115,7 +117,7 @@ class Game extends GameObjectClass {
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
           }
         } else {
-          if (bullet.y > 220) {
+          if (bullet.y > GROUND_POSITION) {
             this.corp.getAliveEnemies().forEach((enemy) => {
               if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.splashRadius) {
                 const power = bullet.attackPower * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.splashRadius);

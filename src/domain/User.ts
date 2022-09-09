@@ -4,6 +4,8 @@ import Weapon from '../weapon/Weapon';
 import Upgrade from './Upgrade';
 import Unit from './Unit';
 import Resource from './Resource';
+import { updateResource } from '../controller/Info';
+import { WeaponUpgradeType } from '../data/upgrade/weapons';
 
 type UserProps = {
   name: string;
@@ -11,7 +13,9 @@ type UserProps = {
   resource: number;
   weapons: Weapon[];
   life: number;
+  upgrades: Upgrade[];
 };
+
 class User extends Unit {
   protected name: string;
   protected image: string;
@@ -19,14 +23,14 @@ class User extends Unit {
   protected weapons: Weapon[];
   protected upgrades: Upgrade[];
 
-  constructor({ name, image, resource, weapons, life }: UserProps) {
+  constructor({ name, image, resource, weapons, life, upgrades }: UserProps) {
     super(life);
     this.name = name;
     this.image = image;
     this.resource = new Resource(resource);
     this.weapons = weapons;
     this.generation = 1;
-    this.upgrades = [];
+    this.upgrades = upgrades;
   }
 
   setResource(dm: number) {
@@ -43,8 +47,13 @@ class User extends Unit {
     return this.weapons;
   }
 
-  addWeapon(newWeapon: Weapon) {
+  addWeapon(newWeapon: Weapon, weaponData: WeaponUpgradeType) {
     this.weapons = [...this.weapons, newWeapon];
+
+    this.setResource(-1 * weaponData.resourceNeeded);
+    weaponData.resourceNeeded *= 2;
+
+    updateResource(this.resource.getResource());
   }
 
   getUpgrades() {
@@ -52,35 +61,45 @@ class User extends Unit {
   }
 
   addUpgrade(upgrade: Upgrade) {
-    this.upgrades = [...this.upgrades, upgrade];
+    const u = this.upgrades.find((u) => u.getTarget() === upgrade.getTarget());
+
+    if (u) {
+      this.setResource(-1 * u.getResourceNeeded());
+      u.setAmount(u.getAmount() + upgrade.getAmount());
+      u.increaseResourceNeeded();
+
+      updateResource(this.resource.getResource());
+    }
   }
 
   applyUpgrades() {
-    this.upgrades
-      .filter((upgrade) => !upgrade.getIsActivated())
-      .forEach((upgrade) => {
-        const amount = upgrade.getAmount();
-        switch (upgrade.getTarget()) {
-          case 'ATTACK_POWER':
-            this.weapons.forEach((weapon) => weapon.increaseAttackPower(amount));
-            break;
-          case 'ATTACK_RANGE':
-            this.weapons.forEach((weapon) => weapon.setAttackRange(weapon.getAttackRange() * (1 + amount / 100)));
-            break;
-          case 'ATTACK_RATE':
-            this.weapons.forEach((weapon) => weapon.setAttackRate(weapon.getAttackRate() * (1 + amount / 100)));
-            break;
-          case 'KILL_PROBABILITY':
-            this.weapons.forEach((weapon) => weapon.setKillProbability(weapon.getAttackPower() * (1 + amount / 100)));
-            break;
-          case 'HEALTH':
-            this.life *= 1 + amount / 100;
-            break;
-          default:
-        }
-        upgrade.activate();
-        upgrade.increaseResourceNeeded();
-      });
+    this.upgrades.forEach((upgrade) => {
+      const amount = upgrade.getAmount();
+      switch (upgrade.getTarget()) {
+        case 'ATTACK_POWER':
+          this.weapons.forEach((weapon) => weapon.increaseAttackPower(amount));
+          break;
+        case 'ATTACK_RANGE':
+          this.weapons.forEach((weapon) => weapon.setAttackRange(weapon.getAttackRange() * (1 + amount / 100)));
+          break;
+        case 'ATTACK_RATE':
+          this.weapons.forEach((weapon) => weapon.setAttackRate(weapon.getAttackRate() * (1 + amount / 100)));
+          break;
+        case 'KILL_PROBABILITY':
+          this.weapons.forEach((weapon) => weapon.setKillProbability(weapon.getAttackPower() * (1 + amount / 100)));
+          break;
+        case 'HEALTH':
+          this.life *= 1 + amount / 100;
+          break;
+        default:
+      }
+
+      upgrade.increaseResourceNeeded();
+    });
+  }
+
+  update(dt: number): void {
+    this.weapons.forEach((w) => w.update(dt));
   }
 
   render() {
@@ -91,12 +110,8 @@ class User extends Unit {
       scaleX: 1,
       scaleY: 1,
     }).render();
-    this.weapons.forEach((weapon) => weapon.render());
-  }
 
-  update(dt: number): void {
-    this.weapons.forEach((w) => w.update(dt));
-    this.applyUpgrades();
+    this.weapons.forEach((w) => w.render());
   }
 }
 

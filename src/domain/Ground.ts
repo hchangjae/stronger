@@ -1,4 +1,5 @@
 import { imageAssets, Sprite } from 'kontra';
+import { GROUND_POSITION } from '../main';
 
 export default class Ground {
   private sprites: Sprite[] = [];
@@ -20,7 +21,7 @@ export default class Ground {
         Sprite({
           image: imageAssets['assets/ground.png'],
           x: i * 16,
-          y: 220,
+          y: GROUND_POSITION,
         })
       );
     }
