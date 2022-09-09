@@ -4,7 +4,7 @@ import Corp from '../domain/Corp';
 import Ground from '../domain/Ground';
 import User from '../domain/User';
 import Soul from '../effect/soul';
-import { GROUND_POSITION, particles, TOWER_POSITION } from '../main';
+import { GROUND_POSITION, TOWER_POSITION } from '../main';
 import Enemy, { isAir } from '../unit/enemy';
 import GameWave, { waveRecipes } from '../wave/Wave';
 import Info from './Info';
@@ -120,10 +120,17 @@ class Game extends GameObjectClass {
         } else {
           if (bullet.y > GROUND_POSITION) {
             this.corp.getAliveEnemies().forEach((enemy) => {
-              if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.splashRadius && !isAir(enemy.getName())) {
-                const power = bullet.attackPower * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.splashRadius);
+              if (bullet.splashRadius !== 0) {
+                if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.splashRadius && !isAir(enemy.getName())) {
+                  const power = bullet.attackPower * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.splashRadius);
 
-                const isDead = enemy.hit(this.user.calculateBulletDamage(power));
+                  const isDead = enemy.hit(this.user.calculateBulletDamage(power));
+                  if (isDead) {
+                    createSouls(enemy);
+                  }
+                }
+              } else if (collides(bullet, enemy.Sprite)) {
+                const isDead = enemy.hit(this.user.calculateBulletDamage(bullet.attackPower));
                 if (isDead) {
                   createSouls(enemy);
                 }
@@ -133,34 +140,9 @@ class Game extends GameObjectClass {
             bullet.ttl = 0;
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
 
-            for (let i = 1; i < 20; i++) {
-              particles.get({
-                x: bullet.x + bullet.width / 2,
-                y: GROUND_POSITION,
-                dx: (Math.random() - 0.5) * 4,
-                dy: Math.random() * 2 * -2,
-                ddy: 0.1,
-                width: 4,
-                height: 4,
-                color: 'orange',
-                ttl: 40,
-                opacity: 1,
-                rotation: Math.random() * 2 * Math.PI,
-              });
-            }
+            if (bullet.onDestroy) bullet.onDestroy();
           } else {
-            for (let i = 1; i < 2; i++) {
-              particles.get({
-                x: bullet.x + bullet.width / 2,
-                y: bullet.y + bullet.height / 2,
-                width: 6,
-                height: 6,
-                color: '#666',
-                ttl: 20,
-                opacity: 1,
-                rotation: Math.random() * 2 * Math.PI,
-              });
-            }
+            if (bullet.onFly) bullet.onFly();
           }
         }
 

@@ -1,3 +1,4 @@
+import ElectricFence from '../../weapon/\bElectricFence';
 import Cannon from '../../weapon/Cannon';
 import PlasmaGun from '../../weapon/PlasmaGun';
 import Weapon from '../../weapon/Weapon';
@@ -20,7 +21,7 @@ const WEAPONS: WeaponUpgradeType[] = [
   },
   {
     label: 'Electric Fence',
-    weaponClass: PlasmaGun,
+    weaponClass: ElectricFence,
     targets: ['land'],
     resourceNeeded: 40,
     unlockWave: 3,
