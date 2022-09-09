@@ -5,7 +5,7 @@ import Ground from '../domain/Ground';
 import User from '../domain/User';
 import Soul from '../effect/soul';
 import { GROUND_POSITION, particles, TOWER_POSITION } from '../main';
-import Enemy from '../unit/enemy';
+import Enemy, { isAir } from '../unit/enemy';
 import GameWave, { waveRecipes } from '../wave/Wave';
 import Info from './Info';
 
@@ -68,8 +68,8 @@ class Game extends GameObjectClass {
         }
 
         weapons.forEach((w) => {
-          if (w.isInRange(getDistanceFromTower(enemy))) {
-            if (w.canFire() && enemy.isAlive()) {
+          if (this.user.calculateIsInRange(w, getDistanceFromTower(enemy))) {
+            if (this.user.calculateCanFire(w) && enemy.isAlive()) {
               const bullet = w.fire(enemy) as Bullet;
               if (bullet) w.reload(bullet);
             }
@@ -109,7 +109,8 @@ class Game extends GameObjectClass {
           bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, targetCenter);
 
           if (collides(bullet, eSprite)) {
-            const isDead = enemy.hit(bullet.attackPower);
+            const power = this.user.calculateBulletDamage(bullet.attackPower);
+            const isDead = enemy.hit(power);
             if (isDead) {
               createSouls(enemy);
             }
@@ -119,10 +120,10 @@ class Game extends GameObjectClass {
         } else {
           if (bullet.y > GROUND_POSITION) {
             this.corp.getAliveEnemies().forEach((enemy) => {
-              if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.splashRadius) {
+              if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.splashRadius && !isAir(enemy.getName())) {
                 const power = bullet.attackPower * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.splashRadius);
 
-                const isDead = enemy.hit(power);
+                const isDead = enemy.hit(this.user.calculateBulletDamage(power));
                 if (isDead) {
                   createSouls(enemy);
                 }
@@ -131,6 +132,22 @@ class Game extends GameObjectClass {
 
             bullet.ttl = 0;
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
+
+            for (let i = 1; i < 20; i++) {
+              particles.get({
+                x: bullet.x + bullet.width / 2,
+                y: GROUND_POSITION,
+                dx: (Math.random() - 0.5) * 4,
+                dy: Math.random() * 2 * -2,
+                ddy: 0.1,
+                width: 4,
+                height: 4,
+                color: 'orange',
+                ttl: 40,
+                opacity: 1,
+                rotation: Math.random() * 2 * Math.PI,
+              });
+            }
           } else {
             for (let i = 1; i < 2; i++) {
               particles.get({

@@ -13,7 +13,7 @@ type UserProps = {
   resource: number;
   weapons: Weapon[];
   life: number;
-  upgrades: Upgrade[];
+  upgrades: Map<string, Upgrade>;
 };
 
 class User extends Unit {
@@ -21,7 +21,7 @@ class User extends Unit {
   protected image: string;
   protected resource: Resource;
   protected weapons: Weapon[];
-  protected upgrades: Upgrade[];
+  protected upgrades: Map<string, Upgrade>;
 
   constructor({ name, image, resource, weapons, life, upgrades }: UserProps) {
     super(life);
@@ -61,41 +61,41 @@ class User extends Unit {
   }
 
   addUpgrade(upgrade: Upgrade) {
-    const u = this.upgrades.find((u) => u.getTarget() === upgrade.getTarget());
+    const u = this.upgrades.get(upgrade.getTarget());
 
     if (u) {
       this.setResource(-1 * u.getResourceNeeded());
-      u.setAmount(u.getAmount() + upgrade.getAmount());
+      u.setTotalAmount(u.getTotalAmount() + upgrade.getAmount());
       u.increaseResourceNeeded();
 
       updateResource(this.resource.getResource());
     }
   }
 
-  applyUpgrades() {
-    this.upgrades.forEach((upgrade) => {
-      const amount = upgrade.getAmount();
-      switch (upgrade.getTarget()) {
-        case 'ATTACK_POWER':
-          this.weapons.forEach((weapon) => weapon.increaseAttackPower(amount));
-          break;
-        case 'ATTACK_RANGE':
-          this.weapons.forEach((weapon) => weapon.setAttackRange(weapon.getAttackRange() * (1 + amount / 100)));
-          break;
-        case 'ATTACK_RATE':
-          this.weapons.forEach((weapon) => weapon.setAttackRate(weapon.getAttackRate() * (1 + amount / 100)));
-          break;
-        case 'KILL_PROBABILITY':
-          this.weapons.forEach((weapon) => weapon.setKillProbability(weapon.getAttackPower() * (1 + amount / 100)));
-          break;
-        case 'HEALTH':
-          this.life *= 1 + amount / 100;
-          break;
-        default:
-      }
+  calculateBulletDamage(damage: number) {
+    const u = this.upgrades.get('ATTACK_POWER');
+    const amount = u ? u.getTotalAmount() : 0;
 
-      upgrade.increaseResourceNeeded();
-    });
+    if (amount === 0) return damage;
+
+    return Math.ceil(damage * (1 + amount / 100));
+  }
+
+  calculateIsInRange(weapon: Weapon, distance: number) {
+    const u = this.upgrades.get('ATTACK_RANGE');
+    const amount = u ? u.getTotalAmount() : 0;
+    const range = Math.ceil(weapon.getAttackRange() * (1 + amount / 100));
+
+    return distance <= range;
+  }
+
+  calculateCanFire(weapon: Weapon) {
+    const u = this.upgrades.get('ATTACK_RATE');
+    const amount = u ? u.getTotalAmount() : 0;
+    const rate = weapon.getAttackRate() * (1 + amount / 100);
+    const fireCooltime = 1 / rate / 600;
+
+    return weapon.getFireTimer() >= fireCooltime;
   }
 
   update(dt: number): void {

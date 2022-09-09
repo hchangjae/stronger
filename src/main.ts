@@ -33,6 +33,12 @@ Promise.all([
   loadImage('assets/bat.png'),
   loadImage('assets/golem.png'),
 ]).then(() => {
+  const passiveUpgradeMap = new Map<string, Upgrade>();
+
+  PASSIVES.forEach((passive) => {
+    passiveUpgradeMap.set(passive.target, new Upgrade(passive));
+  });
+
   const game = new Game(
     new User({
       name: 'jackie',
@@ -40,14 +46,14 @@ Promise.all([
       weapons: [new PlasmaGun()],
       resource: 20,
       life: 100,
-      upgrades: PASSIVES.map((passive) => new Upgrade(passive)),
+      upgrades: passiveUpgradeMap,
     }),
     canvas
   );
 
   const user = game.getUser();
 
-  const upgradeButtons = user.getUpgrades().map((upgrade) => new UpgradeButton({ upgrade, user }));
+  const upgradeButtons = [...user.getUpgrades().values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
   const weaponButtons = WEAPONS.map((weapon) => new WeaponButton({ weapon, user }));
 
   initUnitSpriteSheets();

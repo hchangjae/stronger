@@ -12,12 +12,14 @@ class Upgrade {
   protected label: string;
   protected amount: number;
   protected resourceNeeded: number;
+  protected totalAmount: number;
 
-  constructor({ target, label, amount, resourceNeeded }: UpgradeProps) {
+  constructor({ target, label, amount, resourceNeeded, totalAmount = 0 }: UpgradeProps & { totalAmount?: number }) {
     this.target = target;
     this.label = label;
     this.amount = amount;
     this.resourceNeeded = resourceNeeded;
+    this.totalAmount = totalAmount;
   }
 
   getTarget() {
@@ -42,6 +44,14 @@ class Upgrade {
 
   increaseResourceNeeded() {
     this.resourceNeeded = Math.floor(this.resourceNeeded * 1.5);
+  }
+
+  getTotalAmount() {
+    return this.totalAmount;
+  }
+
+  setTotalAmount(totalAmount: number) {
+    this.totalAmount = totalAmount;
   }
 }
 

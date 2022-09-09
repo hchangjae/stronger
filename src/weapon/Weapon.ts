@@ -20,7 +20,6 @@ export default class Weapon {
   protected targets: WeaponTarget[];
   protected attackPower: number;
   protected attackRange: number;
-  protected attackRate: number;
   protected splashRadius: number;
   protected fireCooltime: number;
   protected fireTimer: number;
@@ -42,7 +41,6 @@ export default class Weapon {
     this.attackPower = attackPower;
     this.attackRange = attackRange;
     this.splashRadius = splashRadius;
-    this.attackRate = 1;
     this.fireCooltime = fireCooltime;
     (this.killProbaility = killProbaility), (this.bullets = bullets), (this.fireTimer = 0);
   }
@@ -55,12 +53,12 @@ export default class Weapon {
     return this.targets.includes('air');
   }
 
-  isInRange(distance: number) {
-    return distance <= this.attackRange;
+  getFireTimer() {
+    return this.fireTimer;
   }
 
-  canFire() {
-    return this.fireTimer >= this.fireCooltime / this.attackRate;
+  getFireCooltime() {
+    return this.fireCooltime;
   }
 
   fire(_enemy: Unit): GameObject | null {
@@ -77,10 +75,6 @@ export default class Weapon {
 
   setAttackPower(dp: number) {
     this.attackPower = dp;
-  }
-
-  increaseAttackPower(percent: number) {
-    this.attackPower += Math.max((this.attackPower * percent) / 100, 1);
   }
 
   getAttackRange() {
