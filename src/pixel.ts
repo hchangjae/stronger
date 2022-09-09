@@ -2,16 +2,24 @@ import tinyfont from 'tinyfont';
 
 const { initFont, font } = tinyfont;
 
-type Ctx = CanvasRenderingContext2D | null;
+type Option = {
+  x?: number;
+  y?: number;
+  size?: number;
+  color?: string;
+}
 
-const pixelText = (ctx: Ctx, defaultValue = '', template?: (value: string) => string) => {
+const pixelText = (canvas: HTMLCanvasElement, defaultValue = '', template?: (value: string) => string, option?: Option) => {
   let value = defaultValue;
+  const ctx = canvas.getContext('2d');
   const render = initFont(font, ctx);
   const template_ = template || ((value) => value);
+  const { x = 0, y = 0, size = 16, color = '#fff'} = option || {};
 
   return {
     render() {
-      render(template_(value), 0, 0, 24, '#fff');
+      const textWidth = ctx?.measureText(value).width || 0;
+      render(template_(value), canvas.width / 2 - textWidth / 2, y, size, color);
     },
     update(newValue?: string) {
       if (newValue) value = newValue;

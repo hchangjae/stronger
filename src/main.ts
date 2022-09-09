@@ -7,6 +7,7 @@ import Upgrade from './domain/Upgrade';
 import PASSIVES from './data/upgrade/passive';
 import User from './domain/User';
 import WEAPONS from './data/upgrade/weapons';
+import TitleScene from './title';
 
 export const TOWER_POSITION = 100;
 
@@ -22,6 +23,12 @@ Promise.all([
   loadImage('assets/cannon.png'),
   loadImage('assets/ground.png'),
 ]).then(() => {
+  let started = false;
+
+  const clickStartButton = () => {
+    started = true;
+  };
+
   const game = new Game(
     new User({
       name: 'jackie',
@@ -32,7 +39,6 @@ Promise.all([
     }),
     canvas
   );
-
   const user = game.getUser();
 
   initUnitSpriteSheets();
@@ -55,9 +61,17 @@ Promise.all([
 
   const loop = GameLoop({
     update: (dt) => {
+      if (!started) {
+        TitleScene(clickStartButton).update();
+        return;
+      }
       game.update(dt);
     },
     render: () => {
+      if (!started) {
+        TitleScene(clickStartButton).render();
+        return;
+      }
       game.render();
     },
   });
