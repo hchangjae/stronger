@@ -9,6 +9,9 @@ import WEAPONS from './data/upgrade/weapons';
 import Particle from './domain/Particle';
 import UpgradeButton from './controller/UpgradeButton';
 import WeaponButton from './controller/WeaponButton';
+import scene from './controller/Scene';
+import TitleScene from './title';
+import EndScene from './end';
 
 export const TOWER_POSITION = 100;
 export const AIR_POSITION = 180;
@@ -34,39 +37,48 @@ Promise.all([
   loadImage('assets/golem.png'),
 ]).then(() => {
   const passiveUpgradeMap = new Map<string, Upgrade>();
+  let upgradeButtons: UpgradeButton[];
+  let weaponButtons: WeaponButton[];
 
   PASSIVES.forEach((passive) => {
     passiveUpgradeMap.set(passive.target, new Upgrade(passive));
   });
 
-  const game = new Game(
-    new User({
+  const sceneManager = scene();
+  let user: User;
+  let game: Game;
+
+  const initGame = () => {
+    user = new User({
       name: 'jackie',
       image: 'assets/tower.png',
       weapons: [new PlasmaGun()],
       resource: 20,
       life: 100,
       upgrades: passiveUpgradeMap,
-    }),
-    canvas
-  );
+    });
+    upgradeButtons = [...user.getUpgrades().values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
+    weaponButtons = WEAPONS.map((weapon) => new WeaponButton({ weapon, user }));
+    game = new Game(user, canvas);
+    game.start();
+    return game;
+  }
 
-  const user = game.getUser();
-
-  const upgradeButtons = [...user.getUpgrades().values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
-  const weaponButtons = WEAPONS.map((weapon) => new WeaponButton({ weapon, user }));
+  const setGameScene = () => sceneManager.set(initGame());
 
   initUnitSpriteSheets();
+
+  sceneManager.set(TitleScene(setGameScene));
 
   const loop = GameLoop({
     update: (dt) => {
       if (user?.getIsDead()) {
-        sceneManager.set(EndScene(currentGame, setGameScene));
+        sceneManager.set(EndScene(game, setGameScene));
       }
       sceneManager.update(dt);
       particles.update();
-      upgradeButtons.forEach((button) => button.update());
-      weaponButtons.forEach((button) => button.update());
+      upgradeButtons?.forEach((button) => button.update());
+      weaponButtons?.forEach((button) => button.update());
     },
     render: () => {
       sceneManager.render();
