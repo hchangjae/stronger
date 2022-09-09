@@ -6,6 +6,7 @@ import User from '../domain/User';
 import Soul from '../effect/soul';
 import { particles, TOWER_POSITION } from '../main';
 import Enemy from '../unit/enemy';
+import { $ } from '../util';
 import GameWave, { waveRecipes } from '../wave/Wave';
 import Info from './Info';
 
@@ -30,6 +31,16 @@ class Game extends GameObjectClass {
     this.ground = new Ground();
     this.effect = [];
     this.canvas = canvas;
+  }
+
+  start() {
+    $('.info')?.classList.remove('hide');
+    $('.upgrades')?.classList.remove('hide');
+  }
+
+  end() {
+    $('.info')?.classList.add('hide');
+    $('.upgrades')?.classList.add('hide');
   }
 
   getUser() {

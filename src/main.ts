@@ -33,10 +33,6 @@ Promise.all([
 ]).then(() => {
   let started = false;
 
-  const clickStartButton = () => {
-    started = true;
-  };
-
   const game = new Game(
     new User({
       name: 'jackie',
@@ -53,6 +49,13 @@ Promise.all([
 
   const passiveUpgrades = PASSIVES.map((passive) => new Upgrade(user, passive));
 
+  const onClickStartButton = () => {
+    started = true;
+    game.start();
+  };
+
+  const titleScene = TitleScene(onClickStartButton);
+
   WEAPONS.forEach((weapon) => {
     appendUpgradeWeapon(weapon, () => {
       const w = new weapon.weaponClass();
@@ -64,7 +67,7 @@ Promise.all([
   const loop = GameLoop({
     update: (dt) => {
       if (!started) {
-        TitleScene(clickStartButton).update();
+        titleScene.update();
         return;
       }
       game.update(dt);
@@ -73,7 +76,7 @@ Promise.all([
     },
     render: () => {
       if (!started) {
-        TitleScene(clickStartButton).render();
+        titleScene.render();
         return;
       }
       game.render();
