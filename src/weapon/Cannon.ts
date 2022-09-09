@@ -17,7 +17,6 @@ export default class Cannon extends Weapon {
   }
 
   fire(enemy: Unit) {
-    if (!this.canFire()) return null;
     this.fireTimer = 0;
 
     // 총알 생성
