@@ -5,6 +5,7 @@ import Game from './controller/Game';
 const EndScene = (game: Game, onRestart: () => void) => {
 	init();
   initPointer();
+  game.end();
 
   const message = Text({
     x: 512,
@@ -42,12 +43,10 @@ const EndScene = (game: Game, onRestart: () => void) => {
 		}
 	})
 
-	const scene = Scene({
+	return Scene({
     id: 'end',
     objects: [message, restart],
   })
-
-	return scene;
 };
 
 export default EndScene;

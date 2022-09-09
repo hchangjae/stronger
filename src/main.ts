@@ -1,4 +1,4 @@
-import { init, GameLoop, loadImage, Pool, emit } from 'kontra';
+import { init, GameLoop, loadImage, Pool } from 'kontra';
 import { initUnitSpriteSheets } from './component/spriteSheet';
 import PlasmaGun from './weapon/PlasmaGun';
 import Game from './controller/Game';
@@ -10,7 +10,7 @@ import WEAPONS from './data/upgrade/weapons';
 import TitleScene from './title';
 import Particle from './domain/Particle';
 import EndScene from './end';
-import Weapon from './weapon/Weapon';
+import scene from './controller/Scene';
 
 export const TOWER_POSITION = 100;
 
@@ -33,15 +33,16 @@ Promise.all([
   loadImage('assets/bat.png'),
   loadImage('assets/golem.png'),
 ]).then(() => {
-  let started = false;
+  const sceneManager = scene();
   let passiveUpgrades: Upgrade[] = [];
+  let user: User;
+  let currentGame: Game;
 
   const init = () => {
-    const user = new User({
+    user = new User({
       name: 'jackie',
       image: 'assets/tower.png',
-      // weapons: [new PlasmaGun()],
-      weapons: [],
+      weapons: [new PlasmaGun()],
       resource: 20,
       life: 100,
     });
@@ -53,49 +54,28 @@ Promise.all([
         user.setResource(-1 * weapon.resourceNeeded);
       });
     });
-    return new Game(user, canvas);
+    const game = new Game(user, canvas);
+    currentGame = game;
+    currentGame.start();
+    return game;
   };
+
+  const setGameScene = () => sceneManager.set(init());
+  sceneManager.set(TitleScene(setGameScene));
 
   initUnitSpriteSheets();
 
-  let game = init();
-
-  const onClickStartButton = (restart = false) => {
-    started = true;
-    if (restart) {
-      game = init();
-    }
-    game.start();
-  };
-
-  const titleScene = TitleScene(onClickStartButton);
-  const endScene = EndScene(game, () => {
-    onClickStartButton(true);
-  });
-
   const loop = GameLoop({
     update: (dt) => {
-      if (!started) {
-        titleScene.update();
-        return;
-      } else if (game.getUser().getIsDead()) {
-        game.end();
-        endScene.update();
-        return;
+      if (user?.getIsDead()) {
+        sceneManager.set(EndScene(currentGame, setGameScene));
       }
-      game.update(dt);
+      sceneManager.update(dt);
       particles.update();
       passiveUpgrades.forEach((upgrade) => upgrade.update());
     },
     render: () => {
-      if (!started) {
-        titleScene.render();
-        return;
-      } else if (game.getUser().getIsDead()) {
-        endScene.render();
-        return;
-      }
-      game.render();
+      sceneManager.render();
       particles.render();
     },
   });
