@@ -29,6 +29,9 @@ class UpgradeButton {
     if (this.user.getResource().getResource() < this.upgrade.getResourceNeeded()) return;
 
     this.user.addUpgrade(this.upgrade);
+
+    const valueLabel = $('.' + this.upgrade.getTarget())!;
+    valueLabel.innerHTML = `+${this.upgrade.getTotalAmount()}%`;
   };
 
   update() {

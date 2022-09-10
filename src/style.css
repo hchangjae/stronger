@@ -159,3 +159,16 @@ p {
 .start-button:hover {
   color: #00db00;
 }
+
+.current-upgrades {
+  position: absolute;
+  top: 52px;
+  left: 10px;
+  color: #fff;
+}
+
+.current-upgrades ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

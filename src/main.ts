@@ -12,6 +12,7 @@ import WeaponButton from './controller/WeaponButton';
 import scene from './controller/Scene';
 import TitleScene from './title';
 import EndScene from './end';
+import { $ } from './util';
 
 export const TOWER_POSITION = 100;
 export const AIR_POSITION = 180;
@@ -58,6 +59,11 @@ Promise.all([
       upgrades: passiveUpgradeMap,
     });
     upgradeButtons = [...user.getUpgrades().values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
+    [...user.getUpgrades().values()].forEach((upgrade) => {
+      const valueLabel = $('.' + upgrade.getTarget())!;
+      valueLabel.innerHTML = `+${upgrade.getTotalAmount()}%`;
+    });
+
     weaponButtons = WEAPONS.map((weapon) => new WeaponButton({ weapon, user }));
     game = new Game(user, canvas);
     game.start();

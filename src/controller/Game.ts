@@ -36,19 +36,19 @@ class Game extends GameObjectClass {
   start() {
     $('.info')?.classList.remove('hide');
     $('.upgrades')?.classList.remove('hide');
+    $('.current-upgrades')?.classList.remove('hide');
   }
 
   end() {
     $('.info')?.classList.add('hide');
     $('.upgrades')?.classList.add('hide');
+    $('.current-upgrades')?.classList.add('hide');
     const $passives = $('.passives-container .passives');
     while ($passives?.firstChild) {
       $passives.removeChild($passives.firstChild);
     }
     const $weapons = $('.weapons-container .weapons');
-    while ($weapons?.firstChild) [
-      $weapons.removeChild($weapons.firstChild)
-    ]
+    while ($weapons?.firstChild) [$weapons.removeChild($weapons.firstChild)];
   }
 
   getUser() {

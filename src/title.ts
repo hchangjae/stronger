@@ -1,4 +1,4 @@
-import { Button, imageAssets, init, initPointer, Scene, Sprite, Text } from 'kontra';
+import { imageAssets, init, initPointer, Scene, Sprite, Text } from 'kontra';
 import Ground from './domain/Ground';
 import { $ } from './util';
 
