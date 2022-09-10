@@ -53,7 +53,7 @@ Promise.all([
       name: 'jackie',
       image: 'assets/tower.png',
       weapons: [new PlasmaGun()],
-      resource: 20,
+      resource: 30,
       life: 100,
       upgrades: passiveUpgradeMap,
     });
@@ -62,7 +62,7 @@ Promise.all([
     game = new Game(user, canvas);
     game.start();
     return game;
-  }
+  };
 
   const setGameScene = () => sceneManager.set(initGame());
 

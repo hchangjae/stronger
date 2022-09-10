@@ -10,7 +10,9 @@ const scene = (current?: Scene | GameObject) => {
       current_?.render();
     },
     set(newScene: Scene | GameObject) {
+      if (current_ && current_.hide) current_.hide();
       current_ = newScene;
+      if (newScene.show) newScene.show();
     },
   };
 };

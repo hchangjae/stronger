@@ -2,8 +2,8 @@ import { imageAssets, Sprite } from 'kontra';
 import { GROUND_POSITION } from '../main';
 
 export default class Ground {
-  private sprites: Sprite[] = [];
-  private bg: Sprite;
+  sprites: Sprite[] = [];
+  bg: Sprite;
 
   constructor() {
     this.bg = Sprite({

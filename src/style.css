@@ -141,3 +141,21 @@ p {
 .hide {
   display: none;
 }
+
+.start-button {
+  position: absolute;
+  top: 320px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 80px;
+  font-size: 40px;
+  background: #000;
+  color: #fff;
+  border: 2px solid #bbb;
+  cursor: pointer;
+}
+
+.start-button:hover {
+  color: #00db00;
+}
