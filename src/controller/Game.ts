@@ -83,7 +83,10 @@ class Game extends GameObjectClass {
       .forEach((enemy) => {
         if (enemy.Sprite.x < TOWER_POSITION) {
           enemy.stop();
-          this.user.setLife(-1 * enemy.getAttackPower());
+          if (enemy.isReadyToAttack()) {
+            this.user.setLife(-1 * enemy.getAttackPower());
+            enemy.cooldownAttack();
+          }
         }
 
         weapons.forEach((w) => {
@@ -96,7 +99,7 @@ class Game extends GameObjectClass {
         });
       });
 
-    this.corp.update();
+    this.corp.update(dt);
 
     const createSouls = (enemy: Enemy) => {
       const soulList = new Array(enemy.getSoulPoint()).fill('').map(

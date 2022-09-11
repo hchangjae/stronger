@@ -40,8 +40,8 @@ class Corp extends GameObjectClass {
     ];
   }
 
-  update() {
-    this.enemies.forEach((enemy) => enemy.update());
+  update(dt: number) {
+    this.enemies.forEach((enemy) => enemy.update(dt));
     this.enemies = this.enemies.filter((enemy) => !enemy.isDone());
   }
 

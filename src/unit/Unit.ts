@@ -134,6 +134,14 @@ export default class Unit {
     return !this.isAlive() && this.Sprite.currentAnimation._f === this.Sprite.currentAnimation.frames.length - 1;
   }
 
+  isReadyToAttack() {
+    return this.fireTimer >= this.fireCooltime;
+  }
+
+  cooldownAttack() {
+    this.fireTimer = 0;
+  }
+
   getAttackPower() {
     return this.attackPower;
   }
@@ -160,11 +168,13 @@ export default class Unit {
     if (this.Sprite.dx > this.speed) this.Sprite.dx -= 0.1;
   }
 
-  update() {
+  update(dt: number) {
     this.HPWrapSprite.update();
     this.HPSprite.update();
     this.Sprite.update();
 
     this.handleSpeed();
+
+    this.fireTimer += dt;
   }
 }
