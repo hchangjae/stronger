@@ -20,6 +20,8 @@ class Game extends GameObjectClass {
   protected effect: GameObject[];
   protected canvas: HTMLCanvasElement;
 
+  private running: boolean;
+
   constructor(user: User, canvas: HTMLCanvasElement) {
     super();
     this.user = user;
@@ -31,12 +33,14 @@ class Game extends GameObjectClass {
     this.ground = new Ground();
     this.effect = [];
     this.canvas = canvas;
+    this.running = false;
   }
 
   start() {
     $('.info')?.classList.remove('hide');
     $('.upgrades')?.classList.remove('hide');
     $('.current-upgrades')?.classList.remove('hide');
+    this.running = true;
   }
 
   end() {
@@ -49,6 +53,11 @@ class Game extends GameObjectClass {
     }
     const $weapons = $('.weapons-container .weapons');
     while ($weapons?.firstChild) [$weapons.removeChild($weapons.firstChild)];
+    this.running = false;
+  }
+
+  isRunning() {
+    return this.running;
   }
 
   getUser() {

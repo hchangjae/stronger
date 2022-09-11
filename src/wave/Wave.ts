@@ -141,7 +141,7 @@ export default class GameWave {
   summonTimer: number;
 
   constructor(waveRecipeList: WaveRecipe[]) {
-    this.waveRecipeList = waveRecipeList;
+    this.waveRecipeList = [...waveRecipeList];
     this.summonList = [];
     this.summonTimer = 0;
   }

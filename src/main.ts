@@ -78,7 +78,7 @@ Promise.all([
 
   const loop = GameLoop({
     update: (dt) => {
-      if (user?.getIsDead()) {
+      if (user?.getIsDead() && game.isRunning()) {
         sceneManager.set(EndScene(game, setGameScene));
       }
       sceneManager.update(dt);
