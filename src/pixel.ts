@@ -7,14 +7,19 @@ type Option = {
   y?: number;
   size?: number;
   color?: string;
-}
+};
 
-const pixelText = (canvas: HTMLCanvasElement, defaultValue = '', template?: (value: string) => string, option?: Option) => {
+const pixelText = (
+  canvas: HTMLCanvasElement,
+  defaultValue = '',
+  template?: (value: string) => string,
+  option?: Option
+) => {
   let value = defaultValue;
   const ctx = canvas.getContext('2d');
   const render = initFont(font, ctx);
   const template_ = template || ((value) => value);
-  const { x = 0, y = 0, size = 16, color = '#fff'} = option || {};
+  const { x: _ = 0, y = 0, size = 16, color = '#fff' } = option || {};
 
   return {
     render() {
@@ -27,8 +32,8 @@ const pixelText = (canvas: HTMLCanvasElement, defaultValue = '', template?: (val
     },
     getText() {
       return value;
-    }
-  }
-}
+    },
+  };
+};
 
 export default pixelText;
