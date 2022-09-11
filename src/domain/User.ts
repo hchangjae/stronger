@@ -23,7 +23,12 @@ class User extends Unit {
   protected weapons: Weapon[];
   protected upgrades: Map<string, Upgrade>;
 
+  private Sprite: Sprite;
+
   constructor({ name, image, resource, weapons, life, upgrades }: UserProps) {
+    const width = 55;
+    const height = 85;
+
     super(life);
     this.name = name;
     this.image = image;
@@ -31,6 +36,39 @@ class User extends Unit {
     this.weapons = weapons;
     this.generation = 1;
     this.upgrades = upgrades;
+
+    this.Sprite = Sprite({
+      image: imageAssets[this.image],
+      x: 50,
+      y: 130,
+      width,
+      height,
+      scaleX: 1,
+      scaleY: 1,
+    });
+
+    const getLife = () => super.getLife();
+    const HPSprite = Sprite({
+      x: 1,
+      y: 1,
+      width: width - 2,
+      height: 5,
+      color: 'red',
+      update: function () {
+        this.width = Math.max(((width - 1) * getLife()) / life, 0);
+      },
+    });
+
+    const HPWrapSprite = Sprite({
+      x: 0,
+      y: -10,
+      width,
+      height: 7,
+      color: '#fff',
+    });
+
+    HPWrapSprite.addChild(HPSprite);
+    this.Sprite.addChild(HPWrapSprite);
   }
 
   setResource(dm: number) {
@@ -99,18 +137,12 @@ class User extends Unit {
   }
 
   update(dt: number): void {
+    this.Sprite.update();
     this.weapons.forEach((w) => w.update(dt));
   }
 
   render() {
-    Sprite({
-      image: imageAssets[this.image],
-      x: 50,
-      y: 130,
-      scaleX: 1,
-      scaleY: 1,
-    }).render();
-
+    this.Sprite.render();
     this.weapons.forEach((w) => w.render());
   }
 }
