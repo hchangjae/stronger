@@ -21,7 +21,7 @@ export default class Cannon extends Weapon {
 
     // 총알 생성
     const bullet = Sprite({
-      image: imageAssets['assets/cannon.png'],
+      image: imageAssets['images/cannon.png'],
       x: TOWER_POSITION,
       y: 160,
       ddy: 500,

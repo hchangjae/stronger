@@ -21,7 +21,7 @@ export default class PlasmaGun extends Weapon {
 
     // 총알 생성
     const bullet = Sprite({
-      image: imageAssets['assets/plasma.png'],
+      image: imageAssets['images/plasma.png'],
       x: TOWER_POSITION,
       y: 160,
       width: 10,

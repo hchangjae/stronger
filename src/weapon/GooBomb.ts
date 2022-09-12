@@ -22,7 +22,7 @@ export default class GooBomb extends Weapon {
 
     // 총알 생성
     const bullet = Sprite({
-      image: imageAssets['assets/goobomb.png'],
+      image: imageAssets['images/goobomb.png'],
       x: TOWER_POSITION,
       y: 160,
       width: 10,

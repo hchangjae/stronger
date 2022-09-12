@@ -26,17 +26,17 @@ export const particles = Pool({
 const { canvas } = init();
 
 Promise.all([
-  loadImage('assets/tower.png'),
-  loadImage('assets/slime.png'),
-  loadImage('assets/slime2.png'),
-  loadImage('assets/slime3.png'),
-  loadImage('assets/plasma.png'),
-  loadImage('assets/smoke.png'),
-  loadImage('assets/cannon.png'),
-  loadImage('assets/ground.png'),
-  loadImage('assets/bat.png'),
-  loadImage('assets/golem.png'),
-  loadImage('assets/goobomb.png'),
+  loadImage('images/tower.png'),
+  loadImage('images/slime.png'),
+  loadImage('images/slime2.png'),
+  loadImage('images/slime3.png'),
+  loadImage('images/plasma.png'),
+  loadImage('images/smoke.png'),
+  loadImage('images/cannon.png'),
+  loadImage('images/ground.png'),
+  loadImage('images/bat.png'),
+  loadImage('images/golem.png'),
+  loadImage('images/goobomb.png'),
 ]).then(() => {
   const passiveUpgradeMap = new Map<string, Upgrade>();
   let upgradeButtons: UpgradeButton[];
@@ -55,7 +55,7 @@ Promise.all([
       console.log('NEW TRIAL');
       user = new User({
         name: 'jackie',
-        image: 'assets/tower.png',
+        image: 'images/tower.png',
         weapons: [new PlasmaGun()],
         resource: 30000,
         life: 1,

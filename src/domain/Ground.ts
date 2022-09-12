@@ -19,7 +19,7 @@ export default class Ground {
     for (let i = 0; i < numSprites; i++) {
       this.sprites.push(
         Sprite({
-          image: imageAssets['assets/ground.png'],
+          image: imageAssets['images/ground.png'],
           x: i * 16,
           y: GROUND_POSITION,
         })

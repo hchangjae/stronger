@@ -7,7 +7,7 @@ export const initUnitSpriteSheets = () => {
   spriteSheetMap.set(
     'slime',
     SpriteSheet({
-      image: imageAssets['assets/slime.png'],
+      image: imageAssets['images/slime.png'],
       frameWidth: 32,
       frameHeight: 32,
       animations: {
@@ -22,7 +22,7 @@ export const initUnitSpriteSheets = () => {
   spriteSheetMap.set(
     'slime2',
     SpriteSheet({
-      image: imageAssets['assets/slime2.png'],
+      image: imageAssets['images/slime2.png'],
       frameWidth: 24,
       frameHeight: 20,
       animations: {
@@ -37,7 +37,7 @@ export const initUnitSpriteSheets = () => {
   spriteSheetMap.set(
     'slime3',
     SpriteSheet({
-      image: imageAssets['assets/slime3.png'],
+      image: imageAssets['images/slime3.png'],
       frameWidth: 32,
       frameHeight: 32,
       animations: {
@@ -52,7 +52,7 @@ export const initUnitSpriteSheets = () => {
   spriteSheetMap.set(
     'bat',
     SpriteSheet({
-      image: imageAssets['assets/bat.png'],
+      image: imageAssets['images/bat.png'],
       frameWidth: 12,
       frameHeight: 13,
       animations: {
@@ -67,7 +67,7 @@ export const initUnitSpriteSheets = () => {
   spriteSheetMap.set(
     'golem',
     SpriteSheet({
-      image: imageAssets['assets/golem.png'],
+      image: imageAssets['images/golem.png'],
       frameWidth: 24,
       frameHeight: 24,
       animations: {
@@ -82,7 +82,7 @@ export const initUnitSpriteSheets = () => {
   spriteSheetMap.set(
     'smoke',
     SpriteSheet({
-      image: imageAssets['assets/smoke.png'],
+      image: imageAssets['images/smoke.png'],
       frameWidth: 16,
       frameHeight: 16,
       animations: {

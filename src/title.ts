@@ -26,7 +26,7 @@ const TitleScene = (onStart: () => void) => {
 
   const ground = new Ground();
   const tower = Sprite({
-    image: imageAssets['assets/tower.png'],
+    image: imageAssets['images/tower.png'],
     x: 170,
     y: 52,
     scaleX: 1.8,
