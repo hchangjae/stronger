@@ -160,7 +160,28 @@ p {
   cursor: pointer;
 }
 
-.start-button:hover {
+.end-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.end-yes-button,
+.end-no-button {
+  width: 180px;
+  height: 64px;
+  font-size: 36px;
+  background: #000;
+  color: #fff;
+  border: 2px solid #bbb;
+}
+
+.end-yes-button {
+  margin-right: 10px;
+}
+
+.start-button:hover,
+.end-yes-button:hover,
+.end-no-button:hover {
   color: #00db00;
 }
 

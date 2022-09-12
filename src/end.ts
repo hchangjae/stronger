@@ -31,6 +31,9 @@ const EndScene = (game: Game, onRestart: Func, onRestartFromScratch: Func) => {
     id: 'end',
     objects: [message, subMessage],
     onShow() {
+      const buttons = document.createElement('div');
+      buttons.classList.add('end-buttons');
+
       const yesButton = document.createElement('button');
       yesButton.classList.add('end-yes-button');
       yesButton.innerText = 'YES';
@@ -41,11 +44,11 @@ const EndScene = (game: Game, onRestart: Func, onRestartFromScratch: Func) => {
       noButton.innerText = 'NO';
       noButton.onclick = onRestartFromScratch;
 
-      [yesButton, noButton].forEach(button => $('#app')?.appendChild(button));
+      [yesButton, noButton].forEach(button => buttons.appendChild(button));
+      $('#app')?.appendChild(buttons);
     },
     onHide() {
-      $('.end-yes-button')?.remove();
-      $('.end-no-button')?.remove();
+      $('.end-buttons')?.remove();
     }
   });
 };
