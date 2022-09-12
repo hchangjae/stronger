@@ -25,3 +25,5 @@ dist-ssr
 
 # Production
 dist
+ts-out
+game.bundle.js

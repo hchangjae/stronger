@@ -5,7 +5,7 @@ import Ground from '../domain/Ground';
 import User from '../domain/User';
 import Soul from '../effect/soul';
 import { GROUND_POSITION, TOWER_POSITION } from '../main';
-import Enemy, { isAir } from '../unit/enemy';
+import Enemy, { isAir } from '../unit/Enemy';
 import { $ } from '../util';
 import GameWave, { waveRecipes } from '../wave/Wave';
 import Info from './Info';

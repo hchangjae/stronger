@@ -1,4 +1,4 @@
-import { imageAssets, Sprite } from 'kontra';
+import { Text } from 'kontra';
 import { GROUND_POSITION, particles, TOWER_POSITION } from '../main';
 import Unit from '../unit/Unit';
 import Weapon from './Weapon';
@@ -20,8 +20,8 @@ export default class Cannon extends Weapon {
     this.fireTimer = 0;
 
     // 총알 생성
-    const bullet = Sprite({
-      image: imageAssets['images/cannon.png'],
+    const bullet = Text({
+      text: '🎱',
       x: TOWER_POSITION,
       y: 160,
       ddy: 500,
@@ -29,7 +29,8 @@ export default class Cannon extends Weapon {
       dx: enemy.Sprite.x * 0.5,
       width: 10,
       height: 10,
-      anchor: { x: 0.5, y: 0.5 },
+      scaleX: 0.5,
+      scaleY: 0.5,
       speed: 5,
       followEnemy: false,
       attackPower: this.attackPower,

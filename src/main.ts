@@ -32,7 +32,6 @@ Promise.all([
   loadImage('images/slime3.png'),
   loadImage('images/plasma.png'),
   loadImage('images/smoke.png'),
-  loadImage('images/cannon.png'),
   loadImage('images/ground.png'),
   loadImage('images/bat.png'),
   loadImage('images/golem.png'),
@@ -90,7 +89,13 @@ Promise.all([
   const loop = GameLoop({
     update: (dt) => {
       if (user?.getIsDead() && game.isRunning()) {
-        sceneManager.set(EndScene(game, () => setGameScene(true), () => setGameScene(false)));
+        sceneManager.set(
+          EndScene(
+            game,
+            () => setGameScene(true),
+            () => setGameScene(false)
+          )
+        );
       }
       sceneManager.update(dt);
       particles.update();
