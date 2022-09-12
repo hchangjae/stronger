@@ -50,8 +50,9 @@ Promise.all([
   let user: User;
   let game: Game;
 
-  const initGame = () => {
-    if (!user) {
+  const initGame = (inherit: boolean) => {
+    if (!(user && inherit)) {
+      console.log('NEW TRIAL');
       user = new User({
         name: 'jackie',
         image: 'assets/tower.png',
@@ -61,6 +62,7 @@ Promise.all([
         upgrades: passiveUpgradeMap,
       });
     } else {
+      console.log('INHERIT');
       user.inherit();
     }
     upgradeButtons = [...user.getUpgrades().values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
@@ -79,7 +81,7 @@ Promise.all([
     return game;
   };
 
-  const setGameScene = () => sceneManager.set(initGame());
+  const setGameScene = (inherit = false) => sceneManager.set(initGame(inherit));
 
   initUnitSpriteSheets();
 
@@ -88,7 +90,7 @@ Promise.all([
   const loop = GameLoop({
     update: (dt) => {
       if (user?.getIsDead() && game.isRunning()) {
-        sceneManager.set(EndScene(game, setGameScene));
+        sceneManager.set(EndScene(game, () => setGameScene(true), () => setGameScene(false)));
       }
       sceneManager.update(dt);
       particles.update();

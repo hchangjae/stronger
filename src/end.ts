@@ -1,52 +1,53 @@
-import { Button, init, initPointer, Scene, Text } from 'kontra';
+import { init, initPointer, Scene, Text } from 'kontra';
 
 import Game from './controller/Game';
+import { $ } from './util';
 
-const EndScene = (game: Game, onRestart: () => void) => {
-	init();
+type Func = () => void;
+
+const EndScene = (game: Game, onRestart: Func, onRestartFromScratch: Func) => {
+  init();
   initPointer();
   game.end();
 
   const message = Text({
-    x: 512,
-    y: 128,
+    x: 50,
+    y: 90,
     font: '24px Monospace',
-    text: `You're dead\n\nScore: ${game.getUser().getResource().getResource()}`,
-    textAlign: 'center',
+    text: `You're dead\n`,
     color: '#fff',
-    anchor: {
-      x: 0.5,
-      y: 0.5,
-    },
   });
 
-	const restart = Button({
-		x: 512,
-		y: 240,
-		text: {
-			text: 'RESTART',
-			color: '#fff',
-      font: '24px Monospace',
-      anchor: { x: 0.5, y: 0.5 }
-		},
-		padX: 20,
-		padY: 10,
+  const subMessage = Text({
+    x: 50,
+    y: 140,
+    font: '24px Monospace',
+    text: `You can start with your next genneration.
+      \nWill you inherit your everything to your descendant?`,
+    color: '#fff',
+  });
 
-		onDown: onRestart,
-
-		render() {
-			if (this.hovered) {
-        this.textNode.color = 'red';
-      } else {
-        this.textNode.color = '#fff';
-      }
-		}
-	})
-
-	return Scene({
+  return Scene({
     id: 'end',
-    objects: [message, restart],
-  })
+    objects: [message, subMessage],
+    onShow() {
+      const yesButton = document.createElement('button');
+      yesButton.classList.add('end-yes-button');
+      yesButton.innerText = 'YES';
+      yesButton.onclick = onRestart;
+
+      const noButton = document.createElement('button');
+      noButton.classList.add('end-no-button');
+      noButton.innerText = 'NO';
+      noButton.onclick = onRestartFromScratch;
+
+      [yesButton, noButton].forEach(button => $('#app')?.appendChild(button));
+    },
+    onHide() {
+      $('.end-yes-button')?.remove();
+      $('.end-no-button')?.remove();
+    }
+  });
 };
 
 export default EndScene;
