@@ -1,4 +1,4 @@
-import { GameObjectClass } from "kontra";
+import { GameObjectClass } from 'kontra';
 
 class Unit extends GameObjectClass {
   protected life: number;

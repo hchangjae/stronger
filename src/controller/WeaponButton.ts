@@ -20,30 +20,30 @@ class WeaponButton {
     this.button = document.createElement('button');
     this.button.classList.add('button');
     this.button.addEventListener('click', this.onButtonClick);
-    $('.upgrades .weapons')?.appendChild(this.button);
+    $('.ups .ws')?.appendChild(this.button);
 
     this.render();
   }
 
   onButtonClick = () => {
-    if (this.user.getResource().getResource() < this.weapon.resourceNeeded) return;
+    if (this.user.getResource().getResource() < this.weapon.rN) return;
 
-    const w = new this.weapon.weaponClass();
+    let w = new this.weapon.weaponClass();
     this.user.addWeapon(w, this.weapon);
 
-    const valueLabel = $(`.${w.getName()}`)!;
+    let valueLabel = $(`.${w.getName()}`)!;
     valueLabel.innerHTML = `X${this.user.getWeaponCount(w.getName())}`;
   };
 
   update() {
-    const el = this.button.querySelector('.resource')!;
-    el.innerHTML = `👻 ${this.weapon.resourceNeeded}`;
+    let el = this.button.querySelector('.resource')!;
+    el.innerHTML = `👻 ${this.weapon.rN}`;
 
     if (!this.user) return;
 
-    const resource = this.user.getResource().getResource();
+    let resource = this.user.getResource().getResource();
 
-    if (resource < this.weapon.resourceNeeded) {
+    if (resource < this.weapon.rN) {
       this.button.classList.add('notenough');
     } else {
       this.button.classList.remove('notenough');
@@ -54,7 +54,7 @@ class WeaponButton {
     this.button.innerHTML = `
       <div>
         ${this.weapon.label} 
-        <span class="resource">👻 ${this.weapon.resourceNeeded}</span>
+        <span class="resource">👻 ${this.weapon.rN}</span>
       </div>
     `;
   }

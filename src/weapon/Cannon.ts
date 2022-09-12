@@ -8,11 +8,11 @@ export default class Cannon extends Weapon {
     super({
       name: 'cannon',
       targets: ['land'],
-      attackPower: 8,
-      attackRange: 800,
+      aP: 8,
+      aR: 800,
       killProbaility: 1,
-      splashRadius: 50,
-      fireCooltime: 3,
+      sR: 50,
+      fCT: 3,
     });
   }
 
@@ -20,7 +20,7 @@ export default class Cannon extends Weapon {
     this.fireTimer = 0;
 
     // 총알 생성
-    const bullet = Text({
+    let bullet = Text({
       text: '🎱',
       x: TOWER_POSITION,
       y: 160,
@@ -31,10 +31,10 @@ export default class Cannon extends Weapon {
       height: 10,
       scaleX: 0.5,
       scaleY: 0.5,
-      speed: 5,
+      sp: 5,
       followEnemy: false,
-      attackPower: this.attackPower,
-      splashRadius: this.splashRadius,
+      aP: this.aP,
+      sR: this.sR,
       targetPosition: enemy.Sprite.x,
     });
 

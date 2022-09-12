@@ -1,9 +1,9 @@
 import { TextClass } from 'kontra';
 
-const RANDOM_SPEED_MAX = 5;
-const ACC_SPEED = 0.1;
-const TARGET_X = 20;
-const TARGET_Y = 10;
+let RANDOM_SPEED_MAX = 5;
+let ACC_SPEED = 0.1;
+let TARGET_X = 20;
+let TARGET_Y = 10;
 
 export default class Soul extends TextClass {
   constructor(props: any) {
@@ -11,9 +11,9 @@ export default class Soul extends TextClass {
       ...props,
       text: '👻',
     });
-    const dxRatio = Math.random() - 0.5;
-    const dyRatio = Math.sqrt(0.25 - Math.pow(dxRatio, 2)) * Math.sign(Math.random() - 0.5);
-    const scalar = Math.random() * RANDOM_SPEED_MAX;
+    let dxRatio = Math.random() - 0.5;
+    let dyRatio = Math.sqrt(0.25 - Math.pow(dxRatio, 2)) * Math.sign(Math.random() - 0.5);
+    let scalar = Math.random() * RANDOM_SPEED_MAX;
 
     super.dx = dxRatio * scalar;
     super.dy = dyRatio * scalar;
@@ -32,7 +32,7 @@ export default class Soul extends TextClass {
     super.dx += super.ddx;
     super.dy += super.ddy;
 
-    const distance = this.getDistance();
+    let distance = this.getDistance();
     super.ddx = -((super.x - TARGET_X) / distance) * ACC_SPEED;
     super.ddy = -((super.y - TARGET_Y) / distance) * ACC_SPEED;
 

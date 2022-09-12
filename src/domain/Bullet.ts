@@ -1,10 +1,4 @@
-import {
-  GameObject,
-  GameObjectClass,
-  collides,
-  Sprite,
-  imageAssets,
-} from 'kontra';
+import { GameObject, GameObjectClass, collides, Sprite, imageAssets } from 'kontra';
 import { TOWER_POSITION } from '../main';
 
 type BulletProps = {
@@ -14,32 +8,21 @@ type BulletProps = {
   ttl?: number;
   rotation?: number;
   target: GameObject;
-  speed: number;
-  attackPower: number;
+  sp: number;
+  aP: number;
   slowPower?: number;
-  splashRadius: number;
+  sR: number;
 };
 class Bullet extends GameObjectClass {
   target: GameObject;
-  speed: number;
+  sp: number;
   image: string;
-  attackPower: number;
+  aP: number;
   slowPower?: number;
-  splashRadius: number;
+  sR: number;
   isCollided: boolean;
 
-  constructor({
-    x,
-    y,
-    image,
-    ttl,
-    rotation,
-    target,
-    speed,
-    attackPower,
-    slowPower,
-    splashRadius,
-  }: BulletProps) {
+  constructor({ x, y, image, ttl, rotation, target, sp, aP, slowPower, sR }: BulletProps) {
     super({
       x,
       y,
@@ -47,10 +30,10 @@ class Bullet extends GameObjectClass {
       rotation,
     });
     this.image = image;
-    this.speed = speed;
-    this.attackPower = attackPower;
+    this.sp = sp;
+    this.aP = aP;
     this.slowPower = slowPower;
-    this.splashRadius = splashRadius;
+    this.sR = sR;
     this.target = target;
     this.isCollided = false;
   }
@@ -69,9 +52,7 @@ class Bullet extends GameObjectClass {
   }
 
   getDistanceFromTarget() {
-    return Math.sqrt(
-      Math.pow(this.target.x - this.x, 2) + Math.pow(this.target.y - this.y, 2)
-    );
+    return Math.sqrt(Math.pow(this.target.x - this.x, 2) + Math.pow(this.target.y - this.y, 2));
   }
 
   setRotation(value: number) {

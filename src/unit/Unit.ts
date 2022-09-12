@@ -2,35 +2,35 @@ import { Sprite } from 'kontra';
 import { getSpriteAnimation } from '../component/spriteSheet';
 import { EnemyName } from './Enemy';
 
-const KNOCKBACK_SPEED = 1;
-const ROTATE_DEG = 0.2;
-const ROTATE_SPEED = 0.01;
+let KNOCKBACK_SPEED = 1;
+let ROTATE_DEG = 0.2;
+let ROTATE_SPEED = 0.01;
 
 export type UnitProps = {
   x: number;
   y: number;
   HP: number;
   name: EnemyName;
-  speed: number;
+  sp: number;
   width: number;
   height: number;
-  soulPoint: number;
-  attackPower: number;
-  attackRange: number;
-  defensePower: number;
-  fireCooltime: number;
+  sP: number;
+  aP: number;
+  aR: number;
+  dP: number;
+  fCT: number;
   spriteAnimationKey: string;
 };
 
 export default class Unit {
   protected HP: number;
   protected name: EnemyName;
-  protected speed: number;
-  protected soulPoint: number;
-  protected attackPower: number;
-  protected attackRange: number;
-  protected defensePower: number;
-  protected fireCooltime: number;
+  protected sp: number;
+  protected sP: number;
+  protected aP: number;
+  protected aR: number;
+  protected dP: number;
+  protected fCT: number;
   protected fireTimer: number;
   protected isStop: boolean;
 
@@ -40,35 +40,21 @@ export default class Unit {
 
   public Sprite: Sprite;
 
-  constructor({
-    x,
-    y,
-    HP,
-    name,
-    speed,
-    width,
-    height,
-    soulPoint,
-    attackPower,
-    attackRange,
-    defensePower,
-    fireCooltime,
-    spriteAnimationKey,
-  }: UnitProps) {
+  constructor({ x, y, HP, name, sp, width, height, sP, aP, aR, dP, fCT, spriteAnimationKey }: UnitProps) {
     this.HP = HP;
     this.name = name;
-    this.speed = speed;
-    this.soulPoint = soulPoint;
-    this.attackPower = attackPower;
-    this.attackRange = attackRange;
-    this.defensePower = defensePower;
-    this.fireCooltime = fireCooltime;
+    this.sp = sp;
+    this.sP = sP;
+    this.aP = aP;
+    this.aR = aR;
+    this.dP = dP;
+    this.fCT = fCT;
 
     this.fireTimer = 0;
     this.HPMax = HP;
     this.isStop = false;
 
-    const isSingleImage = ['golem', 'slime3'].includes(spriteAnimationKey);
+    let isSingleImage = ['golem', 'slime3'].includes(spriteAnimationKey);
 
     this.Sprite = Sprite({
       x,
@@ -77,7 +63,7 @@ export default class Unit {
       deg: 0,
       width,
       height,
-      dx: speed,
+      dx: sp,
       animations: {
         ...getSpriteAnimation(spriteAnimationKey),
         ...getSpriteAnimation('smoke'),
@@ -85,8 +71,8 @@ export default class Unit {
       ...(isSingleImage
         ? {
             render() {
-              const ctx = this.context;
-              const image = this.currentAnimation.spriteSheet.image;
+              let ctx = this.context;
+              let image = this.currentAnimation.spriteSheet.image;
               if (!ctx || !image || !this.width || !this.height || !this.scaleX || !this.scaleY) return;
               if (this.deg < -ROTATE_DEG || this.deg > ROTATE_DEG) {
                 this.ddeg *= -1;
@@ -125,7 +111,7 @@ export default class Unit {
   }
 
   hit(value: number) {
-    const damage = value === 0 ? 0 : Math.max(value - this.defensePower, 1);
+    let damage = value === 0 ? 0 : Math.max(value - this.dP, 1);
     let isDead = false;
 
     // check death
@@ -149,9 +135,9 @@ export default class Unit {
     return isDead;
   }
 
-  setSpeed(speed: number) {
-    this.speed = -Math.abs(speed);
-    this.Sprite.dx = -Math.abs(speed);
+  setSpeed(sp: number) {
+    this.sp = -Math.abs(sp);
+    this.Sprite.dx = -Math.abs(sp);
   }
 
   getName() {
@@ -168,7 +154,7 @@ export default class Unit {
   }
 
   isReadyToAttack() {
-    return this.fireTimer >= this.fireCooltime;
+    return this.fireTimer >= this.fCT;
   }
 
   cooldownAttack() {
@@ -176,11 +162,11 @@ export default class Unit {
   }
 
   getAttackPower() {
-    return this.attackPower;
+    return this.aP;
   }
 
   getSoulPoint() {
-    return this.soulPoint;
+    return this.sP;
   }
 
   stop() {
@@ -198,7 +184,7 @@ export default class Unit {
       this.Sprite.dx = 0;
       return;
     }
-    if (Math.abs(this.Sprite.dx - this.speed) > 0.2) this.Sprite.dx -= Math.sign(this.Sprite.dx - this.speed) * 0.1;
+    if (Math.abs(this.Sprite.dx - this.sp) > 0.2) this.Sprite.dx -= Math.sign(this.Sprite.dx - this.sp) * 0.1;
   }
 
   update(dt: number) {

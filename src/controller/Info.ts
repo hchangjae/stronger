@@ -2,13 +2,13 @@ import { GameObjectClass } from 'kontra';
 import { $ } from '../util';
 import GameWave from '../wave/Wave';
 
-const update = ($el: Element | null, value: string, template: (value: string) => string) => {
+let update = ($el: Element | null, value: string, template: (value: string) => string) => {
   if ($el) {
     $el.textContent = template(value);
   }
 };
 
-export const updateResource = (value: number) => update($('.info .resource'), `${value}`, (value) => `👻 ${value}`);
+export let updateResource = (value: number) => update($('.info .resource'), `${value}`, (value) => `👻 ${value}`);
 
 type InfoProps = {
   wave: GameWave;

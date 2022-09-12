@@ -14,7 +14,7 @@ export default class Ground {
       color: '#4e3d45',
     });
 
-    const numSprites = 1024 / 16;
+    let numSprites = 1024 / 16;
 
     for (let i = 0; i < numSprites; i++) {
       this.sprites.push(

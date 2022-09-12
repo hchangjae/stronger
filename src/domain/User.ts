@@ -7,50 +7,50 @@ import Resource from './Resource';
 import { updateResource } from '../controller/Info';
 import { WeaponUpgradeType } from '../data/upgrade/weapons';
 
-const WEAPON_CHANGE_COOL = 0.1;
+let WEAPON_CHANGE_COOL = 0.1;
 
 type UserProps = {
   name: string;
   image: string;
   resource: number;
-  weapons: Weapon[];
+  ws: Weapon[];
   life: number;
-  upgrades: Map<string, Upgrade>;
+  ups: Map<string, Upgrade>;
 };
 
 class User extends Unit {
   protected name: string;
   protected image: string;
   protected resource: Resource;
-  protected weapons: Weapon[];
-  protected upgrades: Map<string, Upgrade>;
+  protected ws: Weapon[];
+  protected ups: Map<string, Upgrade>;
 
-  private fireCoolTime: number;
+  private fCT: number;
   private fireTimer: number;
   private generation: number;
-  private upgradesInital: Map<string, Upgrade>;
+  private upsInital: Map<string, Upgrade>;
   private resourceInital: number;
   private lifeBase: number;
   private lifeMax: number;
   private Sprite: Sprite;
 
-  constructor({ name, image, resource, weapons, life, upgrades }: UserProps) {
-    const width = 55;
-    const height = 85;
+  constructor({ name, image, resource, ws, life, ups }: UserProps) {
+    let width = 55;
+    let height = 85;
 
     super(life);
     this.name = name;
     this.image = image;
     this.image = image;
     this.resource = new Resource(resource);
-    this.weapons = weapons;
+    this.ws = ws;
     this.lifeMax = life;
     this.lifeBase = life;
     this.generation = 1;
     this.fireTimer = 0;
-    this.fireCoolTime = WEAPON_CHANGE_COOL;
+    this.fCT = WEAPON_CHANGE_COOL;
     this.resourceInital = resource;
-    this.upgradesInital = this.upgrades = upgrades;
+    this.upsInital = this.ups = ups;
 
     this.Sprite = Sprite({
       image: imageAssets[this.image],
@@ -61,7 +61,7 @@ class User extends Unit {
       scaleX: 3,
       scaleY: 3,
       render() {
-        const ctx = this.context as CanvasRenderingContext2D;
+        let ctx = this.context as CanvasRenderingContext2D;
         if (!this.image) return;
         ctx.drawImage(this.image, 0, 0);
         ctx.scale(-1, 1);
@@ -70,9 +70,9 @@ class User extends Unit {
       },
     });
 
-    const getLife = () => super.getLife();
-    const getLifeMax = () => this.lifeMax;
-    const HPSprite = Sprite({
+    let getLife = () => super.getLife();
+    let getLifeMax = () => this.lifeMax;
+    let HPSprite = Sprite({
       x: 1,
       y: 1,
       width: width - 2,
@@ -83,7 +83,7 @@ class User extends Unit {
       },
     });
 
-    const HPWrapSprite = Sprite({
+    let HPWrapSprite = Sprite({
       x: -3,
       y: -7,
       width,
@@ -100,12 +100,12 @@ class User extends Unit {
   inherit() {
     this.life = this.lifeMax;
     this.resource = new Resource(this.resourceInital);
-    this.upgrades = new Map(this.upgradesInital);
+    this.ups = new Map(this.upsInital);
     this.generation += 1;
   }
 
   setResource(dm: number) {
-    const currentResource = this.resource.getResource();
+    let currentResource = this.resource.getResource();
     if (currentResource + dm < 0) return;
     this.resource.update(currentResource + dm);
   }
@@ -119,7 +119,7 @@ class User extends Unit {
   }
 
   getWeapons() {
-    return this.weapons;
+    return this.ws;
   }
 
   coolDownFire() {
@@ -127,20 +127,20 @@ class User extends Unit {
   }
 
   addWeapon(newWeapon: Weapon, weaponData: WeaponUpgradeType) {
-    this.weapons = [...this.weapons, newWeapon];
+    this.ws = [...this.ws, newWeapon];
 
-    this.setResource(-1 * weaponData.resourceNeeded);
-    weaponData.resourceNeeded *= 2;
+    this.setResource(-1 * weaponData.rN);
+    weaponData.rN *= 2;
 
     updateResource(this.resource.getResource());
   }
 
   getUpgrades() {
-    return this.upgrades;
+    return this.ups;
   }
 
   addUpgrade(upgrade: Upgrade) {
-    const u = this.upgrades.get(upgrade.getTarget());
+    let u = this.ups.get(upgrade.getTarget());
 
     if (u) {
       if (u.getTarget() === 'HEALTH') {
@@ -156,8 +156,8 @@ class User extends Unit {
   }
 
   calculateBulletDamage(damage: number) {
-    const u = this.upgrades.get('ATTACK_POWER');
-    const amount = u ? u.getTotalAmount() : 0;
+    let u = this.ups.get('ATTACK_POWER');
+    let amount = u ? u.getTotalAmount() : 0;
 
     if (amount === 0) return damage;
 
@@ -165,38 +165,38 @@ class User extends Unit {
   }
 
   calculateIsInRange(weapon: Weapon, distance: number) {
-    const u = this.upgrades.get('ATTACK_RANGE');
-    const amount = u ? u.getTotalAmount() : 0;
-    const range = Math.ceil(weapon.getAttackRange() * (1 + amount / 100));
+    let u = this.ups.get('ATTACK_RANGE');
+    let amount = u ? u.getTotalAmount() : 0;
+    let range = Math.ceil(weapon.getAttackRange() * (1 + amount / 100));
 
     return distance <= range;
   }
 
   calculateCanFire(weapon: Weapon) {
     // cooltime between weapon
-    if (this.fireTimer < this.fireCoolTime) return;
+    if (this.fireTimer < this.fCT) return;
 
-    const u = this.upgrades.get('ATTACK_RATE');
-    const amount = u ? u.getTotalAmount() : 0;
-    const rate = weapon.getAttackRate() * (1 + amount / 100);
-    const fireCooltime = 1 / rate / 600;
+    let u = this.ups.get('ATTACK_RATE');
+    let amount = u ? u.getTotalAmount() : 0;
+    let rate = weapon.getAttackRate() * (1 + amount / 100);
+    let fCT = 1 / rate / 600;
 
-    return weapon.getFireTimer() >= fireCooltime;
+    return weapon.getFireTimer() >= fCT;
   }
 
   getWeaponCount(name: string) {
-    return this.weapons.filter((weapon) => weapon.getName() === name).length;
+    return this.ws.filter((weapon) => weapon.getName() === name).length;
   }
 
   update(dt: number): void {
     this.fireTimer += dt;
     this.Sprite.update();
-    this.weapons.forEach((w) => w.update(dt));
+    this.ws.forEach((w) => w.update(dt));
   }
 
   render() {
     this.Sprite.render();
-    this.weapons.forEach((w) => w.render());
+    this.ws.forEach((w) => w.render());
   }
 }
 

@@ -14,16 +14,16 @@ import TitleScene from './title';
 import EndScene from './end';
 import { $ } from './util';
 
-export const TOWER_POSITION = 100;
-export const AIR_POSITION = 180;
-export const GROUND_POSITION = 220;
+export let TOWER_POSITION = 100;
+export let AIR_POSITION = 180;
+export let GROUND_POSITION = 220;
 
-export const particles = Pool({
+export let particles = Pool({
   // @ts-ignore
   create: Particle,
 });
 
-const { canvas } = init();
+let { canvas } = init();
 
 Promise.all([
   loadImage('images/tower.png'),
@@ -37,7 +37,7 @@ Promise.all([
   loadImage('images/golem.png'),
   loadImage('images/goobomb.png'),
 ]).then(() => {
-  const passiveUpgradeMap = new Map<string, Upgrade>();
+  let passiveUpgradeMap = new Map<string, Upgrade>();
   let upgradeButtons: UpgradeButton[];
   let weaponButtons: WeaponButton[];
 
@@ -45,20 +45,20 @@ Promise.all([
     passiveUpgradeMap.set(passive.target, new Upgrade(passive));
   });
 
-  const sceneManager = scene();
+  let sceneManager = scene();
   let user: User;
   let game: Game;
 
-  const initGame = (inherit: boolean) => {
+  let initGame = (inherit: boolean) => {
     if (!(user && inherit)) {
       console.log('NEW TRIAL');
       user = new User({
         name: 'jackie',
         image: 'images/tower.png',
-        weapons: [new PlasmaGun()],
+        ws: [new PlasmaGun()],
         resource: 30000,
         life: 1,
-        upgrades: passiveUpgradeMap,
+        ups: passiveUpgradeMap,
       });
     } else {
       console.log('INHERIT');
@@ -66,13 +66,13 @@ Promise.all([
     }
     upgradeButtons = [...user.getUpgrades().values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
     [...user.getUpgrades().values()].forEach((upgrade) => {
-      const valueLabel = $('.' + upgrade.getTarget())!;
+      let valueLabel = $('.' + upgrade.getTarget())!;
       valueLabel.innerHTML = `+${upgrade.getTotalAmount()}%`;
     });
 
     weaponButtons = WEAPONS.map((weapon) => new WeaponButton({ weapon, user }));
     [...user.getWeapons().values()].forEach((weapon) => {
-      const valueLabel = $('.' + weapon.getName())!;
+      let valueLabel = $('.' + weapon.getName())!;
       valueLabel.innerHTML = `X${user.getWeaponCount(weapon.getName())}`;
     });
     game = new Game(user, canvas);
@@ -80,13 +80,13 @@ Promise.all([
     return game;
   };
 
-  const setGameScene = (inherit = false) => sceneManager.set(initGame(inherit));
+  let setGameScene = (inherit = false) => sceneManager.set(initGame(inherit));
 
   initUnitSpriteSheets();
 
   sceneManager.set(TitleScene(setGameScene));
 
-  const loop = GameLoop({
+  let loop = GameLoop({
     update: (dt) => {
       if (user?.getIsDead() && game.isRunning()) {
         sceneManager.set(

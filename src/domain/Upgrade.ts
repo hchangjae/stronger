@@ -4,21 +4,21 @@ export type UpgradeProps = {
   target: UpgradeTarget;
   label: string;
   amount: number;
-  resourceNeeded: number;
+  rN: number;
 };
 
 class Upgrade {
   protected target: UpgradeTarget;
   protected label: string;
   protected amount: number;
-  protected resourceNeeded: number;
+  protected rN: number;
   protected totalAmount: number;
 
-  constructor({ target, label, amount, resourceNeeded, totalAmount = 0 }: UpgradeProps & { totalAmount?: number }) {
+  constructor({ target, label, amount, rN, totalAmount = 0 }: UpgradeProps & { totalAmount?: number }) {
     this.target = target;
     this.label = label;
     this.amount = amount;
-    this.resourceNeeded = resourceNeeded;
+    this.rN = rN;
     this.totalAmount = totalAmount;
   }
 
@@ -39,11 +39,11 @@ class Upgrade {
   }
 
   getResourceNeeded() {
-    return this.resourceNeeded;
+    return this.rN;
   }
 
   increaseResourceNeeded() {
-    this.resourceNeeded = Math.floor(this.resourceNeeded * 1.5);
+    this.rN = Math.floor(this.rN * 1.5);
   }
 
   getTotalAmount() {

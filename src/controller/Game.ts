@@ -10,7 +10,7 @@ import { $ } from '../util';
 import GameWave, { waveRecipes } from '../wave/Wave';
 import Info from './Info';
 
-const getDistanceFromTower = (enemy: Enemy) => enemy.Sprite.x - TOWER_POSITION;
+let getDistanceFromTower = (enemy: Enemy) => enemy.Sprite.x - TOWER_POSITION;
 
 class Game extends GameObjectClass {
   protected user: User;
@@ -38,23 +38,23 @@ class Game extends GameObjectClass {
 
   start() {
     $('.info')?.classList.remove('hide');
-    $('.upgrades')?.classList.remove('hide');
-    $('.current-upgrades')?.classList.remove('hide');
-    $('.current-weapons')?.classList.remove('hide');
+    $('.ups')?.classList.remove('hide');
+    $('.cr-ups')?.classList.remove('hide');
+    $('.cr-ws')?.classList.remove('hide');
     this.running = true;
   }
 
   end() {
     $('.info')?.classList.add('hide');
-    $('.upgrades')?.classList.add('hide');
-    $('.current-upgrades')?.classList.add('hide');
-    $('.current-weapons')?.classList.add('hide');
-    const $passives = $('.passives-container .passives');
+    $('.ups')?.classList.add('hide');
+    $('.cr-ups')?.classList.add('hide');
+    $('.cr-ws')?.classList.add('hide');
+    let $passives = $('.passives-container .passives');
     while ($passives?.firstChild) {
       $passives.removeChild($passives.firstChild);
     }
-    const $weapons = $('.weapons-container .weapons');
-    while ($weapons?.firstChild) [$weapons.removeChild($weapons.firstChild)];
+    let $ws = $('.ws-container .ws');
+    while ($ws?.firstChild) [$ws.removeChild($ws.firstChild)];
     this.running = false;
   }
 
@@ -74,7 +74,7 @@ class Game extends GameObjectClass {
   }
 
   update(dt: number): void {
-    const wave = this.info.getWave();
+    let wave = this.info.getWave();
     wave.update(dt);
     if (this.corp.isDestroyed() && wave.isWaveDone()) {
       wave.next();
@@ -85,7 +85,7 @@ class Game extends GameObjectClass {
       this.corp.buildUp(wave);
     }
 
-    const weapons = this.user.getWeapons();
+    let ws = this.user.getWeapons();
     this.user.update(dt);
 
     this.corp
@@ -100,10 +100,10 @@ class Game extends GameObjectClass {
           }
         }
 
-        weapons.forEach((w) => {
+        ws.forEach((w) => {
           if (this.user.calculateIsInRange(w, getDistanceFromTower(enemy))) {
             if (this.user.calculateCanFire(w) && enemy.isAlive()) {
-              const bullet = w.fire(enemy) as Bullet;
+              let bullet = w.fire(enemy) as Bullet;
               this.user.coolDownFire();
               if (bullet) w.reload(bullet);
             }
@@ -113,8 +113,8 @@ class Game extends GameObjectClass {
 
     this.corp.update(dt);
 
-    const createSouls = (enemy: Enemy) => {
-      const soulList = new Array(enemy.getSoulPoint()).fill('').map(
+    let createSouls = (enemy: Enemy) => {
+      let soulList = new Array(enemy.getSoulPoint()).fill('').map(
         () =>
           new Soul({
             x: enemy.Sprite.x,
@@ -125,31 +125,30 @@ class Game extends GameObjectClass {
       this.effect.push(...soulList);
     };
 
-    weapons.forEach((weapon) => {
-      const bulletList = weapon.getBullets();
+    ws.forEach((weapon) => {
+      let bulletList = weapon.getBullets();
 
       bulletList.forEach((bullet) => {
         if (bullet.followEnemy) {
-          const enemy = bullet.targetEnemy as Enemy;
-          const eSprite = enemy.Sprite;
-          const targetCenter = {
+          let enemy = bullet.targetEnemy as Enemy;
+          let eSprite = enemy.Sprite;
+          let targetCenter = {
             x: eSprite.x + eSprite.width / 2,
             y: eSprite.y + eSprite.height / 2,
           };
-          const distance = Math.sqrt(Math.pow(targetCenter.x - bullet.x, 2) + Math.pow(targetCenter.y - bullet.y, 2));
-          bullet.x += ((targetCenter.x - bullet.x) / distance) * bullet.speed;
-          bullet.y += ((targetCenter.y - bullet.y) / distance) * bullet.speed;
+          let distance = Math.sqrt(Math.pow(targetCenter.x - bullet.x, 2) + Math.pow(targetCenter.y - bullet.y, 2));
+          bullet.x += ((targetCenter.x - bullet.x) / distance) * bullet.sp;
+          bullet.y += ((targetCenter.y - bullet.y) / distance) * bullet.sp;
 
           bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, targetCenter);
 
           if (collides(bullet, eSprite)) {
-            const power = this.user.calculateBulletDamage(bullet.attackPower);
+            let power = this.user.calculateBulletDamage(bullet.aP);
             if (bullet.slowPower) {
-              const slowPower =
-                1 - (1 - bullet.slowPower) * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.splashRadius);
+              let slowPower = 1 - (1 - bullet.slowPower) * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.sR);
               enemy.setSpeed(slowPower);
             }
-            const isDead = enemy.hit(power);
+            let isDead = enemy.hit(power);
             if (isDead) {
               createSouls(enemy);
             }
@@ -159,17 +158,17 @@ class Game extends GameObjectClass {
         } else {
           if (bullet.y > GROUND_POSITION) {
             this.corp.getAliveEnemies().forEach((enemy) => {
-              if (bullet.splashRadius !== 0) {
-                if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.splashRadius && !isAir(enemy.getName())) {
-                  const power = bullet.attackPower * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.splashRadius);
+              if (bullet.sR !== 0) {
+                if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.sR && !isAir(enemy.getName())) {
+                  let power = bullet.aP * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.sR);
 
-                  const isDead = enemy.hit(this.user.calculateBulletDamage(power));
+                  let isDead = enemy.hit(this.user.calculateBulletDamage(power));
                   if (isDead) {
                     createSouls(enemy);
                   }
                 }
               } else if (collides(bullet, enemy.Sprite)) {
-                const isDead = enemy.hit(this.user.calculateBulletDamage(bullet.attackPower));
+                let isDead = enemy.hit(this.user.calculateBulletDamage(bullet.aP));
                 if (isDead) {
                   createSouls(enemy);
                 }

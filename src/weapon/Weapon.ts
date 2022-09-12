@@ -8,10 +8,10 @@ export interface WeaponProps {
   name: string;
   targets: WeaponTarget[];
   slowPower?: number;
-  attackPower: number;
-  attackRange: number;
-  splashRadius: number;
-  fireCooltime: number;
+  aP: number;
+  aR: number;
+  sR: number;
+  fCT: number;
   killProbaility: number;
   bullets?: Bullet[];
 }
@@ -20,32 +20,22 @@ export default class Weapon {
   protected name: string;
   protected targets: WeaponTarget[];
   protected slowPower?: number;
-  protected attackPower: number;
-  protected attackRange: number;
-  protected splashRadius: number;
-  protected fireCooltime: number;
+  protected aP: number;
+  protected aR: number;
+  protected sR: number;
+  protected fCT: number;
   protected fireTimer: number;
   protected killProbaility: number;
   protected bullets: Bullet[];
 
-  constructor({
-    name,
-    targets,
-    slowPower,
-    attackPower,
-    attackRange,
-    splashRadius,
-    fireCooltime,
-    killProbaility = 0.5,
-    bullets = [],
-  }: WeaponProps) {
+  constructor({ name, targets, slowPower, aP, aR, sR, fCT, killProbaility = 0.5, bullets = [] }: WeaponProps) {
     this.name = name;
     this.targets = targets;
     this.slowPower = slowPower;
-    this.attackPower = attackPower;
-    this.attackRange = attackRange;
-    this.splashRadius = splashRadius;
-    this.fireCooltime = fireCooltime;
+    this.aP = aP;
+    this.aR = aR;
+    this.sR = sR;
+    this.fCT = fCT;
     (this.killProbaility = killProbaility), (this.bullets = bullets), (this.fireTimer = 0);
   }
 
@@ -62,7 +52,7 @@ export default class Weapon {
   }
 
   getFireCooltime() {
-    return this.fireCooltime;
+    return this.fCT;
   }
 
   fire(_enemy: Unit): GameObject | null {
@@ -74,27 +64,27 @@ export default class Weapon {
   }
 
   getAttackPower() {
-    return this.attackPower;
+    return this.aP;
   }
 
   setAttackPower(dp: number) {
-    this.attackPower = dp;
+    this.aP = dp;
   }
 
   getAttackRange() {
-    return this.attackRange;
+    return this.aR;
   }
 
   setAttackRange(dr: number) {
-    this.attackRange = dr;
+    this.aR = dr;
   }
 
   getAttackRate() {
-    return 1 / this.fireCooltime / 1000;
+    return 1 / this.fCT / 1000;
   }
 
   setAttackRate(ar: number) {
-    this.fireCooltime = (1 / ar) * 1000;
+    this.fCT = (1 / ar) * 1000;
   }
 
   getKillProbability() {

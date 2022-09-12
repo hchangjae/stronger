@@ -20,7 +20,7 @@ class UpgradeButton {
     this.button = document.createElement('button');
     this.button.classList.add('button');
     this.button.addEventListener('click', this.onButtonClick);
-    $('.upgrades .passives')?.appendChild(this.button);
+    $('.ups .passives')?.appendChild(this.button);
 
     this.render();
   }
@@ -30,17 +30,17 @@ class UpgradeButton {
 
     this.user.addUpgrade(this.upgrade);
 
-    const valueLabel = $('.' + this.upgrade.getTarget())!;
+    let valueLabel = $('.' + this.upgrade.getTarget())!;
     valueLabel.innerHTML = `+${this.upgrade.getTotalAmount()}%`;
   };
 
   update() {
-    const el = this.button.querySelector('.resource')!;
+    let el = this.button.querySelector('.resource')!;
     el.innerHTML = `👻 ${this.upgrade.getResourceNeeded()}`;
 
     if (!this.user) return;
 
-    const resource = this.user.getResource().getResource();
+    let resource = this.user.getResource().getResource();
 
     if (resource < this.upgrade.getResourceNeeded()) {
       this.button.classList.add('notenough');

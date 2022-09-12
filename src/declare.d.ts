@@ -1,5 +1,5 @@
 declare module 'tinyfont' {
-  const font: {};
+  let font: {};
   function initFont(
     // @ts-ignore
     font: font,

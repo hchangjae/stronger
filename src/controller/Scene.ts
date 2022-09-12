@@ -1,6 +1,6 @@
 import { GameObject, Scene } from 'kontra';
 
-const scene = (current?: Scene | GameObject) => {
+let scene = (current?: Scene | GameObject) => {
   let current_ = current;
   return {
     update(dt?: number) {

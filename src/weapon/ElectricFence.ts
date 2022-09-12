@@ -8,11 +8,11 @@ export default class ElectricFence extends Weapon {
     super({
       name: 'electric-fence',
       targets: ['land', 'air'],
-      attackPower: 2,
-      attackRange: 30,
+      aP: 2,
+      aR: 30,
       killProbaility: 1,
-      splashRadius: 0,
-      fireCooltime: 1,
+      sR: 0,
+      fCT: 1,
     });
   }
 
@@ -20,7 +20,7 @@ export default class ElectricFence extends Weapon {
     this.fireTimer = 0;
 
     // 총알 생성
-    const bullet = Sprite({
+    let bullet = Sprite({
       x: TOWER_POSITION,
       y: GROUND_POSITION - 40,
       ddy: 500,
@@ -28,15 +28,15 @@ export default class ElectricFence extends Weapon {
       width: 10,
       height: 10,
       anchor: { x: 0.5, y: 0.5 },
-      speed: 5,
+      sp: 5,
       followEnemy: false,
-      attackPower: this.attackPower,
-      splashRadius: this.splashRadius,
+      aP: this.aP,
+      sR: this.sR,
       targetPosition: enemy.Sprite.x,
     });
 
     bullet.onDestroy = () => {
-      const p = {
+      let p = {
         width: 2,
         height: 2,
         color: 'white',

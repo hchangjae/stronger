@@ -18,6 +18,6 @@ class ParticleClass extends SpriteClass {
   }
 }
 
-const Particle = (props: any) => new ParticleClass(props);
+let Particle = (props: any) => new ParticleClass(props);
 
 export default Particle;

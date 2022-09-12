@@ -8,11 +8,11 @@ export default class PlasmaGun extends Weapon {
     super({
       name: 'plasma-gun',
       targets: ['air', 'land'],
-      attackPower: 3,
-      attackRange: 500,
+      aP: 3,
+      aR: 500,
       killProbaility: 1,
-      splashRadius: 0,
-      fireCooltime: 0.6,
+      sR: 0,
+      fCT: 0.6,
     });
   }
 
@@ -20,17 +20,17 @@ export default class PlasmaGun extends Weapon {
     this.fireTimer = 0;
 
     // 총알 생성
-    const bullet = Sprite({
+    let bullet = Sprite({
       image: imageAssets['images/plasma.png'],
       x: TOWER_POSITION,
       y: 160,
       width: 10,
       height: 17,
       anchor: { x: 0.5, y: 0.5 },
-      speed: 10,
+      sp: 10,
       followEnemy: true,
-      attackPower: this.attackPower,
-      splashRadius: this.splashRadius,
+      aP: this.aP,
+      sR: this.sR,
       targetEnemy: enemy,
     });
 

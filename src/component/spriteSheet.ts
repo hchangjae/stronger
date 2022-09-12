@@ -1,9 +1,9 @@
 import { imageAssets, SpriteSheet } from 'kontra';
 
-const spriteSheetMap = new Map<string, SpriteSheet>();
+let spriteSheetMap = new Map<string, SpriteSheet>();
 
-// Initializes spritesheets for the enemies.
-export const initUnitSpriteSheets = () => {
+// Initializes spritesheets for the es.
+export let initUnitSpriteSheets = () => {
   spriteSheetMap.set(
     'slime',
     SpriteSheet({
@@ -96,4 +96,4 @@ export const initUnitSpriteSheets = () => {
   );
 };
 
-export const getSpriteAnimation = (key: string) => spriteSheetMap.get(key)?.animations;
+export let getSpriteAnimation = (key: string) => spriteSheetMap.get(key)?.animations;

@@ -8,12 +8,12 @@ export default class GooBomb extends Weapon {
     super({
       name: 'goobomb',
       targets: ['air', 'land'],
-      attackPower: 0,
-      attackRange: 800,
+      aP: 0,
+      aR: 800,
       slowPower: 0.5,
       killProbaility: 1,
-      splashRadius: 50,
-      fireCooltime: 1,
+      sR: 50,
+      fCT: 1,
     });
   }
 
@@ -21,18 +21,18 @@ export default class GooBomb extends Weapon {
     this.fireTimer = 0;
 
     // 총알 생성
-    const bullet = Sprite({
+    let bullet = Sprite({
       image: imageAssets['images/goobomb.png'],
       x: TOWER_POSITION,
       y: 160,
       width: 10,
       height: 10,
       anchor: { x: 0.5, y: 0.5 },
-      speed: 10,
+      sp: 10,
       followEnemy: true,
       slowPower: this.slowPower,
-      attackPower: this.attackPower,
-      splashRadius: this.splashRadius,
+      aP: this.aP,
+      sR: this.sR,
       targetEnemy: enemy,
     });
 

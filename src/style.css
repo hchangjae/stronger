@@ -60,7 +60,7 @@ p {
   color: #aaa;
 }
 
-.upgrades {
+.ups {
   display: flex;
   gap: 100px;
   background-color: #000;
@@ -69,20 +69,20 @@ p {
   padding-left: 20px;
 }
 
-.upgrades > * {
+.ups > * {
   flex: 1;
 }
 
 .passives-container > span,
-.weapons-container > span {
+.ws-container > span {
   display: block;
   color: #fff;
   font-size: 20px;
   margin-bottom: 2px;
 }
 
-.upgrades .passives,
-.upgrades .weapons {
+.ups .passives,
+.ups .ws {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -185,33 +185,33 @@ p {
   color: #00db00;
 }
 
-.current-upgrades,
-.current-weapons {
+.cr-ups,
+.cr-ws {
   position: absolute;
   color: #fff;
 }
 
-.current-upgrades {
+.cr-ups {
   top: 52px;
   left: 10px;
 }
 
-.current-weapons {
+.cr-ws {
   top: 64px;
   right: 10px;
   text-align: end;
 }
 
-.current-upgrades ul,
-.current-weapons ul {
+.cr-ups ul,
+.cr-ws ul {
   margin: 0;
   padding: 0;
   list-style: none;
   width: 160px;
 }
 
-.current-upgrades ul li,
-.current-weapons ul li {
+.cr-ups ul li,
+.cr-ws ul li {
   display: flex;
   justify-content: space-between;
 }

@@ -5,13 +5,13 @@ import Enemy, { isAir } from '../unit/Enemy';
 import GameWave from '../wave/Wave';
 
 class Corp extends GameObjectClass {
-  protected enemies: Enemy[];
+  protected es: Enemy[];
   protected soul: Sprite[];
   protected canvas: HTMLCanvasElement;
 
   constructor(canvas: HTMLCanvasElement) {
     super();
-    this.enemies = [];
+    this.es = [];
     this.soul = [];
     this.canvas = canvas;
   }
@@ -21,32 +21,32 @@ class Corp extends GameObjectClass {
   }
 
   getCount() {
-    return this.enemies.length;
+    return this.es.length;
   }
 
   getAliveEnemies() {
-    return this.enemies.filter((enemy) => !enemy.isDone());
+    return this.es.filter((enemy) => !enemy.isDone());
   }
 
   buildUp(wave: GameWave) {
-    const summon = wave.summon();
-    this.enemies = [
-      ...this.enemies,
+    let summon = wave.summon();
+    this.es = [
+      ...this.es,
       new Enemy({
-        name: summon?.type,
+        name: summon?.ty,
         x: this.canvas.width - 1,
-        y: isAir(summon?.type) ? AIR_POSITION : GROUND_POSITION,
+        y: isAir(summon?.ty) ? AIR_POSITION : GROUND_POSITION,
       }),
     ];
   }
 
   update(dt: number) {
-    this.enemies.forEach((enemy) => enemy.update(dt));
-    this.enemies = this.enemies.filter((enemy) => !enemy.isDone());
+    this.es.forEach((enemy) => enemy.update(dt));
+    this.es = this.es.filter((enemy) => !enemy.isDone());
   }
 
   render(): void {
-    this.enemies.forEach((enemy) => enemy.render());
+    this.es.forEach((enemy) => enemy.render());
   }
 }
 
