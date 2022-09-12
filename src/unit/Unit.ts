@@ -112,7 +112,7 @@ export default class Unit {
     }
 
     this.HP -= damage;
-    this.HPSprite.width = Math.max((this.Sprite.height * this.HP) / this.HPMax, 0);
+    (this.HPSprite.width = Math.max((this.Sprite.width - 2) * this.HP) / this.HPMax), 0;
 
     // knockback
     if (damage > 0) {

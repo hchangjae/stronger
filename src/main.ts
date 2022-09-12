@@ -56,8 +56,8 @@ Promise.all([
         name: 'jackie',
         image: 'assets/tower.png',
         weapons: [new PlasmaGun()],
-        resource: 30,
-        life: 100,
+        resource: 30000,
+        life: 1,
         upgrades: passiveUpgradeMap,
       });
     } else {
