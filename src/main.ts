@@ -50,14 +50,18 @@ Promise.all([
   let game: Game;
 
   const initGame = () => {
-    user = new User({
-      name: 'jackie',
-      image: 'assets/tower.png',
-      weapons: [new PlasmaGun()],
-      resource: 30,
-      life: 100,
-      upgrades: passiveUpgradeMap,
-    });
+    if(!user){
+      user = new User({
+        name: 'jackie',
+        image: 'assets/tower.png',
+        weapons: [new PlasmaGun()],
+        resource: 30,
+        life: 100,
+        upgrades: passiveUpgradeMap,
+      });
+    } else{
+      user.inherit()
+    }
     upgradeButtons = [...user.getUpgrades().values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
     [...user.getUpgrades().values()].forEach((upgrade) => {
       const valueLabel = $('.' + upgrade.getTarget())!;

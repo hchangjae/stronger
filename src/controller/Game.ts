@@ -27,7 +27,7 @@ class Game extends GameObjectClass {
     this.user = user;
     this.info = new Info({
       wave: new GameWave(waveRecipes),
-      generation: 1,
+      generation: user.getGeneration(),
     });
     this.corp = new Corp(canvas);
     this.ground = new Ground();

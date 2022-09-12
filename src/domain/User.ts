@@ -23,6 +23,10 @@ class User extends Unit {
   protected weapons: Weapon[];
   protected upgrades: Map<string, Upgrade>;
 
+  private generation: number;
+  private upgradesInital: Map<string, Upgrade>;
+  private resourceInital: number;
+  private lifeMax: number;
   private Sprite: Sprite;
 
   constructor({ name, image, resource, weapons, life, upgrades }: UserProps) {
@@ -32,10 +36,13 @@ class User extends Unit {
     super(life);
     this.name = name;
     this.image = image;
+    this.image = image;
     this.resource = new Resource(resource);
     this.weapons = weapons;
+    this.lifeMax = life
     this.generation = 1;
-    this.upgrades = upgrades;
+    this.resourceInital = resource
+    this.upgradesInital = this.upgrades = upgrades
 
     this.Sprite = Sprite({
       image: imageAssets[this.image],
@@ -71,10 +78,21 @@ class User extends Unit {
     this.Sprite.addChild(HPWrapSprite);
   }
 
+  inherit() {
+    this.life = this.lifeMax
+    this.resource = new Resource(this.resourceInital)
+    this.upgrades = new Map(this.upgradesInital);
+    this.generation += 1
+  }
+
   setResource(dm: number) {
     const currentResource = this.resource.getResource();
     if (currentResource + dm < 0) return;
     this.resource.update(currentResource + dm);
+  }
+
+  getGeneration() {
+    return this.generation
   }
 
   getResource() {
