@@ -55,7 +55,7 @@ class User extends Unit {
       height: 5,
       color: 'red',
       update: function () {
-        this.width = Math.max(((width - 1) * getLife()) / life, 0);
+        this.width = Math.max(((width - 2) * getLife()) / life, 0);
       },
     });
 
