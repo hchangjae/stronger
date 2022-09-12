@@ -7,6 +7,8 @@ import Resource from './Resource';
 import { updateResource } from '../controller/Info';
 import { WeaponUpgradeType } from '../data/upgrade/weapons';
 
+const WEAPON_CHANGE_COOL = 0.1
+
 type UserProps = {
   name: string;
   image: string;
@@ -23,6 +25,8 @@ class User extends Unit {
   protected weapons: Weapon[];
   protected upgrades: Map<string, Upgrade>;
 
+  private fireCoolTime: number;
+  private fireTimer: number;
   private generation: number;
   private upgradesInital: Map<string, Upgrade>;
   private resourceInital: number;
@@ -41,6 +45,8 @@ class User extends Unit {
     this.weapons = weapons;
     this.lifeMax = life
     this.generation = 1;
+    this.fireTimer = 0;
+    this.fireCoolTime = WEAPON_CHANGE_COOL;
     this.resourceInital = resource
     this.upgradesInital = this.upgrades = upgrades
 
@@ -103,6 +109,10 @@ class User extends Unit {
     return this.weapons;
   }
 
+  coolDownFire() {
+    this.fireTimer = 0
+  }
+
   addWeapon(newWeapon: Weapon, weaponData: WeaponUpgradeType) {
     this.weapons = [...this.weapons, newWeapon];
 
@@ -146,6 +156,9 @@ class User extends Unit {
   }
 
   calculateCanFire(weapon: Weapon) {
+    // cooltime between weapon
+    if(this.fireTimer < this.fireCoolTime) return ;
+
     const u = this.upgrades.get('ATTACK_RATE');
     const amount = u ? u.getTotalAmount() : 0;
     const rate = weapon.getAttackRate() * (1 + amount / 100);
@@ -155,6 +168,7 @@ class User extends Unit {
   }
 
   update(dt: number): void {
+    this.fireTimer += dt
     this.Sprite.update();
     this.weapons.forEach((w) => w.update(dt));
   }

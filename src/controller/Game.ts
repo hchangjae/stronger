@@ -102,6 +102,7 @@ class Game extends GameObjectClass {
           if (this.user.calculateIsInRange(w, getDistanceFromTower(enemy))) {
             if (this.user.calculateCanFire(w) && enemy.isAlive()) {
               const bullet = w.fire(enemy) as Bullet;
+              this.user.coolDownFire()
               if (bullet) w.reload(bullet);
             }
           }
