@@ -15,10 +15,12 @@ export const enum EnemyName {
   G4 = 'G4',
   B1 = 'B1',
   B2 = 'B2',
+  B3 = 'B3',
+  B4 = 'B4',
   A1 = 'A1',
 }
 
-export const isAir = (name: EnemyName) => [EnemyName.A1].includes(name);
+export const isAir = (name: EnemyName) => [EnemyName.A1, EnemyName.B4].includes(name);
 
 const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
   [EnemyName.G1]: {
@@ -27,7 +29,7 @@ const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     speed: EnemySpeed.NORMAL,
     width: 32,
     height: 32,
-    soulPoint: 3,
+    soulPoint: 500,
     attackPower: 2,
     attackRange: 5,
     defensePower: 0,
@@ -98,6 +100,32 @@ const enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     defensePower: 4,
     fireCooltime: 5,
     spriteAnimationKey: 'slime3',
+  },
+  [EnemyName.B3]: {
+    HP: 100,
+    name: EnemyName.B3,
+    speed: EnemySpeed.FASTER,
+    width: 60,
+    height: 60,
+    soulPoint: 500,
+    attackPower: 100,
+    attackRange: 5,
+    defensePower: 10,
+    fireCooltime: 5,
+    spriteAnimationKey: 'golem',
+  },
+  [EnemyName.B4]: {
+    HP: 200,
+    name: EnemyName.B4,
+    speed: EnemySpeed.FASTER,
+    width: 60,
+    height: 60,
+    soulPoint: 0,
+    attackPower: 10,
+    attackRange: 5,
+    defensePower: 10,
+    fireCooltime: 0.05,
+    spriteAnimationKey: 'bat',
   },
   [EnemyName.A1]: {
     HP: 8,

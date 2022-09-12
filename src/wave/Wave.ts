@@ -132,6 +132,94 @@ export const waveRecipes: WaveRecipe[] = [
     duration: 7,
     summonRecipes: [{ type: EnemyName.G4, ratio: 1 }],
   },
+  {
+    total: 12, // point: 168
+    duration: 7,
+    summonRecipes: [
+      { type: EnemyName.G3, ratio: 1 },
+      { type: EnemyName.G4, ratio: 1 },
+    ],
+  },
+  {
+    total: 12, // point: 264
+    duration: 7,
+    summonRecipes: [
+      { type: EnemyName.G4, ratio: 3 },
+      { type: EnemyName.B1, ratio: 1 },
+    ],
+  },
+  {
+    total: 40, // point: 358
+    duration: 15,
+    summonRecipes: [
+      { type: EnemyName.G2, ratio: 30 },
+      { type: EnemyName.A1, ratio: 3 },
+      { type: EnemyName.G4, ratio: 4 },
+      { type: EnemyName.B1, ratio: 2 },
+      { type: EnemyName.B2, ratio: 1 },
+    ],
+  },
+  {
+    total: 8, // Wave: 15, point: 584
+    duration: 5,
+    summonRecipes: [
+      { type: EnemyName.A1, ratio: 7 },
+      { type: EnemyName.B3, ratio: 1 },
+    ],
+  },
+  {
+    total: 18, // point: 360
+    duration: 10,
+    summonRecipes: [
+      { type: EnemyName.A1, ratio: 1 },
+      { type: EnemyName.G4, ratio: 1 },
+      { type: EnemyName.B1, ratio: 1 },
+    ],
+  },
+  {
+    total: 6, // point: 328
+    duration: 4,
+    summonRecipes: [
+      { type: EnemyName.G4, ratio: 1 },
+      { type: EnemyName.B1, ratio: 1 },
+      { type: EnemyName.B2, ratio: 1 },
+    ],
+  },
+  {
+    total: 9, // point: 492
+    duration: 6,
+    summonRecipes: [
+      { type: EnemyName.G4, ratio: 1 },
+      { type: EnemyName.B1, ratio: 1 },
+      { type: EnemyName.B2, ratio: 1 },
+    ],
+  },
+  {
+    total: 65, // point: 1124
+    duration: 15,
+    summonRecipes: [
+      { type: EnemyName.G2, ratio: 50 },
+      { type: EnemyName.G4, ratio: 8 },
+      { type: EnemyName.B1, ratio: 4 },
+      { type: EnemyName.B2, ratio: 2 },
+      { type: EnemyName.B3, ratio: 1 },
+    ],
+  },
+  {
+    total: 110, // Wave: 20
+    duration: 20,
+    summonRecipes: [
+      { type: EnemyName.G1, ratio: 20 },
+      { type: EnemyName.G2, ratio: 20 },
+      { type: EnemyName.G3, ratio: 20 },
+      { type: EnemyName.G4, ratio: 20 },
+      { type: EnemyName.A1, ratio: 20 },
+      { type: EnemyName.B1, ratio: 4 },
+      { type: EnemyName.B2, ratio: 3 },
+      { type: EnemyName.B3, ratio: 2 },
+      { type: EnemyName.B4, ratio: 1 },
+    ],
+  },
 ];
 
 export default class GameWave {

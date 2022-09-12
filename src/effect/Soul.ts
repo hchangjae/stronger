@@ -11,8 +11,12 @@ export default class Soul extends TextClass {
       ...props,
       text: '👻',
     });
-    super.dx = (Math.random() - 0.5) * RANDOM_SPEED_MAX;
-    super.dy = (Math.random() - 0.5) * RANDOM_SPEED_MAX;
+    const dxRatio = Math.random() - 0.5;
+    const dyRatio = Math.sqrt(0.25 - Math.pow(dxRatio, 2)) * Math.sign(Math.random() - 0.5);
+    const scalar = Math.random() * RANDOM_SPEED_MAX;
+
+    super.dx = dxRatio * scalar;
+    super.dy = dyRatio * scalar;
   }
 
   getDistance() {
