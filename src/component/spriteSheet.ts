@@ -68,8 +68,8 @@ export const initUnitSpriteSheets = () => {
     'golem',
     SpriteSheet({
       image: imageAssets['images/golem.png'],
-      frameWidth: 18,
-      frameHeight: 18,
+      frameWidth: 12,
+      frameHeight: 12,
       animations: {
         move: {
           frames: '0',

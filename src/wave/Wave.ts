@@ -45,7 +45,7 @@ export const waveRecipes: WaveRecipe[] = [
   {
     total: 5, // point: 15
     duration: 5,
-    summonRecipes: [{ type: EnemyName.G1, ratio: 1 }],
+    summonRecipes: [{ type: EnemyName.G4, ratio: 1 }],
   },
   {
     total: 10, // point: 23
