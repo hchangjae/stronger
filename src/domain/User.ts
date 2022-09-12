@@ -174,6 +174,10 @@ class User extends Unit {
     return weapon.getFireTimer() >= fireCooltime;
   }
 
+  getWeaponCount(name: string) {
+    return this.weapons.filter(weapon => weapon.getName() === name).length;
+  }
+
   update(dt: number): void {
     this.fireTimer += dt;
     this.Sprite.update();

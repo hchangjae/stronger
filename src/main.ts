@@ -70,6 +70,10 @@ Promise.all([
     });
 
     weaponButtons = WEAPONS.map((weapon) => new WeaponButton({ weapon, user }));
+    [...user.getWeapons().values()].forEach((weapon) => {
+      const valueLabel = $('.' + weapon.getName())!;
+      valueLabel.innerHTML = `X${user.getWeaponCount(weapon.getName())}`;
+    });
     game = new Game(user, canvas);
     game.start();
     return game;

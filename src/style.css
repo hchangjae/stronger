@@ -164,15 +164,33 @@ p {
   color: #00db00;
 }
 
-.current-upgrades {
+.current-upgrades,
+.current-weapons {
   position: absolute;
-  top: 52px;
-  left: 10px;
   color: #fff;
 }
 
-.current-upgrades ul {
+.current-upgrades {
+  top: 52px;
+  left: 10px;
+}
+
+.current-weapons {
+  top: 64px;
+  right: 10px;
+  text-align: end;
+}
+
+.current-upgrades ul,
+.current-weapons ul {
   margin: 0;
   padding: 0;
   list-style: none;
+  width: 160px;
+}
+
+.current-upgrades ul li,
+.current-weapons ul li {
+  display: flex;
+  justify-content: space-between;
 }

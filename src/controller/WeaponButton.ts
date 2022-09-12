@@ -30,6 +30,9 @@ class WeaponButton {
 
     const w = new this.weapon.weaponClass();
     this.user.addWeapon(w, this.weapon);
+
+    const valueLabel = $(`.${w.getName()}`)!;
+    valueLabel.innerHTML = `X${this.user.getWeaponCount(w.getName())}`;
   };
 
   update() {

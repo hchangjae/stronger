@@ -40,6 +40,7 @@ class Game extends GameObjectClass {
     $('.info')?.classList.remove('hide');
     $('.upgrades')?.classList.remove('hide');
     $('.current-upgrades')?.classList.remove('hide');
+    $('.current-weapons')?.classList.remove('hide');
     this.running = true;
   }
 
@@ -47,6 +48,7 @@ class Game extends GameObjectClass {
     $('.info')?.classList.add('hide');
     $('.upgrades')?.classList.add('hide');
     $('.current-upgrades')?.classList.add('hide');
+    $('.current-weapons')?.classList.add('hide');
     const $passives = $('.passives-container .passives');
     while ($passives?.firstChild) {
       $passives.removeChild($passives.firstChild);

@@ -117,6 +117,10 @@ export default class Weapon {
     this.bullets = bullets;
   }
 
+  getName() {
+    return this.name;
+  }
+
   render() {
     this.bullets.forEach((bullet) => bullet.render());
   }
