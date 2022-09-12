@@ -38,12 +38,12 @@ export const initUnitSpriteSheets = () => {
     'slime3',
     SpriteSheet({
       image: imageAssets['images/slime3.png'],
-      frameWidth: 32,
-      frameHeight: 32,
+      frameWidth: 20,
+      frameHeight: 20,
       animations: {
         move: {
-          frames: '0..3',
-          frameRate: 4,
+          frames: '0..1',
+          frameRate: 2,
         },
       },
     })
@@ -68,11 +68,11 @@ export const initUnitSpriteSheets = () => {
     'golem',
     SpriteSheet({
       image: imageAssets['images/golem.png'],
-      frameWidth: 24,
-      frameHeight: 24,
+      frameWidth: 16,
+      frameHeight: 16,
       animations: {
         move: {
-          frames: '0..3',
+          frames: '0..1',
           frameRate: 4,
         },
       },

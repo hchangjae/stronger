@@ -29,8 +29,8 @@ const TitleScene = (onStart: () => void) => {
     image: imageAssets['images/tower.png'],
     x: 170,
     y: 52,
-    scaleX: 1.8,
-    scaleY: 1.8,
+    scaleX: 3.6,
+    scaleY: 3.6,
   });
 
   const scene = Scene({

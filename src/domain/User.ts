@@ -58,8 +58,8 @@ class User extends Unit {
       y: 130,
       width,
       height,
-      scaleX: 1,
-      scaleY: 1,
+      scaleX: 2.4,
+      scaleY: 2.4,
     });
 
     const getLife = () => super.getLife();
@@ -77,10 +77,12 @@ class User extends Unit {
 
     const HPWrapSprite = Sprite({
       x: 0,
-      y: -10,
+      y: -5,
       width,
       height: 7,
       color: '#fff',
+      scaleX: 5 / 12,
+      scaleY: 5 / 12,
     });
 
     HPWrapSprite.addChild(HPSprite);
@@ -175,7 +177,7 @@ class User extends Unit {
   }
 
   getWeaponCount(name: string) {
-    return this.weapons.filter(weapon => weapon.getName() === name).length;
+    return this.weapons.filter((weapon) => weapon.getName() === name).length;
   }
 
   update(dt: number): void {
