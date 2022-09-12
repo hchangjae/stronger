@@ -102,7 +102,7 @@ class Game extends GameObjectClass {
           if (this.user.calculateIsInRange(w, getDistanceFromTower(enemy))) {
             if (this.user.calculateCanFire(w) && enemy.isAlive()) {
               const bullet = w.fire(enemy) as Bullet;
-              this.user.coolDownFire()
+              this.user.coolDownFire();
               if (bullet) w.reload(bullet);
             }
           }
@@ -142,6 +142,11 @@ class Game extends GameObjectClass {
 
           if (collides(bullet, eSprite)) {
             const power = this.user.calculateBulletDamage(bullet.attackPower);
+            if (bullet.slowPower) {
+              const slowPower =
+                1 - (1 - bullet.slowPower) * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.splashRadius);
+              enemy.setSpeed(slowPower);
+            }
             const isDead = enemy.hit(power);
             if (isDead) {
               createSouls(enemy);

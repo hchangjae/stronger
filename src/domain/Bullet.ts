@@ -16,6 +16,7 @@ type BulletProps = {
   target: GameObject;
   speed: number;
   attackPower: number;
+  slowPower?: number;
   splashRadius: number;
 };
 class Bullet extends GameObjectClass {
@@ -23,6 +24,7 @@ class Bullet extends GameObjectClass {
   speed: number;
   image: string;
   attackPower: number;
+  slowPower?: number;
   splashRadius: number;
   isCollided: boolean;
 
@@ -35,6 +37,7 @@ class Bullet extends GameObjectClass {
     target,
     speed,
     attackPower,
+    slowPower,
     splashRadius,
   }: BulletProps) {
     super({
@@ -46,6 +49,7 @@ class Bullet extends GameObjectClass {
     this.image = image;
     this.speed = speed;
     this.attackPower = attackPower;
+    this.slowPower = slowPower;
     this.splashRadius = splashRadius;
     this.target = target;
     this.isCollided = false;

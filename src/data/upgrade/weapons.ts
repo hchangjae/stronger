@@ -1,7 +1,8 @@
-import ElectricFence from '../../weapon/\bElectricFence';
+import ElectricFence from '../../weapon/ElectricFence';
 import Cannon from '../../weapon/Cannon';
 import PlasmaGun from '../../weapon/PlasmaGun';
 import Weapon from '../../weapon/Weapon';
+import GooBomb from '../../weapon/GooBomb';
 
 export type WeaponUpgradeType = {
   label: string;
@@ -28,7 +29,7 @@ const WEAPONS: WeaponUpgradeType[] = [
   },
   {
     label: 'Goo Bomb',
-    weaponClass: PlasmaGun,
+    weaponClass: GooBomb,
     targets: ['land'],
     resourceNeeded: 50,
     unlockWave: 4,

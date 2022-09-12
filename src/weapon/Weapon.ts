@@ -7,6 +7,7 @@ type WeaponTarget = 'land' | 'air';
 export interface WeaponProps {
   name: string;
   targets: WeaponTarget[];
+  slowPower?: number;
   attackPower: number;
   attackRange: number;
   splashRadius: number;
@@ -18,6 +19,7 @@ export interface WeaponProps {
 export default class Weapon {
   protected name: string;
   protected targets: WeaponTarget[];
+  protected slowPower?: number;
   protected attackPower: number;
   protected attackRange: number;
   protected splashRadius: number;
@@ -29,6 +31,7 @@ export default class Weapon {
   constructor({
     name,
     targets,
+    slowPower,
     attackPower,
     attackRange,
     splashRadius,
@@ -38,6 +41,7 @@ export default class Weapon {
   }: WeaponProps) {
     this.name = name;
     this.targets = targets;
+    this.slowPower = slowPower;
     this.attackPower = attackPower;
     this.attackRange = attackRange;
     this.splashRadius = splashRadius;

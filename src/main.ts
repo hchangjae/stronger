@@ -36,6 +36,7 @@ Promise.all([
   loadImage('assets/ground.png'),
   loadImage('assets/bat.png'),
   loadImage('assets/golem.png'),
+  loadImage('assets/goobomb.png'),
 ]).then(() => {
   const passiveUpgradeMap = new Map<string, Upgrade>();
   let upgradeButtons: UpgradeButton[];
@@ -50,7 +51,7 @@ Promise.all([
   let game: Game;
 
   const initGame = () => {
-    if(!user){
+    if (!user) {
       user = new User({
         name: 'jackie',
         image: 'assets/tower.png',
@@ -59,8 +60,8 @@ Promise.all([
         life: 100,
         upgrades: passiveUpgradeMap,
       });
-    } else{
-      user.inherit()
+    } else {
+      user.inherit();
     }
     upgradeButtons = [...user.getUpgrades().values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
     [...user.getUpgrades().values()].forEach((upgrade) => {

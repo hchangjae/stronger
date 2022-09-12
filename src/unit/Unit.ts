@@ -99,7 +99,7 @@ export default class Unit {
   }
 
   hit(value: number) {
-    const damage = Math.max(value - this.defensePower, 1);
+    const damage = value === 0 ? 0 : Math.max(value - this.defensePower, 1);
     let isDead = false;
 
     // check death
@@ -115,10 +115,17 @@ export default class Unit {
     this.HPSprite.width = Math.max((this.Sprite.height * this.HP) / this.HPMax, 0);
 
     // knockback
-    this.isStop = false;
-    if (!isDead) this.Sprite.dx = KNOCKBACK_SPEED;
+    if (damage > 0) {
+      this.isStop = false;
+      if (!isDead) this.Sprite.dx = KNOCKBACK_SPEED;
+    }
 
     return isDead;
+  }
+
+  setSpeed(speed: number) {
+    this.speed = -Math.abs(speed);
+    this.Sprite.dx = -Math.abs(speed);
   }
 
   getName() {
@@ -165,7 +172,7 @@ export default class Unit {
       this.Sprite.dx = 0;
       return;
     }
-    if (this.Sprite.dx > this.speed) this.Sprite.dx -= 0.1;
+    if (Math.abs(this.Sprite.dx - this.speed) > 0.2) this.Sprite.dx -= Math.sign(this.Sprite.dx - this.speed) * 0.1;
   }
 
   update(dt: number) {
