@@ -25,12 +25,6 @@ const PASSIVES: UpgradeProps[] = [
     amount: 10,
     resourceNeeded: 70,
   },
-  {
-    target: 'KILL_PROBABILITY',
-    label: 'Instant Kill',
-    amount: 5,
-    resourceNeeded: 100,
-  },
 ];
 
 export default PASSIVES;

@@ -62,11 +62,15 @@ p {
 
 .upgrades {
   display: flex;
-  gap: 30px;
+  gap: 100px;
   background-color: #000;
   position: absolute;
   top: 300px;
   padding-left: 20px;
+}
+
+.upgrades > * {
+  flex: 1;
 }
 
 .passives-container > span,
@@ -85,7 +89,7 @@ p {
 }
 
 .button {
-  flex-basis: 30%;
+  flex-basis: 45%;
   display: block;
   width: 100%;
   background: transparent;

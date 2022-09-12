@@ -40,20 +40,6 @@ const WEAPONS: WeaponUpgradeType[] = [
     resourceNeeded: 70,
     unlockWave: 1,
   },
-  {
-    label: 'Laser Gun',
-    weaponClass: PlasmaGun,
-    targets: ['land'],
-    resourceNeeded: 100,
-    unlockWave: 5,
-  },
-  {
-    label: 'Sniper Gun',
-    weaponClass: PlasmaGun,
-    targets: ['land'],
-    resourceNeeded: 200,
-    unlockWave: 6,
-  },
 ];
 
 export default WEAPONS;
