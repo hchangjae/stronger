@@ -23,11 +23,11 @@ export const initUnitSpriteSheets = () => {
     'slime2',
     SpriteSheet({
       image: imageAssets['images/slime2.png'],
-      frameWidth: 24,
-      frameHeight: 20,
+      frameWidth: 20,
+      frameHeight: 16,
       animations: {
         move: {
-          frames: '0..3',
+          frames: '0..1',
           frameRate: 4,
         },
       },
@@ -57,7 +57,7 @@ export const initUnitSpriteSheets = () => {
       frameHeight: 13,
       animations: {
         move: {
-          frames: '0..3',
+          frames: '0..1',
           frameRate: 4,
         },
       },
@@ -68,8 +68,8 @@ export const initUnitSpriteSheets = () => {
     'golem',
     SpriteSheet({
       image: imageAssets['images/golem.png'],
-      frameWidth: 16,
-      frameHeight: 16,
+      frameWidth: 12,
+      frameHeight: 12,
       animations: {
         move: {
           frames: '0..1',
@@ -83,11 +83,11 @@ export const initUnitSpriteSheets = () => {
     'smoke',
     SpriteSheet({
       image: imageAssets['images/smoke.png'],
-      frameWidth: 16,
-      frameHeight: 16,
+      frameWidth: 12,
+      frameHeight: 12,
       animations: {
         smoke: {
-          frames: '0..7',
+          frames: '0..2',
           frameRate: 10,
           loop: false,
         },

@@ -55,11 +55,19 @@ class User extends Unit {
     this.Sprite = Sprite({
       image: imageAssets[this.image],
       x: 50,
-      y: 130,
+      y: 175,
       width,
       height,
-      scaleX: 2.4,
-      scaleY: 2.4,
+      scaleX: 3,
+      scaleY: 3,
+      render() {
+        const ctx = this.context as CanvasRenderingContext2D;
+        if (!this.image) return;
+        ctx.drawImage(this.image, 0, 0);
+        ctx.scale(-1, 1);
+        ctx.translate(-12, 0);
+        ctx.drawImage(this.image, 0, 0);
+      },
     });
 
     const getLife = () => super.getLife();
@@ -76,13 +84,13 @@ class User extends Unit {
     });
 
     const HPWrapSprite = Sprite({
-      x: 0,
-      y: -5,
+      x: -3,
+      y: -7,
       width,
       height: 7,
       color: '#fff',
-      scaleX: 5 / 12,
-      scaleY: 5 / 12,
+      scaleX: 1 / 3,
+      scaleY: 1 / 3,
     });
 
     HPWrapSprite.addChild(HPSprite);

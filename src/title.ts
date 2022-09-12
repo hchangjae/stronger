@@ -27,10 +27,18 @@ const TitleScene = (onStart: () => void) => {
   const ground = new Ground();
   const tower = Sprite({
     image: imageAssets['images/tower.png'],
-    x: 170,
-    y: 52,
-    scaleX: 3.6,
-    scaleY: 3.6,
+    x: 240,
+    y: 110,
+    scaleX: 4,
+    scaleY: 4,
+    render() {
+      const ctx = this.context as CanvasRenderingContext2D;
+      if (!this.image) return;
+      ctx.drawImage(this.image, 0, 0);
+      ctx.scale(-1, 1);
+      ctx.translate(-12, 0);
+      ctx.drawImage(this.image, 0, 0);
+    },
   });
 
   const scene = Scene({
