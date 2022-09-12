@@ -18,8 +18,8 @@ type InfoProps = {
 class Info extends GameObjectClass {
   protected wave: GameWave;
   protected generation: number;
-  protected static $wave = $('.info .wave_generation .wave');
-  protected static $generation = $('.info .wave_generation .generation');
+  protected static $wave = $('.info .wg .wave');
+  protected static $generation = $('.info .wg .generation');
 
   constructor({ wave, generation }: InfoProps) {
     super();

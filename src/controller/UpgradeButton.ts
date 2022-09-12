@@ -20,7 +20,7 @@ class UpgradeButton {
     this.button = document.createElement('button');
     this.button.classList.add('button');
     this.button.addEventListener('click', this.onButtonClick);
-    $('.ups .passives')?.appendChild(this.button);
+    $('.ups .pa')?.appendChild(this.button);
 
     this.render();
   }

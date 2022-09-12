@@ -49,11 +49,11 @@ class Game extends GameObjectClass {
     $('.ups')?.classList.add('hide');
     $('.cr-ups')?.classList.add('hide');
     $('.cr-ws')?.classList.add('hide');
-    let $passives = $('.passives-container .passives');
-    while ($passives?.firstChild) {
-      $passives.removeChild($passives.firstChild);
+    let $pa = $('.pa-con .pa');
+    while ($pa?.firstChild) {
+      $pa.removeChild($pa.firstChild);
     }
-    let $ws = $('.ws-container .ws');
+    let $ws = $('.ws-con .ws');
     while ($ws?.firstChild) [$ws.removeChild($ws.firstChild)];
     this.running = false;
   }

@@ -32,15 +32,15 @@ let EndScene = (game: Game, onRestart: Func, onRestartFromScratch: Func) => {
     objects: [message, subMessage],
     onShow() {
       let buttons = document.createElement('div');
-      buttons.classList.add('end-buttons');
+      buttons.classList.add('ebs');
 
       let yesButton = document.createElement('button');
-      yesButton.classList.add('end-yes-button');
+      yesButton.classList.add('eyb');
       yesButton.innerText = 'YES';
       yesButton.onclick = onRestart;
 
       let noButton = document.createElement('button');
-      noButton.classList.add('end-no-button');
+      noButton.classList.add('enb');
       noButton.innerText = 'NO';
       noButton.onclick = onRestartFromScratch;
 
@@ -48,7 +48,7 @@ let EndScene = (game: Game, onRestart: Func, onRestartFromScratch: Func) => {
       $('#app')?.appendChild(buttons);
     },
     onHide() {
-      $('.end-buttons')?.remove();
+      $('.ebs')?.remove();
     },
   });
 };

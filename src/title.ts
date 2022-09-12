@@ -46,13 +46,13 @@ let TitleScene = (onStart: () => void) => {
     objects: [title, subtitle, ground.bg, ...ground.sprites, tower],
     onShow() {
       let startButton = document.createElement('button');
-      startButton.classList.add('start-button');
+      startButton.classList.add('sb');
       startButton.innerText = 'START';
       startButton.onclick = onStart;
       $('#app')?.appendChild(startButton);
     },
     onHide() {
-      $('.start-button')?.remove();
+      $('.sb')?.remove();
     },
   });
 

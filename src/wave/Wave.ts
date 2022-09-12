@@ -257,14 +257,14 @@ export default class GameWave {
     this.sL = createSummonList(waveRecipe);
     this.summonTimer = 0;
 
-    let banner = document.querySelector('.banner');
+    let ba = document.querySelector('.ba');
 
-    if (banner) {
-      banner.innerHTML = `Wave ${this.level}`;
-      banner.classList.add('show');
+    if (ba) {
+      ba.innerHTML = `Wave ${this.level}`;
+      ba.classList.add('show');
 
       window.setTimeout(() => {
-        banner?.classList.remove('show');
+        ba?.classList.remove('show');
       }, 2000);
     }
   }
