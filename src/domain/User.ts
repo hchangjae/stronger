@@ -85,7 +85,7 @@ class User extends Unit {
       },
     });
 
-    let getLife = () => super.life;
+    let getLife = () => t.life;
     let getLifeMax = () => t.lifeMax;
     let HPSprite = Sprite({
       x: 1,

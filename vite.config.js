@@ -14,19 +14,8 @@ export default defineConfig({
     terserOptions: {
       mangle: {
         keep_fnames: false,
-        properties: true,
       },
     },
   },
-  plugins: [
-    createHtmlPlugin({}),
-    glsl({
-      exclude: undefined, // File paths/extensions to ignore
-      include: /\.(glsl|wgsl|vert|frag|vs|fs)$/i, // File paths/extensions to import
-      defaultExtension: 'glsl', // Shader suffix when no extension is specified
-      warnDuplicatedImports: true, // Warn if the same chunk was imported multiple times
-      compress: true, // Compress the resulting shader code
-    }),
-    viteSingleFile(),
-  ],
+  plugins: [createHtmlPlugin({}), viteSingleFile()],
 });
