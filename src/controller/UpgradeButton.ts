@@ -1,6 +1,7 @@
 import Upgrade from '../domain/Upgrade';
 import { $ } from '../util';
 import User from '../domain/User';
+import { WeaponUpgradeType } from '../data/upgrade/weapons';
 
 export type UpgradeProps = {
   upgrade: Upgrade;
@@ -8,53 +9,65 @@ export type UpgradeProps = {
 };
 
 class UpgradeButton {
-  protected upgrade: Upgrade;
-  protected user: User;
+  upgrade: Pick<Upgrade, 'rN' | 'label'> | WeaponUpgradeType;
+  user: User;
 
-  private button: HTMLButtonElement;
+  b: HTMLButtonElement;
 
   constructor({ upgrade, user }: UpgradeProps) {
     this.upgrade = upgrade;
     this.user = user;
 
-    this.button = document.createElement('button');
-    this.button.classList.add('button');
-    this.button.addEventListener('click', this.onButtonClick);
-    $('.ups .pa')?.appendChild(this.button);
+    this.b = document.createElement('button');
+    this.b.classList.add('button');
+    this.b.addEventListener('click', this.onButtonClick);
+
+    const selector = this.upgrade instanceof Upgrade ? '.ups .pa' : '.ups .ws';
+    $(selector)?.appendChild(this.b);
 
     this.render();
   }
 
   onButtonClick = () => {
-    if (this.user.getResource().getResource() < this.upgrade.getResourceNeeded()) return;
+    if (this.user.getResource().getResource() < this.upgrade.rN) return;
 
-    this.user.addUpgrade(this.upgrade);
+    if (this.upgrade instanceof Upgrade) {
+      this.user.addUpgrade(this.upgrade);
 
-    let valueLabel = $('.' + this.upgrade.getTarget())!;
-    valueLabel.innerHTML = `+${this.upgrade.getTotalAmount()}%`;
+      let valueLabel = $('.' + this.upgrade.getTarget())!;
+      valueLabel.innerHTML = `+${this.upgrade.getTotalAmount()}%`;
+    } else {
+      // @ts-ignore
+      let w = new this.upgrade.weaponClass();
+      // @ts-ignore
+      this.user.addWeapon(w, this.upgrade);
+
+      let valueLabel = $(`.${w.getName()}`)!;
+      valueLabel.innerHTML = `x${this.user.getWeaponCount(w.getName())}`;
+    }
   };
 
   update() {
-    let el = this.button.querySelector('.resource')!;
-    el.innerHTML = `👻 ${this.upgrade.getResourceNeeded()}`;
+    let el = this.b.querySelector('.resource')!;
+    el.innerHTML = `👻 ${this.upgrade.rN}`;
 
     if (!this.user) return;
 
     let resource = this.user.getResource().getResource();
 
-    if (resource < this.upgrade.getResourceNeeded()) {
-      this.button.classList.add('notenough');
+    if (resource < this.upgrade.rN) {
+      this.b.classList.add('notenough');
     } else {
-      this.button.classList.remove('notenough');
+      this.b.classList.remove('notenough');
     }
   }
 
   render() {
-    this.button.innerHTML = `
+    this.b.innerHTML = `
       <div>
-        ${this.upgrade.getLabel()} 
-        <span class="amount">+${this.upgrade.getAmount()}%</span> 
-        <span class="resource">👻 ${this.upgrade.getResourceNeeded()}</span>
+        ${this.upgrade.label} 
+        ${this.upgrade instanceof Upgrade ? `<span class="amount">+${this.upgrade.amount}%</span>` : ''}
+        <span class="resource">👻 ${this.upgrade.rN}</span>
       </div>
     `;
   }

@@ -8,11 +8,11 @@ export type UpgradeProps = {
 };
 
 class Upgrade {
-  protected target: UpgradeTarget;
-  protected label: string;
-  protected amount: number;
-  protected rN: number;
-  protected totalAmount: number;
+  target: UpgradeTarget;
+  label: string;
+  amount: number;
+  rN: number;
+  totalAmount: number;
 
   constructor({ target, label, amount, rN, totalAmount = 0 }: UpgradeProps & { totalAmount?: number }) {
     this.target = target;
