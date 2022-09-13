@@ -2,98 +2,40 @@ import { imageAssets, SpriteSheet } from 'kontra';
 
 let spriteSheetMap = new Map<string, SpriteSheet>();
 
+let add = (
+  name: string,
+  frameWidth: number,
+  frameHeight: number,
+  animationName: string,
+  frames: string,
+  frameRate: number,
+  loop = true
+) => {
+  spriteSheetMap.set(
+    name,
+    SpriteSheet({
+      image: imageAssets[`images/${name}.png`],
+      frameWidth,
+      frameHeight,
+      animations: {
+        [animationName]: {
+          frames,
+          frameRate,
+          loop,
+        },
+      },
+    })
+  );
+};
+
 // Initializes spritesheets for the es.
 export let initUnitSpriteSheets = () => {
-  spriteSheetMap.set(
-    'slime',
-    SpriteSheet({
-      image: imageAssets['images/slime.png'],
-      frameWidth: 32,
-      frameHeight: 32,
-      animations: {
-        move: {
-          frames: '0..3',
-          frameRate: 4,
-        },
-      },
-    })
-  );
-
-  spriteSheetMap.set(
-    'slime2',
-    SpriteSheet({
-      image: imageAssets['images/slime2.png'],
-      frameWidth: 20,
-      frameHeight: 16,
-      animations: {
-        move: {
-          frames: '0..1',
-          frameRate: 4,
-        },
-      },
-    })
-  );
-
-  spriteSheetMap.set(
-    'slime3',
-    SpriteSheet({
-      image: imageAssets['images/slime3.png'],
-      frameWidth: 20,
-      frameHeight: 20,
-      animations: {
-        move: {
-          frames: '0..1',
-          frameRate: 2,
-        },
-      },
-    })
-  );
-
-  spriteSheetMap.set(
-    'bat',
-    SpriteSheet({
-      image: imageAssets['images/bat.png'],
-      frameWidth: 12,
-      frameHeight: 13,
-      animations: {
-        move: {
-          frames: '0..1',
-          frameRate: 4,
-        },
-      },
-    })
-  );
-
-  spriteSheetMap.set(
-    'golem',
-    SpriteSheet({
-      image: imageAssets['images/golem.png'],
-      frameWidth: 12,
-      frameHeight: 12,
-      animations: {
-        move: {
-          frames: '0',
-          frameRate: 4,
-        },
-      },
-    })
-  );
-
-  spriteSheetMap.set(
-    'smoke',
-    SpriteSheet({
-      image: imageAssets['images/smoke.png'],
-      frameWidth: 12,
-      frameHeight: 12,
-      animations: {
-        smoke: {
-          frames: '0..2',
-          frameRate: 10,
-          loop: false,
-        },
-      },
-    })
-  );
+  add('slime', 32, 32, 'move', '0..3', 4);
+  add('slime2', 20, 16, 'move', '0..1', 4);
+  add('slime3', 20, 20, 'move', '0..1', 2);
+  add('bat', 12, 13, 'move', '0..1', 4);
+  add('golem', 12, 12, 'move', '0', 4);
+  add('smoke', 12, 12, 'smoke', '0..2', 10, false);
 };
 
 export let getSpriteAnimation = (key: string) => spriteSheetMap.get(key)?.animations;
