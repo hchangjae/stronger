@@ -30,15 +30,8 @@ class Info extends GameObjectClass {
   update() {
     update(Info.$wave, `${this.wave.level}`, (value) => `Wave ${value}`);
     update(Info.$generation, `${this.generation}`, (value) => {
-      if (value === '1') {
-        return `${value}st Generation`;
-      } else if (value === '2') {
-        return `${value}nd Generation`;
-      } else if (value === '3') {
-        return `${value}rd Generation`;
-      } else {
-        return `${value}th Generation`;
-      }
+      let th = value === '1' ? 'st' : value === '2' ? 'nd' : value === '3' ? 'rd' : 'th';
+      return `${value}${th} Generation`;
     });
   }
 }
