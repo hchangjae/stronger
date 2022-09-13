@@ -8,24 +8,18 @@ export type UpgradeProps = {
 };
 
 class Upgrade {
-  // @ts-ignore
   target: UpgradeTarget;
-  // @ts-ignore
   label: string;
-  // @ts-ignore
   amount: number;
-  // @ts-ignore
   rN: number;
-  // @ts-ignore
   totalAmount: number;
 
   constructor({ target, label, amount, rN, totalAmount = 0 }: UpgradeProps & { totalAmount?: number }) {
-    let T = this;
-    T.target = target;
-    T.label = label;
-    T.amount = amount;
-    T.rN = rN;
-    T.totalAmount = totalAmount;
+    this.target = target;
+    this.label = label;
+    this.amount = amount;
+    this.rN = rN;
+    this.totalAmount = totalAmount;
   }
 
   getTarget() {

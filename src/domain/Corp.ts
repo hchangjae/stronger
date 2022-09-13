@@ -5,19 +5,15 @@ import Enemy, { isAir } from '../unit/Enemy';
 import GameWave from '../wave/Wave';
 
 class Corp extends GameObjectClass {
-  // @ts-ignore
   protected es: Enemy[];
-  // @ts-ignore
   protected soul: Sprite[];
-  // @ts-ignore
   protected canvas: HTMLCanvasElement;
 
   constructor(canvas: HTMLCanvasElement) {
     super();
-    let T = this;
-    T.es = [];
-    T.soul = [];
-    T.canvas = canvas;
+    this.es = [];
+    this.soul = [];
+    this.canvas = canvas;
   }
 
   isDestroyed() {

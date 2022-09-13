@@ -16,18 +16,15 @@ type InfoProps = {
 };
 
 class Info extends GameObjectClass {
-  // @ts-ignore
   wave: GameWave;
-  // @ts-ignore
   generation: number;
   static $wave = $('.info .wg .wave');
   static $generation = $('.info .wg .generation');
 
   constructor({ wave, generation }: InfoProps) {
     super();
-    let T = this;
-    T.wave = wave;
-    T.generation = generation;
+    this.wave = wave;
+    this.generation = generation;
   }
 
   update() {

@@ -2,9 +2,7 @@ import { imageAssets, Sprite } from 'kontra';
 import { GROUND_POSITION } from '../main';
 
 export default class Ground {
-  // @ts-ignore
   sprites: Sprite[] = [];
-  // @ts-ignore
   bg: Sprite;
 
   constructor() {

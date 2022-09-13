@@ -13,21 +13,14 @@ type BulletProps = {
   sR: number;
 };
 class Bullet extends GameObjectClass {
-  // @ts-ignore
   target: GameObject;
-  // @ts-ignore
   sp: number;
-  // @ts-ignore
   image: string;
-  // @ts-ignore
   aP: number;
-  // @ts-ignore
   slowPower?: number;
-  // @ts-ignore
   sR: number;
-  // @ts-ignore
   isCollided: boolean;
-  
+
   constructor({ x, y, image, ttl, rotation, target, sp, aP, slowPower, sR }: BulletProps) {
     super({
       x,
@@ -35,14 +28,13 @@ class Bullet extends GameObjectClass {
       ttl,
       rotation,
     });
-    let T = this;
-    T.image = image;
-    T.sp = sp;
-    T.aP = aP;
-    T.slowPower = slowPower;
-    T.sR = sR;
-    T.target = target;
-    T.isCollided = false;
+    this.image = image;
+    this.sp = sp;
+    this.aP = aP;
+    this.slowPower = slowPower;
+    this.sR = sR;
+    this.target = target;
+    this.isCollided = false;
   }
 }
 

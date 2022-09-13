@@ -9,72 +9,65 @@ export type UpgradeProps = {
 };
 
 class UpgradeButton {
-  // @ts-ignore
   upgrade: Pick<Upgrade, 'rN' | 'label'> | WeaponUpgradeType;
-  // @ts-ignore
   user: User;
-  // @ts-ignore
+
   b: HTMLButtonElement;
 
   constructor({ upgrade, user }: UpgradeProps) {
-    let T = this;
+    this.upgrade = upgrade;
+    this.user = user;
 
-    T.upgrade = upgrade;
-    T.user = user;
+    this.b = document.createElement('button');
+    this.b.classList.add('button');
+    this.b.addEventListener('click', this.onButtonClick);
 
-    T.b = document.createElement('button');
-    T.b.classList.add('button');
-    T.b.addEventListener('click', T.onButtonClick);
+    const selector = this.upgrade instanceof Upgrade ? '.ups .pa' : '.ups .ws';
+    $(selector)?.appendChild(this.b);
 
-    const selector = T.upgrade instanceof Upgrade ? '.ups .pa' : '.ups .ws';
-    $(selector)?.appendChild(T.b);
-
-    T.render();
+    this.render();
   }
 
   onButtonClick = () => {
-    let T = this;
-    if (T.user.resource.r < T.upgrade.rN) return;
+    if (this.user.resource.r < this.upgrade.rN) return;
 
-    if (T.upgrade instanceof Upgrade) {
-      T.user.addUpgrade(T.upgrade);
+    if (this.upgrade instanceof Upgrade) {
+      this.user.addUpgrade(this.upgrade);
 
-      let valueLabel = $('.' + T.upgrade.getTarget())!;
-      valueLabel.innerHTML = `+${T.upgrade.totalAmount}%`;
+      let valueLabel = $('.' + this.upgrade.getTarget())!;
+      valueLabel.innerHTML = `+${this.upgrade.totalAmount}%`;
     } else {
       // @ts-ignore
-      let w = new T.upgrade.weaponClass();
+      let w = new this.upgrade.weaponClass();
       // @ts-ignore
-      T.user.addWeapon(w, T.upgrade);
+      this.user.addWeapon(w, this.upgrade);
 
       let valueLabel = $(`.${w.name}`)!;
-      valueLabel.innerHTML = `x${T.user.getWeaponCount(w.name)}`;
+      valueLabel.innerHTML = `x${this.user.getWeaponCount(w.name)}`;
     }
   };
 
   update() {
-    let T = this;
-    let el = T.b.querySelector('.resource')!;
-    el.innerHTML = `👻 ${T.upgrade.rN}`;
+    let el = this.b.querySelector('.resource')!;
+    el.innerHTML = `👻 ${this.upgrade.rN}`;
 
-    if (!T.user) return;
+    if (!this.user) return;
 
-    let resource = T.user.resource.r;
+    let resource = this.user.resource.r;
 
-    if (resource < T.upgrade.rN) {
-      T.b.classList.add('notenough');
+    if (resource < this.upgrade.rN) {
+      this.b.classList.add('notenough');
     } else {
-      T.b.classList.remove('notenough');
+      this.b.classList.remove('notenough');
     }
   }
 
   render() {
-    let T = this;
-    T.b.innerHTML = `
+    this.b.innerHTML = `
       <div>
-        ${T.upgrade.label} 
-        ${T.upgrade instanceof Upgrade ? `<span class="amount">+${T.upgrade.amount}%</span>` : ''}
-        <span class="resource">👻 ${T.upgrade.rN}</span>
+        ${this.upgrade.label} 
+        ${this.upgrade instanceof Upgrade ? `<span class="amount">+${this.upgrade.amount}%</span>` : ''}
+        <span class="resource">👻 ${this.upgrade.rN}</span>
       </div>
     `;
   }

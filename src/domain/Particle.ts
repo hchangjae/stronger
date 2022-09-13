@@ -1,7 +1,6 @@
 import { SpriteClass } from 'kontra';
 
 class ParticleClass extends SpriteClass {
-  // @ts-ignore
   protected initialTtl?: number;
 
   init(props: any) {
@@ -11,11 +10,10 @@ class ParticleClass extends SpriteClass {
   }
 
   update() {
-    let T = this;
-    T.advance();
+    this.advance();
 
-    if (T.ttl && T.initialTtl) {
-      T.opacity = T.ttl / T.initialTtl;
+    if (this.ttl && this.initialTtl) {
+      this.opacity = this.ttl / this.initialTtl;
     }
   }
 }
