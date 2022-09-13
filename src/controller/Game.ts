@@ -16,7 +16,7 @@ let rE = ($e: Element | null) => {
   while ($e?.firstChild) {
     $e.removeChild($e.firstChild);
   }
-}
+};
 
 class Game extends GameObjectClass {
   user: User;
@@ -42,12 +42,12 @@ class Game extends GameObjectClass {
   }
 
   start() {
-    ES.forEach(n => $(`.${n}`)?.classList.remove('hide'));
+    ES.forEach((n) => $(`.${n}`)?.classList.remove('hide'));
     this.running = true;
   }
 
   end() {
-    ES.forEach(n => $(`.${n}`)?.classList.add('hide'));
+    ES.forEach((n) => $(`.${n}`)?.classList.add('hide'));
     rE($('.pa-con .pa'));
     rE($('.ws-con .ws'));
     this.running = false;
