@@ -29,20 +29,12 @@ let TitleScene = (onStart: () => void) => {
 
   const towerLeft = 360;
 
-  let tower = Sprite({
-    image: imageAssets['images/tower.png'],
+  let tower = Text({
+    text: '🛖',
     x: towerLeft,
     y: 171,
-    scaleX: 3,
-    scaleY: 3,
-    render() {
-      let ctx = this.context as CanvasRenderingContext2D;
-      if (!this.image) return;
-      ctx.drawImage(this.image, 0, 0);
-      ctx.scale(-1, 1);
-      ctx.translate(-12, 0);
-      ctx.drawImage(this.image, 0, 0);
-    },
+    scaleX: 2.4,
+    scaleY: 2.4,
   });
 
   let slime = Sprite({

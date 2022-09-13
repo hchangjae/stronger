@@ -1,4 +1,4 @@
-import { imageAssets, Sprite } from 'kontra';
+import { imageAssets, Sprite, Text } from 'kontra';
 
 import Weapon from '../weapon/Weapon';
 import Upgrade from './Upgrade';
@@ -22,8 +22,6 @@ class User extends Unit {
   // @ts-ignore
   name: string;
   // @ts-ignore
-  image: string;
-  // @ts-ignore
   resource: Resource;
   // @ts-ignore
   ws: Weapon[];
@@ -46,7 +44,7 @@ class User extends Unit {
   // @ts-ignore
   Sprite: Sprite;
 
-  constructor({ name, image, resource, ws, life, ups }: UserProps) {
+  constructor({ name, resource, ws, life, ups }: UserProps) {
     let width = 55;
     let height = 85;
 
@@ -55,8 +53,6 @@ class User extends Unit {
     let t = this;
 
     t.name = name;
-    t.image = image;
-    t.image = image;
     t.resource = new Resource(resource);
     t.ws = ws;
     t.lifeMax = life;
@@ -67,21 +63,18 @@ class User extends Unit {
     t.resourceInital = resource;
     t.upsInital = t.ups = ups;
 
-    t.Sprite = Sprite({
-      image: imageAssets[t.image],
+    //@ts-ignore
+    t.Sprite = Text({
+      text: '🛖',
       x: 50,
       y: 170,
       width,
       height,
-      scaleX: 3,
-      scaleY: 3,
-      render() {
-        let ctx = this.context as CanvasRenderingContext2D;
-        if (!this.image) return;
-        ctx.drawImage(this.image, 0, 0);
-        ctx.scale(-1, 1);
-        ctx.translate(-12, 0);
-        ctx.drawImage(this.image, 0, 0);
+      scaleX: 2.4,
+      scaleY: 2.4,
+      anchor: {
+        x: 0.09,
+        y: 0,
       },
     });
 
