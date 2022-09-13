@@ -1,15 +1,11 @@
 import { GameObjectClass } from 'kontra';
 
 class Unit extends GameObjectClass {
-  protected life: number;
+  life: number;
 
   constructor(life: number) {
     super();
     this.life = life;
-  }
-
-  getLife() {
-    return this.life;
   }
 
   setLife(dl: number) {
