@@ -19,14 +19,13 @@ let rE = ($e: Element | null) => {
 }
 
 class Game extends GameObjectClass {
-  protected user: User;
-  protected info: Info;
-  protected corp: Corp;
-  protected ground: Ground;
-  protected effect: GameObject[];
-  protected canvas: HTMLCanvasElement;
-
-  private running: boolean;
+  user: User;
+  info: Info;
+  corp: Corp;
+  ground: Ground;
+  effect: GameObject[];
+  canvas: HTMLCanvasElement;
+  running: boolean;
 
   constructor(user: User, canvas: HTMLCanvasElement) {
     super();
@@ -52,14 +51,6 @@ class Game extends GameObjectClass {
     rE($('.pa-con .pa'));
     rE($('.ws-con .ws'));
     this.running = false;
-  }
-
-  isRunning() {
-    return this.running;
-  }
-
-  getUser() {
-    return this.user;
   }
 
   render() {
