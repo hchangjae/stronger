@@ -1,5 +1,4 @@
-import { init, initPointer, Scene, Sprite, Text } from 'kontra';
-import { getSpriteAnimation } from './component/spriteSheet';
+import { init, initPointer, Scene, Text } from 'kontra';
 import Ground from './domain/Ground';
 import { $ } from './util';
 
@@ -37,30 +36,24 @@ let TitleScene = (onStart: () => void) => {
     scaleY: 2.4,
   });
 
-  let slime = Sprite({
+  let slime = Text({
+    text: '👾',
     x: towerLeft + 160,
     y: 190,
-    animations: {
-      ...getSpriteAnimation('slime'),
-    },
   });
 
-  let plasma1 = Sprite({
+  let plasma1 = Text({
+    text: '⚽️',
     x: towerLeft + 90,
     y: 186,
     rotation: 1.8,
-    animations: {
-      ...getSpriteAnimation('bullet1'),
-    },
   });
 
-  let plasma2 = Sprite({
+  let plasma2 = Text({
+    text: '⚽️',
     x: towerLeft + 130,
     y: 195,
     rotation: 1.8,
-    animations: {
-      ...getSpriteAnimation('bullet1'),
-    },
   });
 
   let scene = Scene({

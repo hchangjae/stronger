@@ -1,5 +1,4 @@
 import { init, GameLoop, loadImage, Pool } from 'kontra';
-import { initUnitSpriteSheets } from './component/spriteSheet';
 import PlasmaGun from './weapon/PlasmaGun';
 import Game from './controller/Game';
 import Upgrade from './domain/Upgrade';
@@ -24,7 +23,7 @@ export let particles = Pool({
 
 let { canvas } = init();
 
-Promise.all([loadImage('images/sprite.png'), loadImage('images/ground.png')]).then(() => {
+Promise.all([loadImage('images/ground.png')]).then(() => {
   let passiveUpgradeMap = new Map<string, Upgrade>();
   let upgradeButtons: UpgradeButton[];
   let weaponButtons: UpgradeButton[];
@@ -69,8 +68,6 @@ Promise.all([loadImage('images/sprite.png'), loadImage('images/ground.png')]).th
   };
 
   let setGameScene = (inherit = false) => sceneManager.set(initGame(inherit));
-
-  initUnitSpriteSheets();
 
   sceneManager.set(TitleScene(setGameScene));
 

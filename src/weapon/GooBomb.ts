@@ -1,5 +1,4 @@
-import { Sprite } from 'kontra';
-import { getSpriteAnimation } from '../component/spriteSheet';
+import { Text } from 'kontra';
 import { GROUND_POSITION, particles, TOWER_POSITION } from '../main';
 import Unit from '../unit/Unit';
 import Weapon from './Weapon';
@@ -20,7 +19,8 @@ export default class GooBomb extends Weapon {
     this.fireTimer = 0;
 
     // 총알 생성
-    let bullet = Sprite({
+    let bullet = Text({
+      text: '🎾',
       x: TOWER_POSITION,
       y: 160,
       width: 10,
@@ -32,9 +32,6 @@ export default class GooBomb extends Weapon {
       aP: this.aP,
       sR: this.sR,
       targetEnemy: enemy,
-      animations: {
-        ...getSpriteAnimation('bullet2'),
-      },
     });
 
     bullet.onDestroy = () => {

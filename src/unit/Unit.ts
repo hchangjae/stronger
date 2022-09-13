@@ -19,6 +19,7 @@ export type UnitProps = {
   aR: number;
   dP: number;
   fCT: number;
+  text: string;
   spriteAnimationKey: string;
 };
 
@@ -40,7 +41,7 @@ export default class Unit {
 
   Sprite: Sprite;
 
-  constructor({ x, y, HP, name, sp, width, height, sP, aP, aR, dP, fCT, spriteAnimationKey }: UnitProps) {
+  constructor({ x, y, HP, name, sp, width, height, sP, aP, aR, dP, fCT, text }: UnitProps) {
     this.HP = HP;
     this.name = name;
     this.sp = sp;
@@ -56,31 +57,24 @@ export default class Unit {
 
     this.Sprite = Sprite({
       x,
-      y: y - height,
+      y: y,
       ddeg: ROTATE_SPEED,
       deg: 0,
       width,
       height,
       dx: sp,
-      animations: {
-        ...getSpriteAnimation(spriteAnimationKey),
-        ...getSpriteAnimation('smoke'),
-      },
       render() {
         let ctx = this.context;
-        let image = this.currentAnimation.spriteSheet.image;
-        let { width, height } = this.currentAnimation.spriteSheet.frame;
-        if (!ctx || !image || !this.width || !this.height || !this.scaleX || !this.scaleY) return;
+        if (!ctx || !this.width || !this.height || !this.scaleX || !this.scaleY) return;
         if (this.deg < -ROTATE_DEG || this.deg > ROTATE_DEG) {
           this.ddeg *= -1;
         }
         this.deg += this.ddeg;
         //@ts-ignore
-        let gap = width * gSD(spriteAnimationKey)[3];
         ctx.translate(this.width / 2, this.height);
         ctx.rotate(this.deg);
         ctx.translate(-this.width / 2, -this.height);
-        ctx.drawImage(image, gap, 0, width, height, 0, 0, this.width * this.scaleX, this.height * this.scaleY);
+        ctx.fillText(text, 0, 0, this.width);
         ctx.translate(this.width / 2, this.height);
         ctx.rotate(-this.deg);
         ctx.translate(-this.width / 2, -this.height);
@@ -97,7 +91,7 @@ export default class Unit {
 
     this.HPWrapSprite = Sprite({
       x: 0,
-      y: -10,
+      y: -40,
       width,
       height: 7,
       color: '#fff',
