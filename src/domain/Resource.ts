@@ -2,21 +2,17 @@ import { updateResource } from '../controller/Info';
 import { $ } from '../util';
 
 class Resource {
-  protected static $resource = $('.info .resource');
-  protected resource: number;
+  static $resource = $('.info .resource');
+  r: number;
 
-  constructor(value: number) {
-    this.resource = value;
-    this.update(value);
+  constructor(v: number) {
+    this.r = v;
+    this.update(v);
   }
 
-  getResource() {
-    return this.resource;
-  }
-
-  update(value: number) {
-    this.resource = value;
-    updateResource(value);
+  update(v: number) {
+    this.r = v;
+    updateResource(v);
   }
 }
 
