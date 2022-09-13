@@ -63,15 +63,14 @@ class Game extends GameObjectClass {
   update(dt: number): void {
     let corp = this.corp;
     let info = this.info;
-    let wave = info.getWave();
+    let wave = info.wave;
     let user = this.user;
     let effect = this.effect;
 
     wave.update(dt);
     if (corp.isDestroyed() && wave.isWaveDone()) {
       wave.next();
-      info.updateWave();
-      info.updateGeneration();
+      info.update();
     }
     if (wave.isReadyToSummon()) {
       corp.buildUp(wave);

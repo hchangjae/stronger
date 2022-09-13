@@ -16,10 +16,10 @@ type InfoProps = {
 };
 
 class Info extends GameObjectClass {
-  protected wave: GameWave;
-  protected generation: number;
-  protected static $wave = $('.info .wg .wave');
-  protected static $generation = $('.info .wg .generation');
+  wave: GameWave;
+  generation: number;
+  static $wave = $('.info .wg .wave');
+  static $generation = $('.info .wg .generation');
 
   constructor({ wave, generation }: InfoProps) {
     super();
@@ -27,15 +27,8 @@ class Info extends GameObjectClass {
     this.generation = generation;
   }
 
-  getWave() {
-    return this.wave;
-  }
-
-  updateWave() {
+  update() {
     update(Info.$wave, `${this.wave.level}`, (value) => `Wave ${value}`);
-  }
-
-  updateGeneration() {
     update(Info.$generation, `${this.generation}`, (value) => {
       if (value === '1') {
         return `${value}st Generation`;
