@@ -105,7 +105,6 @@ export default class Unit {
 
     // check death
     if (this.HP > 0 && this.HP - damage <= 0) {
-      this.Sprite.playAnimation('smoke');
       this.Sprite.dx = 0;
 
       this.Sprite.removeChild(this.HPSprite, this.HPWrapSprite);
@@ -135,7 +134,7 @@ export default class Unit {
 
   isDone() {
     // @ts-ignore
-    return !this.isAlive() && this.Sprite.currentAnimation._f === this.Sprite.currentAnimation.frames.length - 1;
+    return !this.isAlive();
   }
 
   isReadyToAttack() {
