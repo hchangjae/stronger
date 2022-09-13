@@ -42,8 +42,8 @@ class UpgradeButton {
       // @ts-ignore
       this.user.addWeapon(w, this.upgrade);
 
-      let valueLabel = $(`.${w.getName()}`)!;
-      valueLabel.innerHTML = `x${this.user.getWeaponCount(w.getName())}`;
+      let valueLabel = $(`.${w.name}`)!;
+      valueLabel.innerHTML = `x${this.user.getWeaponCount(w.name)}`;
     }
   };
 

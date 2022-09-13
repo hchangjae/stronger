@@ -72,8 +72,8 @@ Promise.all([
     // @ts-ignore
     weaponButtons = WEAPONS.map((upgrade) => new UpgradeButton({ upgrade, user }));
     [...user.getWeapons().values()].forEach((weapon) => {
-      let valueLabel = $('.' + weapon.getName())!;
-      valueLabel.innerHTML = `x${user.getWeaponCount(weapon.getName())}`;
+      let valueLabel = $('.' + weapon.name)!;
+      valueLabel.innerHTML = `x${user.getWeaponCount(weapon.name)}`;
     });
     game = new Game(user, canvas);
     game.start();

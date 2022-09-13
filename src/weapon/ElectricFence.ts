@@ -10,7 +10,6 @@ export default class ElectricFence extends Weapon {
       targets: ['land', 'air'],
       aP: 2,
       aR: 30,
-      killProbaility: 1,
       sR: 0,
       fCT: 1,
     });

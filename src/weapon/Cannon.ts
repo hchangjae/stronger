@@ -10,7 +10,6 @@ export default class Cannon extends Weapon {
       targets: ['land'],
       aP: 8,
       aR: 800,
-      killProbaility: 1,
       sR: 50,
       fCT: 3,
     });

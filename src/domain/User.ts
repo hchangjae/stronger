@@ -167,7 +167,7 @@ class User extends Unit {
   calculateIsInRange(weapon: Weapon, distance: number) {
     let u = this.ups.get('ATTACK_RANGE');
     let amount = u ? u.getTotalAmount() : 0;
-    let range = Math.ceil(weapon.getAttackRange() * (1 + amount / 100));
+    let range = Math.ceil(weapon.aR * (1 + amount / 100));
 
     return distance <= range;
   }
@@ -181,11 +181,11 @@ class User extends Unit {
     let rate = weapon.getAttackRate() * (1 + amount / 100);
     let fCT = 1 / rate / 600;
 
-    return weapon.getFireTimer() >= fCT;
+    return weapon.fCT >= fCT;
   }
 
   getWeaponCount(name: string) {
-    return this.ws.filter((weapon) => weapon.getName() === name).length;
+    return this.ws.filter((weapon) => weapon.name === name).length;
   }
 
   update(dt: number): void {

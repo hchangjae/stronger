@@ -12,23 +12,21 @@ export interface WeaponProps {
   aR: number;
   sR: number;
   fCT: number;
-  killProbaility: number;
   bullets?: Bullet[];
 }
 
 export default class Weapon {
-  protected name: string;
-  protected targets: WeaponTarget[];
-  protected slowPower?: number;
-  protected aP: number;
-  protected aR: number;
-  protected sR: number;
-  protected fCT: number;
-  protected fireTimer: number;
-  protected killProbaility: number;
-  protected bullets: Bullet[];
+  name: string;
+  targets: WeaponTarget[];
+  slowPower?: number;
+  aP: number;
+  aR: number;
+  sR: number;
+  fCT: number;
+  fireTimer: number;
+  bullets: Bullet[];
 
-  constructor({ name, targets, slowPower, aP, aR, sR, fCT, killProbaility = 0.5, bullets = [] }: WeaponProps) {
+  constructor({ name, targets, slowPower, aP, aR, sR, fCT, bullets = [] }: WeaponProps) {
     this.name = name;
     this.targets = targets;
     this.slowPower = slowPower;
@@ -36,23 +34,8 @@ export default class Weapon {
     this.aR = aR;
     this.sR = sR;
     this.fCT = fCT;
-    (this.killProbaility = killProbaility), (this.bullets = bullets), (this.fireTimer = 0);
-  }
-
-  canAttackLand() {
-    return this.targets.includes('land');
-  }
-
-  canAttackAir() {
-    return this.targets.includes('air');
-  }
-
-  getFireTimer() {
-    return this.fireTimer;
-  }
-
-  getFireCooltime() {
-    return this.fCT;
+    this.bullets = bullets;
+    this.fireTimer = 0;
   }
 
   fire(_enemy: Unit): GameObject | null {
@@ -63,22 +46,6 @@ export default class Weapon {
     this.fireTimer += dt;
   }
 
-  getAttackPower() {
-    return this.aP;
-  }
-
-  setAttackPower(dp: number) {
-    this.aP = dp;
-  }
-
-  getAttackRange() {
-    return this.aR;
-  }
-
-  setAttackRange(dr: number) {
-    this.aR = dr;
-  }
-
   getAttackRate() {
     return 1 / this.fCT / 1000;
   }
@@ -87,28 +54,8 @@ export default class Weapon {
     this.fCT = (1 / ar) * 1000;
   }
 
-  getKillProbability() {
-    return this.killProbaility;
-  }
-
-  setKillProbability(dp: number) {
-    this.killProbaility = dp;
-  }
-
-  getBullets() {
-    return this.bullets;
-  }
-
   reload(bullet: Bullet) {
     this.bullets = [...this.bullets, bullet];
-  }
-
-  setBullets(bullets: Bullet[]) {
-    this.bullets = bullets;
-  }
-
-  getName() {
-    return this.name;
   }
 
   render() {

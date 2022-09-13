@@ -11,7 +11,6 @@ export default class GooBomb extends Weapon {
       aP: 0,
       aR: 800,
       slowPower: 0.5,
-      killProbaility: 1,
       sR: 50,
       fCT: 1,
     });

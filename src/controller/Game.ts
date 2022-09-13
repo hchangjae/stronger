@@ -95,7 +95,7 @@ class Game extends GameObjectClass {
         if (enemy.Sprite.x < TOWER_POSITION) {
           enemy.stop();
           if (enemy.isReadyToAttack()) {
-            this.user.setLife(-1 * enemy.getAttackPower());
+            this.user.setLife(-1 * enemy.aP);
             enemy.cooldownAttack();
           }
         }
@@ -114,7 +114,7 @@ class Game extends GameObjectClass {
     this.corp.update(dt);
 
     let createSouls = (enemy: Enemy) => {
-      let soulList = new Array(enemy.getSoulPoint()).fill('').map(
+      let soulList = new Array(enemy.sP).fill('').map(
         () =>
           new Soul({
             x: enemy.Sprite.x,
@@ -126,7 +126,7 @@ class Game extends GameObjectClass {
     };
 
     ws.forEach((weapon) => {
-      let bulletList = weapon.getBullets();
+      let bulletList = weapon.bullets;
 
       bulletList.forEach((bullet) => {
         if (bullet.followEnemy) {
@@ -153,7 +153,7 @@ class Game extends GameObjectClass {
               createSouls(enemy);
             }
             bullet.ttl = 0;
-            weapon.setBullets(bulletList.filter((b) => b.isAlive()));
+            weapon.bullets = bulletList.filter((b) => b.isAlive());
 
             if (bullet.onDestroy) bullet.onDestroy();
           }
@@ -161,7 +161,7 @@ class Game extends GameObjectClass {
           if (bullet.y > GROUND_POSITION) {
             this.corp.getAliveEnemies().forEach((enemy) => {
               if (bullet.sR !== 0) {
-                if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.sR && !isAir(enemy.getName())) {
+                if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.sR && !isAir(enemy.name)) {
                   let power = bullet.aP * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.sR);
 
                   let isDead = enemy.hit(this.user.calculateBulletDamage(power));
@@ -178,7 +178,7 @@ class Game extends GameObjectClass {
             });
 
             bullet.ttl = 0;
-            weapon.setBullets(bulletList.filter((b) => b.isAlive()));
+            weapon.bullets = bulletList.filter((b) => b.isAlive());
 
             if (bullet.onDestroy) bullet.onDestroy();
           } else {

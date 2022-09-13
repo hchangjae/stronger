@@ -23,22 +23,22 @@ export type UnitProps = {
 };
 
 export default class Unit {
-  protected HP: number;
-  protected name: EnemyName;
-  protected sp: number;
-  protected sP: number;
-  protected aP: number;
-  protected aR: number;
-  protected dP: number;
-  protected fCT: number;
-  protected fireTimer: number;
-  protected isStop: boolean;
+  HP: number;
+  name: EnemyName;
+  sp: number;
+  sP: number;
+  aP: number;
+  aR: number;
+  dP: number;
+  fCT: number;
+  fireTimer: number;
+  isStop: boolean;
 
-  private HPWrapSprite: Sprite;
-  private HPSprite: Sprite;
-  private HPMax: number;
+  HPWrapSprite: Sprite;
+  HPSprite: Sprite;
+  HPMax: number;
 
-  public Sprite: Sprite;
+  Sprite: Sprite;
 
   constructor({ x, y, HP, name, sp, width, height, sP, aP, aR, dP, fCT, spriteAnimationKey }: UnitProps) {
     this.HP = HP;
@@ -140,10 +140,6 @@ export default class Unit {
     this.Sprite.dx = -Math.abs(sp);
   }
 
-  getName() {
-    return this.name;
-  }
-
   isAlive() {
     return this.HP > 0;
   }
@@ -159,14 +155,6 @@ export default class Unit {
 
   cooldownAttack() {
     this.fireTimer = 0;
-  }
-
-  getAttackPower() {
-    return this.aP;
-  }
-
-  getSoulPoint() {
-    return this.sP;
   }
 
   stop() {
