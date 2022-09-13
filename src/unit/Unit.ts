@@ -75,6 +75,7 @@ export default class Unit {
           this.ddeg *= -1;
         }
         this.deg += this.ddeg;
+        //@ts-ignore
         let gap = width * gSD(spriteAnimationKey)[3];
         ctx.translate(this.width / 2, this.height);
         ctx.rotate(this.deg);
