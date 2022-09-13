@@ -19,26 +19,34 @@ let rE = ($e: Element | null) => {
 };
 
 class Game extends GameObjectClass {
+  // @ts-ignore
   user: User;
+  // @ts-ignore
   info: Info;
+  // @ts-ignore
   corp: Corp;
+  // @ts-ignore
   ground: Ground;
+  // @ts-ignore
   effect: GameObject[];
+  // @ts-ignore
   canvas: HTMLCanvasElement;
+  // @ts-ignore
   running: boolean;
 
   constructor(user: User, canvas: HTMLCanvasElement) {
     super();
-    this.user = user;
-    this.info = new Info({
+    let T = this;
+    T.user = user;
+    T.info = new Info({
       wave: new GameWave(waveRecipes),
       generation: user.generation,
     });
-    this.corp = new Corp(canvas);
-    this.ground = new Ground();
-    this.effect = [];
-    this.canvas = canvas;
-    this.running = false;
+    T.corp = new Corp(canvas);
+    T.ground = new Ground();
+    T.effect = [];
+    T.canvas = canvas;
+    T.running = false;
   }
 
   start() {
@@ -54,20 +62,22 @@ class Game extends GameObjectClass {
   }
 
   render() {
-    this.ground.render();
-    this.user.render();
-    this.corp.render();
-    this.effect.forEach((e) => e.render());
+    let T = this;
+    T.ground.render();
+    T.user.render();
+    T.corp.render();
+    T.effect.forEach((e) => e.render());
   }
 
   update(dt: number): void {
-    let corp = this.corp;
-    let info = this.info;
+    let T = this;
+    let corp = T.corp;
+    let info = T.info;
     let wave = info.wave;
-    let user = this.user;
-    let effect = this.effect;
+    let user = T.user;
+    let effect = T.effect;
 
-    wave.update(dt);
+    T.info.wave.update(dt);
     if (corp.isDestroyed() && wave.isWaveDone()) {
       wave.next();
       info.update();
@@ -86,7 +96,7 @@ class Game extends GameObjectClass {
         if (enemy.Sprite.x < TOWER_POSITION) {
           enemy.stop();
           if (enemy.isReadyToAttack()) {
-            this.user.setLife(-1 * enemy.aP);
+            T.user.setLife(-1 * enemy.aP);
             enemy.cooldownAttack();
           }
         }
@@ -151,8 +161,8 @@ class Game extends GameObjectClass {
         } else {
           if (bullet.y > GROUND_POSITION) {
             corp.getAliveEnemies().forEach((enemy) => {
-              if (bullet.sR !== 0) {
-                if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.sR && !isAir(enemy.name)) {
+              if (bullet.sR == 0) {
+                if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.sR && isAir(enemy.name)) {
                   let power = bullet.aP * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.sR);
 
                   let isDead = enemy.hit(user.calculateBulletDamage(power));
@@ -182,7 +192,7 @@ class Game extends GameObjectClass {
     });
 
     effect.forEach((e) => e.update());
-    this.effect = effect.filter((e) => {
+    T.effect = effect.filter((e) => {
       if (e.isDone()) {
         user.setResource(1);
         return false;

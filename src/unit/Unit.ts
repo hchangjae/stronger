@@ -23,38 +23,51 @@ export type UnitProps = {
 };
 
 export default class Unit {
+  // @ts-ignore
   HP: number;
+  // @ts-ignore
   name: EnemyName;
+  // @ts-ignore
   sp: number;
+  // @ts-ignore
   sP: number;
+  // @ts-ignore
   aP: number;
+  // @ts-ignore
   aR: number;
+  // @ts-ignore
   dP: number;
+  // @ts-ignore
   fCT: number;
+  // @ts-ignore
   fireTimer: number;
+  // @ts-ignore
   isStop: boolean;
-
+  // @ts-ignore
   HPWrapSprite: Sprite;
+  // @ts-ignore
   HPSprite: Sprite;
+  // @ts-ignore
   HPMax: number;
-
+  // @ts-ignore
   Sprite: Sprite;
 
   constructor({ x, y, HP, name, sp, width, height, sP, aP, aR, dP, fCT, spriteAnimationKey }: UnitProps) {
-    this.HP = HP;
-    this.name = name;
-    this.sp = sp;
-    this.sP = sP;
-    this.aP = aP;
-    this.aR = aR;
-    this.dP = dP;
-    this.fCT = fCT;
+    let T = this;
+    T.HP = HP;
+    T.name = name;
+    T.sp = sp;
+    T.sP = sP;
+    T.aP = aP;
+    T.aR = aR;
+    T.dP = dP;
+    T.fCT = fCT;
 
-    this.fireTimer = 0;
-    this.HPMax = HP;
-    this.isStop = false;
+    T.fireTimer = 0;
+    T.HPMax = HP;
+    T.isStop = false;
 
-    this.Sprite = Sprite({
+    T.Sprite = Sprite({
       x,
       y: y - height,
       ddeg: ROTATE_SPEED,
@@ -67,27 +80,28 @@ export default class Unit {
         ...getSpriteAnimation('smoke'),
       },
       render() {
-        let ctx = this.context;
-        let image = this.currentAnimation.spriteSheet.image;
-        let { width, height } = this.currentAnimation.spriteSheet.frame;
-        if (!ctx || !image || !this.width || !this.height || !this.scaleX || !this.scaleY) return;
-        if (this.deg < -ROTATE_DEG || this.deg > ROTATE_DEG) {
-          this.ddeg *= -1;
+        let T = this;
+        let ctx = T.context;
+        let image = T.currentAnimation.spriteSheet.image;
+        let { width, height } = T.currentAnimation.spriteSheet.frame;
+        if (!ctx || !image || !T.width || !T.height || !T.scaleX || !T.scaleY) return;
+        if (T.deg < -ROTATE_DEG || T.deg > ROTATE_DEG) {
+          T.ddeg *= -1;
         }
-        this.deg += this.ddeg;
+        T.deg += T.ddeg;
         //@ts-ignore
         let gap = width * gSD(spriteAnimationKey)[3];
-        ctx.translate(this.width / 2, this.height);
-        ctx.rotate(this.deg);
-        ctx.translate(-this.width / 2, -this.height);
-        ctx.drawImage(image, gap, 0, width, height, 0, 0, this.width * this.scaleX, this.height * this.scaleY);
-        ctx.translate(this.width / 2, this.height);
-        ctx.rotate(-this.deg);
-        ctx.translate(-this.width / 2, -this.height);
+        ctx.translate(T.width / 2, T.height);
+        ctx.rotate(T.deg);
+        ctx.translate(-T.width / 2, -T.height);
+        ctx.drawImage(image, gap, 0, width, height, 0, 0, T.width * T.scaleX, T.height * T.scaleY);
+        ctx.translate(T.width / 2, T.height);
+        ctx.rotate(-T.deg);
+        ctx.translate(-T.width / 2, -T.height);
       },
     });
 
-    this.HPSprite = Sprite({
+    T.HPSprite = Sprite({
       x: 1,
       y: 1,
       width: width - 2,
@@ -95,7 +109,7 @@ export default class Unit {
       color: 'red',
     });
 
-    this.HPWrapSprite = Sprite({
+    T.HPWrapSprite = Sprite({
       x: 0,
       y: -10,
       width,
@@ -103,38 +117,40 @@ export default class Unit {
       color: '#fff',
     });
 
-    this.HPWrapSprite.addChild(this.HPSprite);
-    this.Sprite.addChild(this.HPWrapSprite);
+    T.HPWrapSprite.addChild(T.HPSprite);
+    T.Sprite.addChild(T.HPWrapSprite);
   }
 
   hit(value: number) {
-    let damage = value === 0 ? 0 : Math.max(value - this.dP, 1);
+    let T = this;
+    let damage = value === 0 ? 0 : Math.max(value - T.dP, 1);
     let isDead = false;
 
     // check death
-    if (this.HP > 0 && this.HP - damage <= 0) {
-      this.Sprite.playAnimation('smoke');
-      this.Sprite.dx = 0;
+    if (T.HP > 0 && T.HP - damage <= 0) {
+      T.Sprite.playAnimation('smoke');
+      T.Sprite.dx = 0;
 
-      this.Sprite.removeChild(this.HPSprite, this.HPWrapSprite);
+      T.Sprite.removeChild(T.HPSprite, T.HPWrapSprite);
       isDead = true;
     }
 
-    this.HP -= damage;
-    (this.HPSprite.width = Math.max((this.Sprite.width - 2) * this.HP) / this.HPMax), 0;
+    T.HP -= damage;
+    (T.HPSprite.width = Math.max((T.Sprite.width - 2) * T.HP) / T.HPMax), 0;
 
     // knockback
     if (damage > 0) {
-      this.isStop = false;
-      if (!isDead) this.Sprite.dx = KNOCKBACK_SPEED;
+      T.isStop = false;
+      if (!isDead) T.Sprite.dx = KNOCKBACK_SPEED;
     }
 
     return isDead;
   }
 
   setSpeed(sp: number) {
-    this.sp = -Math.abs(sp);
-    this.Sprite.dx = -Math.abs(sp);
+    let T = this;
+    T.sp = -Math.abs(sp);
+    T.Sprite.dx = -Math.abs(sp);
   }
 
   isAlive() {
@@ -143,7 +159,7 @@ export default class Unit {
 
   isDone() {
     // @ts-ignore
-    return !this.isAlive() && this.Sprite.currentAnimation._f === this.Sprite.currentAnimation.frames.length - 1;
+    return !this.isAlive() && T.Sprite.currentAnimation._f === T.Sprite.currentAnimation.frames.length - 1;
   }
 
   isReadyToAttack() {
@@ -165,20 +181,22 @@ export default class Unit {
   }
 
   handleSpeed() {
-    if (this.isStop) {
-      this.Sprite.dx = 0;
+    let T = this;
+    if (T.isStop) {
+      T.Sprite.dx = 0;
       return;
     }
-    if (Math.abs(this.Sprite.dx - this.sp) > 0.2) this.Sprite.dx -= Math.sign(this.Sprite.dx - this.sp) * 0.1;
+    if (Math.abs(T.Sprite.dx - T.sp) > 0.2) T.Sprite.dx -= Math.sign(T.Sprite.dx - T.sp) * 0.1;
   }
 
   update(dt: number) {
-    this.HPWrapSprite.update();
-    this.HPSprite.update();
-    this.Sprite.update();
+    let T = this;
+    T.HPWrapSprite.update();
+    T.HPSprite.update();
+    T.Sprite.update();
 
-    this.handleSpeed();
+    T.handleSpeed();
 
-    this.fireTimer += dt;
+    T.fireTimer += dt;
   }
 }

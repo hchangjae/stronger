@@ -223,19 +223,25 @@ export let waveRecipes: WaveRecipe[] = [
 ];
 
 export default class GameWave {
+  // @ts-ignore
   waveRecipeList: WaveRecipe[];
+  // @ts-ignore
   sL: Summon[];
+  // @ts-ignore
   level: number = 0;
+  // @ts-ignore
   summonTimer: number;
 
   constructor(waveRecipeList: WaveRecipe[]) {
-    this.waveRecipeList = [...waveRecipeList];
-    this.sL = [];
-    this.summonTimer = 0;
+    let T = this;
+    T.waveRecipeList = [...waveRecipeList];
+    T.sL = [];
+    T.summonTimer = 0;
   }
 
   isWavesDone() {
-    return this.waveRecipeList.length === 0 && this.sL.length === 0;
+    let T = this;
+    return T.waveRecipeList.length === 0 && T.sL.length === 0;
   }
 
   isWaveDone() {
@@ -243,24 +249,26 @@ export default class GameWave {
   }
 
   isReadyToSummon() {
-    if (this.isWaveDone()) return false;
-    let summonAt = this.sL[this.sL.length - 1].at;
+    let T = this;
+    if (T.isWaveDone()) return false;
+    let summonAt = T.sL[T.sL.length - 1].at;
 
-    return summonAt < this.summonTimer;
+    return summonAt < T.summonTimer;
   }
 
   next() {
-    if (this.isWavesDone()) return;
+    let T = this;
+    if (T.isWavesDone()) return;
 
-    let [waveRecipe] = this.waveRecipeList.splice(0, 1);
-    this.level += 1;
-    this.sL = createSummonList(waveRecipe);
-    this.summonTimer = 0;
+    let [waveRecipe] = T.waveRecipeList.splice(0, 1);
+    T.level += 1;
+    T.sL = createSummonList(waveRecipe);
+    T.summonTimer = 0;
 
     let ba = document.querySelector('.ba');
 
     if (ba) {
-      ba.innerHTML = `Wave ${this.level}`;
+      ba.innerHTML = `Wave ${T.level}`;
       ba.classList.add('show');
 
       window.setTimeout(() => {
