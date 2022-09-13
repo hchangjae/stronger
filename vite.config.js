@@ -1,25 +1,21 @@
-import kontra from 'rollup-plugin-kontra';
+import path from 'path';
+import { defineConfig } from 'vite';
+import { createHtmlPlugin } from 'vite-plugin-html';
+import glsl from 'vite-plugin-glsl';
+import { viteSingleFile } from 'vite-plugin-singlefile';
 
-/** @type {import('vite').UserConfig} */
-export default {
-  server: {
-    port: 8080,
+export default defineConfig({
+  server: { port: 8080 },
+  build: {
+    outDir: path.join(__dirname, 'dist'),
+    polyfillModulePreload: false,
+    assetsInlineLimit: 100000000,
+    minify: 'terser',
+    terserOptions: {
+      mangle: {
+        keep_fnames: false,
+      },
+    },
   },
-  //   build: {
-  //     rollupOptions: {
-  //       input: 'src/main.ts',
-  //       output: {
-  //         dir: 'dist2',
-  //       },
-  //       plugins: [
-  //         kontra({
-  //           gameObject: {
-  //             // enable only velocity and rotation functionality
-  //             velocity: true,
-  //             rotation: true,
-  //           },
-  //         }),
-  //       ],
-  //     },
-  //   },
-};
+  plugins: [createHtmlPlugin({}), viteSingleFile()],
+});

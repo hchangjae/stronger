@@ -29,7 +29,7 @@ let enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     sp: EnemySpeed.NORMAL,
     width: 32,
     height: 32,
-    sP: 500,
+    sP: 3,
     aP: 2,
     aR: 5,
     dP: 0,

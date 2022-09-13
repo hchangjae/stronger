@@ -45,8 +45,8 @@ Promise.all([loadImage('images/sprite.png'), loadImage('images/ground.png'), loa
           name: 'jackie',
           image: 'images/tower.png',
           ws: [new PlasmaGun()],
-          resource: 30000,
-          life: 1,
+          resource: 30,
+          life: 100,
           ups: passiveUpgradeMap,
         });
       } else {
