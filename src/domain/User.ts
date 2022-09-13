@@ -181,7 +181,7 @@ class User extends Unit {
     let rate = weapon.getAttackRate() * (1 + amount / 100);
     let fCT = 1 / rate / 600;
 
-    return weapon.fCT >= fCT;
+    return weapon.fireTimer >= fCT;
   }
 
   getWeaponCount(name: string) {

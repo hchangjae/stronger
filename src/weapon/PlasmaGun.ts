@@ -10,7 +10,6 @@ export default class PlasmaGun extends Weapon {
       targets: ['air', 'land'],
       aP: 3,
       aR: 500,
-      killProbaility: 1,
       sR: 0,
       fCT: 0.6,
     });
