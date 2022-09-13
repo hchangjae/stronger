@@ -11,16 +11,21 @@ import GameWave, { waveRecipes } from '../wave/Wave';
 import Info from './Info';
 
 let getDistanceFromTower = (enemy: Enemy) => enemy.Sprite.x - TOWER_POSITION;
+let ES = ['info', 'ups', 'cr-ups', 'cr-ws'];
+let rE = ($e: Element | null) => {
+  while ($e?.firstChild) {
+    $e.removeChild($e.firstChild);
+  }
+}
 
 class Game extends GameObjectClass {
-  protected user: User;
-  protected info: Info;
-  protected corp: Corp;
-  protected ground: Ground;
-  protected effect: GameObject[];
-  protected canvas: HTMLCanvasElement;
-
-  private running: boolean;
+  user: User;
+  info: Info;
+  corp: Corp;
+  ground: Ground;
+  effect: GameObject[];
+  canvas: HTMLCanvasElement;
+  running: boolean;
 
   constructor(user: User, canvas: HTMLCanvasElement) {
     super();
@@ -37,33 +42,15 @@ class Game extends GameObjectClass {
   }
 
   start() {
-    $('.info')?.classList.remove('hide');
-    $('.ups')?.classList.remove('hide');
-    $('.cr-ups')?.classList.remove('hide');
-    $('.cr-ws')?.classList.remove('hide');
+    ES.forEach(n => $(`.${n}`)?.classList.remove('hide'));
     this.running = true;
   }
 
   end() {
-    $('.info')?.classList.add('hide');
-    $('.ups')?.classList.add('hide');
-    $('.cr-ups')?.classList.add('hide');
-    $('.cr-ws')?.classList.add('hide');
-    let $pa = $('.pa-con .pa');
-    while ($pa?.firstChild) {
-      $pa.removeChild($pa.firstChild);
-    }
-    let $ws = $('.ws-con .ws');
-    while ($ws?.firstChild) [$ws.removeChild($ws.firstChild)];
+    ES.forEach(n => $(`.${n}`)?.classList.add('hide'));
+    rE($('.pa-con .pa'));
+    rE($('.ws-con .ws'));
     this.running = false;
-  }
-
-  isRunning() {
-    return this.running;
-  }
-
-  getUser() {
-    return this.user;
   }
 
   render() {
@@ -74,21 +61,25 @@ class Game extends GameObjectClass {
   }
 
   update(dt: number): void {
-    let wave = this.info.getWave();
+    let corp = this.corp;
+    let info = this.info;
+    let wave = info.wave;
+    let user = this.user;
+    let effect = this.effect;
+
     wave.update(dt);
-    if (this.corp.isDestroyed() && wave.isWaveDone()) {
+    if (corp.isDestroyed() && wave.isWaveDone()) {
       wave.next();
-      this.info.updateWave();
-      this.info.updateGeneration();
+      info.update();
     }
     if (wave.isReadyToSummon()) {
-      this.corp.buildUp(wave);
+      corp.buildUp(wave);
     }
 
-    let ws = this.user.getWeapons();
-    this.user.update(dt);
+    let ws = user.getWeapons();
+    user.update(dt);
 
-    this.corp
+    corp
       .getAliveEnemies()
       .sort((a, b) => a.Sprite.x - b.Sprite.x)
       .forEach((enemy) => {
@@ -101,17 +92,17 @@ class Game extends GameObjectClass {
         }
 
         ws.forEach((w) => {
-          if (this.user.calculateIsInRange(w, getDistanceFromTower(enemy))) {
-            if (this.user.calculateCanFire(w) && enemy.isAlive()) {
+          if (user.calculateIsInRange(w, getDistanceFromTower(enemy))) {
+            if (user.calculateCanFire(w) && enemy.isAlive()) {
               let bullet = w.fire(enemy) as Bullet;
-              this.user.coolDownFire();
+              user.coolDownFire();
               if (bullet) w.reload(bullet);
             }
           }
         });
       });
 
-    this.corp.update(dt);
+    corp.update(dt);
 
     let createSouls = (enemy: Enemy) => {
       let soulList = new Array(enemy.sP).fill('').map(
@@ -122,7 +113,7 @@ class Game extends GameObjectClass {
           })
       );
 
-      this.effect.push(...soulList);
+      effect.push(...soulList);
     };
 
     ws.forEach((weapon) => {
@@ -143,7 +134,7 @@ class Game extends GameObjectClass {
           bullet.rotation = angleToTarget({ x: bullet.x, y: bullet.y }, targetCenter);
 
           if (collides(bullet, eSprite)) {
-            let power = this.user.calculateBulletDamage(bullet.aP);
+            let power = user.calculateBulletDamage(bullet.aP);
             if (bullet.slowPower) {
               let slowPower = 1 - (1 - bullet.slowPower) * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.sR);
               enemy.setSpeed(slowPower);
@@ -159,18 +150,18 @@ class Game extends GameObjectClass {
           }
         } else {
           if (bullet.y > GROUND_POSITION) {
-            this.corp.getAliveEnemies().forEach((enemy) => {
+            corp.getAliveEnemies().forEach((enemy) => {
               if (bullet.sR !== 0) {
                 if (Math.abs(bullet.x - enemy.Sprite.x) < bullet.sR && !isAir(enemy.name)) {
                   let power = bullet.aP * (1 - Math.abs(bullet.x - enemy.Sprite.x) / bullet.sR);
 
-                  let isDead = enemy.hit(this.user.calculateBulletDamage(power));
+                  let isDead = enemy.hit(user.calculateBulletDamage(power));
                   if (isDead) {
                     createSouls(enemy);
                   }
                 }
               } else if (collides(bullet, enemy.Sprite)) {
-                let isDead = enemy.hit(this.user.calculateBulletDamage(bullet.aP));
+                let isDead = enemy.hit(user.calculateBulletDamage(bullet.aP));
                 if (isDead) {
                   createSouls(enemy);
                 }
@@ -190,10 +181,10 @@ class Game extends GameObjectClass {
       });
     });
 
-    this.effect.forEach((e) => e.update());
-    this.effect = this.effect.filter((e) => {
+    effect.forEach((e) => e.update());
+    this.effect = effect.filter((e) => {
       if (e.isDone()) {
-        this.user.setResource(1);
+        user.setResource(1);
         return false;
       }
       return true;
