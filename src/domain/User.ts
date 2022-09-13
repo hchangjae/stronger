@@ -105,7 +105,7 @@ class User extends Unit {
   }
 
   setResource(dm: number) {
-    let currentResource = this.resource.getResource();
+    let currentResource = this.resource.r;
     if (currentResource + dm < 0) return;
     this.resource.update(currentResource + dm);
   }
@@ -132,7 +132,7 @@ class User extends Unit {
     this.setResource(-1 * weaponData.rN);
     weaponData.rN *= 2;
 
-    updateResource(this.resource.getResource());
+    updateResource(this.resource.r);
   }
 
   getUpgrades() {
@@ -151,7 +151,7 @@ class User extends Unit {
       u.setTotalAmount(u.getTotalAmount() + upgrade.getAmount());
       u.increaseResourceNeeded();
 
-      updateResource(this.resource.getResource());
+      updateResource(this.resource.r);
     }
   }
 
