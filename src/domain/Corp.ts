@@ -20,10 +20,6 @@ class Corp extends GameObjectClass {
     return this.getAliveEnemies().length === 0;
   }
 
-  getCount() {
-    return this.es.length;
-  }
-
   getAliveEnemies() {
     return this.es.filter((enemy) => !enemy.isDone());
   }
