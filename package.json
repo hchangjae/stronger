@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "rollup": "rollup ts-out/main.js --format iife --file game.bundle.js -c rollup.config.js",
-    "tsc": "tsc --outDir ts-out --noEmit false",
     "vite": "vite build",
     "preview": "vite preview"
   },

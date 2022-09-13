@@ -1,4 +1,5 @@
 import { imageAssets, init, initPointer, Scene, Sprite, Text } from 'kontra';
+import { getSpriteAnimation } from './component/spriteSheet';
 import Ground from './domain/Ground';
 import { $ } from './util';
 
@@ -45,23 +46,29 @@ let TitleScene = (onStart: () => void) => {
   });
 
   let slime = Sprite({
-    image: imageAssets['images/slime.png'],
     x: towerLeft + 160,
     y: 190,
+    animations: {
+      ...getSpriteAnimation('slime'),
+    },
   });
 
   let plasma1 = Sprite({
-    image: imageAssets['images/plasma.png'],
     x: towerLeft + 90,
     y: 186,
     rotation: 1.8,
+    animations: {
+      ...getSpriteAnimation('bullet1'),
+    },
   });
 
   let plasma2 = Sprite({
-    image: imageAssets['images/plasma.png'],
     x: towerLeft + 130,
     y: 195,
     rotation: 1.8,
+    animations: {
+      ...getSpriteAnimation('bullet1'),
+    },
   });
 
   let scene = Scene({

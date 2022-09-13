@@ -1,4 +1,5 @@
-import { imageAssets, Sprite } from 'kontra';
+import { Sprite } from 'kontra';
+import { getSpriteAnimation } from '../component/spriteSheet';
 import { TOWER_POSITION } from '../main';
 import Unit from '../unit/Unit';
 import Weapon from './Weapon';
@@ -19,7 +20,6 @@ export default class PlasmaGun extends Weapon {
 
     // 총알 생성
     let bullet = Sprite({
-      image: imageAssets['images/plasma.png'],
       x: TOWER_POSITION,
       y: 160,
       width: 10,
@@ -30,6 +30,9 @@ export default class PlasmaGun extends Weapon {
       aP: this.aP,
       sR: this.sR,
       targetEnemy: enemy,
+      animations: {
+        ...getSpriteAnimation('bullet1'),
+      },
     });
 
     return bullet;

@@ -45,7 +45,7 @@ export let waveRecipes: WaveRecipe[] = [
   {
     tt: 5, // point: 15
     dr: 5,
-    sr: [{ ty: EnemyName.G4, ra: 1 }],
+    sr: [{ ty: EnemyName.G1, ra: 1 }],
   },
   {
     tt: 10, // point: 23

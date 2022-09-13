@@ -24,88 +24,79 @@ export let particles = Pool({
 
 let { canvas } = init();
 
-Promise.all([
-  loadImage('images/tower.png'),
-  loadImage('images/slime.png'),
-  loadImage('images/slime2.png'),
-  loadImage('images/slime3.png'),
-  loadImage('images/plasma.png'),
-  loadImage('images/smoke.png'),
-  loadImage('images/ground.png'),
-  loadImage('images/bat.png'),
-  loadImage('images/golem.png'),
-  loadImage('images/goobomb.png'),
-]).then(() => {
-  let passiveUpgradeMap = new Map<string, Upgrade>();
-  let upgradeButtons: UpgradeButton[];
-  let weaponButtons: UpgradeButton[];
+Promise.all([loadImage('images/sprite.png'), loadImage('images/ground.png'), loadImage('images/tower.png')]).then(
+  () => {
+    let passiveUpgradeMap = new Map<string, Upgrade>();
+    let upgradeButtons: UpgradeButton[];
+    let weaponButtons: UpgradeButton[];
 
-  PASSIVES.forEach((passive) => {
-    passiveUpgradeMap.set(passive.target, new Upgrade(passive));
-  });
-
-  let sceneManager = scene();
-  let user: User;
-  let game: Game;
-
-  let initGame = (inherit: boolean) => {
-    if (!(user && inherit)) {
-      console.log('NEW TRIAL');
-      user = new User({
-        name: 'jackie',
-        image: 'images/tower.png',
-        ws: [new PlasmaGun()],
-        resource: 30000,
-        life: 1,
-        ups: passiveUpgradeMap,
-      });
-    } else {
-      console.log('INHERIT');
-      user.inherit();
-    }
-    upgradeButtons = [...user.ups.values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
-    [...user.ups.values()].forEach((upgrade) => {
-      let valueLabel = $('.' + upgrade.getTarget())!;
-      valueLabel.innerHTML = `+${upgrade.totalAmount}%`;
+    PASSIVES.forEach((passive) => {
+      passiveUpgradeMap.set(passive.target, new Upgrade(passive));
     });
 
-    // @ts-ignore
-    weaponButtons = WEAPONS.map((upgrade) => new UpgradeButton({ upgrade, user }));
-    [...user.ws.values()].forEach((weapon) => {
-      let valueLabel = $('.' + weapon.name)!;
-      valueLabel.innerHTML = `x${user.getWeaponCount(weapon.name)}`;
-    });
-    game = new Game(user, canvas);
-    game.start();
-    return game;
-  };
+    let sceneManager = scene();
+    let user: User;
+    let game: Game;
 
-  let setGameScene = (inherit = false) => sceneManager.set(initGame(inherit));
-
-  initUnitSpriteSheets();
-
-  sceneManager.set(TitleScene(setGameScene));
-
-  let loop = GameLoop({
-    update: (dt) => {
-      if (user?.getIsDead() && game.running) {
-        sceneManager.set(
-          EndScene(
-            game,
-            () => setGameScene(true),
-            () => setGameScene(false)
-          )
-        );
+    let initGame = (inherit: boolean) => {
+      if (!(user && inherit)) {
+        console.log('NEW TRIAL');
+        user = new User({
+          name: 'jackie',
+          image: 'images/tower.png',
+          ws: [new PlasmaGun()],
+          resource: 30000,
+          life: 1,
+          ups: passiveUpgradeMap,
+        });
+      } else {
+        console.log('INHERIT');
+        user.inherit();
       }
-      sceneManager.update(dt);
-      particles.update();
-      upgradeButtons?.forEach((button) => button.update());
-      weaponButtons?.forEach((button) => button.update());
-    },
-    render: () => {
-      sceneManager.render();
-      particles.render();
-    },
-  });
-  loop.start();
-});
+      upgradeButtons = [...user.ups.values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
+      [...user.ups.values()].forEach((upgrade) => {
+        let valueLabel = $('.' + upgrade.getTarget())!;
+        valueLabel.innerHTML = `+${upgrade.totalAmount}%`;
+      });
+
+      // @ts-ignore
+      weaponButtons = WEAPONS.map((upgrade) => new UpgradeButton({ upgrade, user }));
+      [...user.ws.values()].forEach((weapon) => {
+        let valueLabel = $('.' + weapon.name)!;
+        valueLabel.innerHTML = `x${user.getWeaponCount(weapon.name)}`;
+      });
+      game = new Game(user, canvas);
+      game.start();
+      return game;
+    };
+
+    let setGameScene = (inherit = false) => sceneManager.set(initGame(inherit));
+
+    initUnitSpriteSheets();
+
+    sceneManager.set(TitleScene(setGameScene));
+
+    let loop = GameLoop({
+      update: (dt) => {
+        if (user?.getIsDead() && game.running) {
+          sceneManager.set(
+            EndScene(
+              game,
+              () => setGameScene(true),
+              () => setGameScene(false)
+            )
+          );
+        }
+        sceneManager.update(dt);
+        particles.update();
+        upgradeButtons?.forEach((button) => button.update());
+        weaponButtons?.forEach((button) => button.update());
+      },
+      render: () => {
+        sceneManager.render();
+        particles.render();
+      },
+    });
+    loop.start();
+  }
+);

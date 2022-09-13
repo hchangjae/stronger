@@ -1,5 +1,5 @@
 import { Sprite } from 'kontra';
-import { getSpriteAnimation } from '../component/spriteSheet';
+import { getSpriteAnimation, gSD } from '../component/spriteSheet';
 import { EnemyName } from './Enemy';
 
 let KNOCKBACK_SPEED = 1;
@@ -54,8 +54,6 @@ export default class Unit {
     this.HPMax = HP;
     this.isStop = false;
 
-    let isSingleImage = ['golem', 'slime3'].includes(spriteAnimationKey);
-
     this.Sprite = Sprite({
       x,
       y: y - height,
@@ -68,26 +66,24 @@ export default class Unit {
         ...getSpriteAnimation(spriteAnimationKey),
         ...getSpriteAnimation('smoke'),
       },
-      ...(isSingleImage
-        ? {
-            render() {
-              let ctx = this.context;
-              let image = this.currentAnimation.spriteSheet.image;
-              if (!ctx || !image || !this.width || !this.height || !this.scaleX || !this.scaleY) return;
-              if (this.deg < -ROTATE_DEG || this.deg > ROTATE_DEG) {
-                this.ddeg *= -1;
-              }
-              this.deg += this.ddeg;
-              ctx.translate(this.width / 2, this.height);
-              ctx.rotate(this.deg);
-              ctx.translate(-this.width / 2, -this.height);
-              ctx.drawImage(image, 0, 0, this.width * this.scaleX, this.height * this.scaleY);
-              ctx.translate(this.width / 2, this.height);
-              ctx.rotate(-this.deg);
-              ctx.translate(-this.width / 2, -this.height);
-            },
-          }
-        : {}),
+      render() {
+        let ctx = this.context;
+        let image = this.currentAnimation.spriteSheet.image;
+        let { width, height } = this.currentAnimation.spriteSheet.frame;
+        if (!ctx || !image || !this.width || !this.height || !this.scaleX || !this.scaleY) return;
+        if (this.deg < -ROTATE_DEG || this.deg > ROTATE_DEG) {
+          this.ddeg *= -1;
+        }
+        this.deg += this.ddeg;
+        let gap = width * gSD(spriteAnimationKey)[3];
+        ctx.translate(this.width / 2, this.height);
+        ctx.rotate(this.deg);
+        ctx.translate(-this.width / 2, -this.height);
+        ctx.drawImage(image, gap, 0, width, height, 0, 0, this.width * this.scaleX, this.height * this.scaleY);
+        ctx.translate(this.width / 2, this.height);
+        ctx.rotate(-this.deg);
+        ctx.translate(-this.width / 2, -this.height);
+      },
     });
 
     this.HPSprite = Sprite({

@@ -29,7 +29,9 @@ let WEAPONS: WeaponUpgradeType[] = [
   {
     label: 'Plasma Gun',
     weaponClass: PlasmaGun,
+    targets: ['air', 'land'],
     rN: 70,
+    unlockWave: 1,
   },
 ];
 
