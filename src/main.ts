@@ -8,7 +8,6 @@ import User from './domain/User';
 import WEAPONS from './data/upgrade/weapons';
 import Particle from './domain/Particle';
 import UpgradeButton from './controller/UpgradeButton';
-import WeaponButton from './controller/WeaponButton';
 import scene from './controller/Scene';
 import TitleScene from './title';
 import EndScene from './end';
@@ -39,7 +38,7 @@ Promise.all([
 ]).then(() => {
   let passiveUpgradeMap = new Map<string, Upgrade>();
   let upgradeButtons: UpgradeButton[];
-  let weaponButtons: WeaponButton[];
+  let weaponButtons: UpgradeButton[];
 
   PASSIVES.forEach((passive) => {
     passiveUpgradeMap.set(passive.target, new Upgrade(passive));
@@ -70,7 +69,8 @@ Promise.all([
       valueLabel.innerHTML = `+${upgrade.getTotalAmount()}%`;
     });
 
-    weaponButtons = WEAPONS.map((weapon) => new WeaponButton({ weapon, user }));
+    // @ts-ignore
+    weaponButtons = WEAPONS.map((upgrade) => new UpgradeButton({ upgrade, user }));
     [...user.getWeapons().values()].forEach((weapon) => {
       let valueLabel = $('.' + weapon.getName())!;
       valueLabel.innerHTML = `x${user.getWeaponCount(weapon.getName())}`;
