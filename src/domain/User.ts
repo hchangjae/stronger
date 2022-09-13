@@ -1,4 +1,4 @@
-import { imageAssets, Sprite, Text } from 'kontra';
+import { Sprite, Text } from 'kontra';
 
 import Weapon from '../weapon/Weapon';
 import Upgrade from './Upgrade';
@@ -11,7 +11,6 @@ let WEAPON_CHANGE_COOL = 0.1;
 
 type UserProps = {
   name: string;
-  image: string;
   resource: number;
   ws: Weapon[];
   life: number;

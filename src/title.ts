@@ -1,4 +1,4 @@
-import { imageAssets, init, initPointer, Scene, Sprite, Text } from 'kontra';
+import { init, initPointer, Scene, Sprite, Text } from 'kontra';
 import { getSpriteAnimation } from './component/spriteSheet';
 import Ground from './domain/Ground';
 import { $ } from './util';
