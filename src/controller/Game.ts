@@ -32,7 +32,7 @@ class Game extends GameObjectClass {
     this.user = user;
     this.info = new Info({
       wave: new GameWave(waveRecipes),
-      generation: user.getGeneration(),
+      generation: user.generation,
     });
     this.corp = new Corp(canvas);
     this.ground = new Ground();
@@ -76,7 +76,7 @@ class Game extends GameObjectClass {
       corp.buildUp(wave);
     }
 
-    let ws = user.getWeapons();
+    let ws = user.ws;
     user.update(dt);
 
     corp

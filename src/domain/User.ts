@@ -19,41 +19,56 @@ type UserProps = {
 };
 
 class User extends Unit {
-  protected name: string;
-  protected image: string;
-  protected resource: Resource;
-  protected ws: Weapon[];
-  protected ups: Map<string, Upgrade>;
-
-  private fCT: number;
-  private fireTimer: number;
-  private generation: number;
-  private upsInital: Map<string, Upgrade>;
-  private resourceInital: number;
-  private lifeBase: number;
-  private lifeMax: number;
-  private Sprite: Sprite;
+  // @ts-ignore
+  name: string;
+  // @ts-ignore
+  image: string;
+  // @ts-ignore
+  resource: Resource;
+  // @ts-ignore
+  ws: Weapon[];
+  // @ts-ignore
+  ups: Map<string, Upgrade>;
+  // @ts-ignore
+  fCT: number;
+  // @ts-ignore
+  fireTimer: number;
+  // @ts-ignore
+  generation: number;
+  // @ts-ignore
+  upsInital: Map<string, Upgrade>;
+  // @ts-ignore
+  resourceInital: number;
+  // @ts-ignore
+  lifeBase: number;
+  // @ts-ignore
+  lifeMax: number;
+  // @ts-ignore
+  Sprite: Sprite;
 
   constructor({ name, image, resource, ws, life, ups }: UserProps) {
     let width = 55;
     let height = 85;
 
     super(life);
-    this.name = name;
-    this.image = image;
-    this.image = image;
-    this.resource = new Resource(resource);
-    this.ws = ws;
-    this.lifeMax = life;
-    this.lifeBase = life;
-    this.generation = 1;
-    this.fireTimer = 0;
-    this.fCT = WEAPON_CHANGE_COOL;
-    this.resourceInital = resource;
-    this.upsInital = this.ups = ups;
 
-    this.Sprite = Sprite({
-      image: imageAssets[this.image],
+    let t = this;
+
+    t.name = name;
+    t.image = image;
+    t.image = image;
+    t.resource = new Resource(resource);
+    t.ws = ws;
+    t.lifeMax = life;
+    t.lifeBase = life;
+    t.generation = 1;
+    t.fireTimer = 0;
+    t.fCT = WEAPON_CHANGE_COOL;
+    t.resourceInital = resource;
+    t.upsInital = t.ups = ups;
+
+    t.Sprite = Sprite({
+      image: imageAssets[t.image],
       x: 50,
       y: 170,
       width,
@@ -71,7 +86,7 @@ class User extends Unit {
     });
 
     let getLife = () => super.getLife();
-    let getLifeMax = () => this.lifeMax;
+    let getLifeMax = () => t.lifeMax;
     let HPSprite = Sprite({
       x: 1,
       y: 1,
@@ -94,7 +109,7 @@ class User extends Unit {
     });
 
     HPWrapSprite.addChild(HPSprite);
-    this.Sprite.addChild(HPWrapSprite);
+    t.Sprite.addChild(HPWrapSprite);
   }
 
   inherit() {
@@ -110,18 +125,6 @@ class User extends Unit {
     this.resource.update(currentResource + dm);
   }
 
-  getGeneration() {
-    return this.generation;
-  }
-
-  getResource() {
-    return this.resource;
-  }
-
-  getWeapons() {
-    return this.ws;
-  }
-
   coolDownFire() {
     this.fireTimer = 0;
   }
@@ -133,10 +136,6 @@ class User extends Unit {
     weaponData.rN *= 2;
 
     updateResource(this.resource.r);
-  }
-
-  getUpgrades() {
-    return this.ups;
   }
 
   addUpgrade(upgrade: Upgrade) {

@@ -29,7 +29,7 @@ class UpgradeButton {
   }
 
   onButtonClick = () => {
-    if (this.user.getResource().r < this.upgrade.rN) return;
+    if (this.user.resource.r < this.upgrade.rN) return;
 
     if (this.upgrade instanceof Upgrade) {
       this.user.addUpgrade(this.upgrade);
@@ -53,7 +53,7 @@ class UpgradeButton {
 
     if (!this.user) return;
 
-    let resource = this.user.getResource().r;
+    let resource = this.user.resource.r;
 
     if (resource < this.upgrade.rN) {
       this.b.classList.add('notenough');

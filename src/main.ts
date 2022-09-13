@@ -63,15 +63,15 @@ Promise.all([
       console.log('INHERIT');
       user.inherit();
     }
-    upgradeButtons = [...user.getUpgrades().values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
-    [...user.getUpgrades().values()].forEach((upgrade) => {
+    upgradeButtons = [...user.ups.values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
+    [...user.ups.values()].forEach((upgrade) => {
       let valueLabel = $('.' + upgrade.getTarget())!;
       valueLabel.innerHTML = `+${upgrade.getTotalAmount()}%`;
     });
 
     // @ts-ignore
     weaponButtons = WEAPONS.map((upgrade) => new UpgradeButton({ upgrade, user }));
-    [...user.getWeapons().values()].forEach((weapon) => {
+    [...user.ws.values()].forEach((weapon) => {
       let valueLabel = $('.' + weapon.name)!;
       valueLabel.innerHTML = `x${user.getWeaponCount(weapon.name)}`;
     });
