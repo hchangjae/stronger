@@ -7,7 +7,6 @@ export default class PlasmaGun extends Weapon {
   constructor() {
     super({
       name: 'plasma-gun',
-      targets: ['air', 'land'],
       aP: 3,
       aR: 500,
       sR: 0,

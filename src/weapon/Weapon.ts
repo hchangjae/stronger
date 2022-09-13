@@ -2,11 +2,8 @@ import { GameObject } from 'kontra';
 import Bullet from '../domain/Bullet';
 import Unit from '../unit/Unit';
 
-type WeaponTarget = 'land' | 'air';
-
 export interface WeaponProps {
   name: string;
-  targets: WeaponTarget[];
   slowPower?: number;
   aP: number;
   aR: number;
@@ -17,7 +14,6 @@ export interface WeaponProps {
 
 export default class Weapon {
   name: string;
-  targets: WeaponTarget[];
   slowPower?: number;
   aP: number;
   aR: number;
@@ -26,9 +22,8 @@ export default class Weapon {
   fireTimer: number;
   bullets: Bullet[];
 
-  constructor({ name, targets, slowPower, aP, aR, sR, fCT, bullets = [] }: WeaponProps) {
+  constructor({ name, slowPower, aP, aR, sR, fCT, bullets = [] }: WeaponProps) {
     this.name = name;
-    this.targets = targets;
     this.slowPower = slowPower;
     this.aP = aP;
     this.aR = aR;

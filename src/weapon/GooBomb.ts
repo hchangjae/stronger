@@ -7,7 +7,6 @@ export default class GooBomb extends Weapon {
   constructor() {
     super({
       name: 'goobomb',
-      targets: ['air', 'land'],
       aP: 0,
       aR: 800,
       slowPower: 0.5,

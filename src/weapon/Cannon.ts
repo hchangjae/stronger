@@ -7,7 +7,6 @@ export default class Cannon extends Weapon {
   constructor() {
     super({
       name: 'cannon',
-      targets: ['land'],
       aP: 8,
       aR: 800,
       sR: 50,

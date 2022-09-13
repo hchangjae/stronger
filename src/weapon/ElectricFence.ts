@@ -7,7 +7,6 @@ export default class ElectricFence extends Weapon {
   constructor() {
     super({
       name: 'electric-fence',
-      targets: ['land', 'air'],
       aP: 2,
       aR: 30,
       sR: 0,
