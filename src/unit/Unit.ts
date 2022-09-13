@@ -1,5 +1,4 @@
 import { Sprite } from 'kontra';
-import { getSpriteAnimation, gSD } from '../component/spriteSheet';
 import { EnemyName } from './Enemy';
 
 let KNOCKBACK_SPEED = 1;
@@ -20,7 +19,6 @@ export type UnitProps = {
   dP: number;
   fCT: number;
   text: string;
-  spriteAnimationKey: string;
 };
 
 export default class Unit {

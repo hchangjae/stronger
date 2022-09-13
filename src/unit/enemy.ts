@@ -35,7 +35,6 @@ let enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     dP: 0,
     fCT: 5,
     text: '👹',
-    // spriteAnimationKey: 'slime',
   },
   [EnemyName.G2]: {
     HP: 7,
@@ -49,7 +48,6 @@ let enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     dP: 0,
     fCT: 3,
     text: '👺',
-    // spriteAnimationKey: 'slime2',
   },
   [EnemyName.G3]: {
     HP: 15,
@@ -63,7 +61,6 @@ let enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     dP: 2,
     fCT: 5,
     text: '👽',
-    // spriteAnimationKey: 'slime3',
   },
   [EnemyName.G4]: {
     HP: 35,
@@ -77,7 +74,6 @@ let enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     dP: 5,
     fCT: 5,
     text: '🤖',
-    // spriteAnimationKey: 'golem',
   },
   [EnemyName.B1]: {
     HP: 34,
@@ -91,7 +87,6 @@ let enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     dP: 1,
     fCT: 5,
     text: '👹',
-    // spriteAnimationKey: 'slime',
   },
   [EnemyName.B2]: {
     HP: 50,
@@ -105,7 +100,6 @@ let enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     dP: 4,
     fCT: 5,
     text: '👺',
-    // spriteAnimationKey: 'slime3',
   },
   [EnemyName.B3]: {
     HP: 100,
@@ -119,7 +113,6 @@ let enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     dP: 10,
     fCT: 5,
     text: '👽',
-    // spriteAnimationKey: 'golem',
   },
   [EnemyName.B4]: {
     HP: 200,
@@ -133,7 +126,6 @@ let enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     dP: 10,
     fCT: 0.05,
     text: '🤖',
-    // spriteAnimationKey: 'bat',
   },
   [EnemyName.A1]: {
     HP: 8,
@@ -147,7 +139,6 @@ let enemyNameToPropsMap: Record<EnemyName, Omit<UnitProps, 'x' | 'y'>> = {
     dP: 3,
     fCT: 5,
     text: '👾',
-    // spriteAnimationKey: 'bat',
   },
 };
 

@@ -1,4 +1,4 @@
-import { imageAssets, Sprite } from 'kontra';
+import { Sprite } from 'kontra';
 import { GROUND_POSITION } from '../main';
 
 export default class Ground {
@@ -17,9 +17,12 @@ export default class Ground {
     let numSprites = 1024 / 16;
 
     for (let i = 0; i < numSprites; i++) {
+      let d = document.createElement('img');
+      d.src =
+        'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAElBMVEWJWkdOPET/1GzSiRaJWUb/4pxvBUKCAAAAZklEQVQI1y3G0Q3DIAwA0SN4AFtiAtP809ABrCYTIGX/VQJSTvfx8HvM94G777cv9MNng8pUPZwmZ1/R+lZzJ8P3bP/6ESTAfxFslYQAuQVx6aQISQlIJRAUKZdCUUzNkhnY24IuPCgGDoN65swqAAAAAElFTkSuQmCC';
       this.sprites.push(
         Sprite({
-          image: imageAssets['images/ground.png'],
+          image: d,
           x: i * 16,
           y: GROUND_POSITION,
         })

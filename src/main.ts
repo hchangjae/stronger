@@ -1,4 +1,4 @@
-import { init, GameLoop, loadImage, Pool } from 'kontra';
+import { init, GameLoop, Pool } from 'kontra';
 import PlasmaGun from './weapon/PlasmaGun';
 import Game from './controller/Game';
 import Upgrade from './domain/Upgrade';
@@ -23,7 +23,7 @@ export let particles = Pool({
 
 let { canvas } = init();
 
-Promise.all([loadImage('images/ground.png')]).then(() => {
+Promise.all([]).then(() => {
   let passiveUpgradeMap = new Map<string, Upgrade>();
   let upgradeButtons: UpgradeButton[];
   let weaponButtons: UpgradeButton[];

@@ -1,7 +1,6 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
-import glsl from 'vite-plugin-glsl';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 
 export default defineConfig({
@@ -14,6 +13,7 @@ export default defineConfig({
     terserOptions: {
       mangle: {
         keep_fnames: false,
+        // properties: true,
       },
     },
   },
