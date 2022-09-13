@@ -32,7 +32,7 @@ class WeaponButton {
     this.user.addWeapon(w, this.weapon);
 
     let valueLabel = $(`.${w.getName()}`)!;
-    valueLabel.innerHTML = `X${this.user.getWeaponCount(w.getName())}`;
+    valueLabel.innerHTML = `x${this.user.getWeaponCount(w.getName())}`;
   };
 
   update() {

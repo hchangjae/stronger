@@ -14,7 +14,7 @@ let EndScene = (game: Game, onRestart: Func, onRestartFromScratch: Func) => {
     x: 50,
     y: 90,
     font: '24px Monospace',
-    text: `You're dead\n`,
+    text: `You've been swarmed by the incoming enemies.`,
     color: '#fff',
   });
 
@@ -22,8 +22,8 @@ let EndScene = (game: Game, onRestart: Func, onRestartFromScratch: Func) => {
     x: 50,
     y: 140,
     font: '24px Monospace',
-    text: `You can start with your next genneration.
-      \nWill you inherit your everything to your descendant?`,
+    text: `However, your remains will make your descendants stronger.
+      \nWill your people rise up again?`,
     color: '#fff',
   });
 

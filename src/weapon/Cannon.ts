@@ -24,6 +24,7 @@ export default class Cannon extends Weapon {
       text: '🎱',
       x: TOWER_POSITION,
       y: 160,
+      anchor: { x: 0, y: 0 },
       ddy: 500,
       dy: -300,
       dx: enemy.Sprite.x * 0.5,
@@ -42,7 +43,7 @@ export default class Cannon extends Weapon {
       for (let i = 1; i < 2; i++) {
         particles.get({
           x: bullet.x + bullet.width / 2,
-          y: bullet.y + bullet.height / 2,
+          y: bullet.y,
           width: 6,
           height: 6,
           color: '#666',

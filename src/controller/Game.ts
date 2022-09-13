@@ -154,6 +154,8 @@ class Game extends GameObjectClass {
             }
             bullet.ttl = 0;
             weapon.setBullets(bulletList.filter((b) => b.isAlive()));
+
+            if (bullet.onDestroy) bullet.onDestroy();
           }
         } else {
           if (bullet.y > GROUND_POSITION) {

@@ -55,7 +55,7 @@ class User extends Unit {
     this.Sprite = Sprite({
       image: imageAssets[this.image],
       x: 50,
-      y: 175,
+      y: 170,
       width,
       height,
       scaleX: 3,
@@ -77,7 +77,7 @@ class User extends Unit {
       y: 1,
       width: width - 2,
       height: 5,
-      color: 'red',
+      color: '#00db00',
       update: function () {
         this.width = Math.max(((width - 2) * getLife()) / getLifeMax(), 0);
       },
