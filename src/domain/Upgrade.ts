@@ -26,32 +26,8 @@ class Upgrade {
     return this.target.toString();
   }
 
-  getLabel() {
-    return this.label;
-  }
-
-  getAmount() {
-    return this.amount;
-  }
-
-  setAmount(amount: number) {
-    this.amount = amount;
-  }
-
-  getResourceNeeded() {
-    return this.rN;
-  }
-
   increaseResourceNeeded() {
     this.rN = Math.floor(this.rN * 1.5);
-  }
-
-  getTotalAmount() {
-    return this.totalAmount;
-  }
-
-  setTotalAmount(totalAmount: number) {
-    this.totalAmount = totalAmount;
   }
 }
 

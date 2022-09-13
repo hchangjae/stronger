@@ -143,11 +143,11 @@ class User extends Unit {
 
     if (u) {
       if (u.getTarget() === 'HEALTH') {
-        this.life = this.lifeBase * (1 + u.getAmount());
-        this.lifeMax = this.lifeBase * (1 + u.getAmount());
+        this.life = this.lifeBase * (1 + u.amount);
+        this.lifeMax = this.lifeBase * (1 + u.amount);
       }
-      this.setResource(-1 * u.getResourceNeeded());
-      u.setTotalAmount(u.getTotalAmount() + upgrade.getAmount());
+      this.setResource(-1 * u.rN);
+      u.totalAmount = u.totalAmount + upgrade.amount;
       u.increaseResourceNeeded();
 
       updateResource(this.resource.r);
@@ -156,7 +156,7 @@ class User extends Unit {
 
   calculateBulletDamage(damage: number) {
     let u = this.ups.get('ATTACK_POWER');
-    let amount = u ? u.getTotalAmount() : 0;
+    let amount = u ? u.totalAmount : 0;
 
     if (amount === 0) return damage;
 
@@ -165,7 +165,7 @@ class User extends Unit {
 
   calculateIsInRange(weapon: Weapon, distance: number) {
     let u = this.ups.get('ATTACK_RANGE');
-    let amount = u ? u.getTotalAmount() : 0;
+    let amount = u ? u.totalAmount : 0;
     let range = Math.ceil(weapon.aR * (1 + amount / 100));
 
     return distance <= range;
@@ -176,7 +176,7 @@ class User extends Unit {
     if (this.fireTimer < this.fCT) return;
 
     let u = this.ups.get('ATTACK_RATE');
-    let amount = u ? u.getTotalAmount() : 0;
+    let amount = u ? u.totalAmount : 0;
     let rate = weapon.getAttackRate() * (1 + amount / 100);
     let fCT = 1 / rate / 600;
 

@@ -66,7 +66,7 @@ Promise.all([
     upgradeButtons = [...user.ups.values()].map((upgrade) => new UpgradeButton({ upgrade, user }));
     [...user.ups.values()].forEach((upgrade) => {
       let valueLabel = $('.' + upgrade.getTarget())!;
-      valueLabel.innerHTML = `+${upgrade.getTotalAmount()}%`;
+      valueLabel.innerHTML = `+${upgrade.totalAmount}%`;
     });
 
     // @ts-ignore

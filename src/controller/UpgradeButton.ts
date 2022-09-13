@@ -35,7 +35,7 @@ class UpgradeButton {
       this.user.addUpgrade(this.upgrade);
 
       let valueLabel = $('.' + this.upgrade.getTarget())!;
-      valueLabel.innerHTML = `+${this.upgrade.getTotalAmount()}%`;
+      valueLabel.innerHTML = `+${this.upgrade.totalAmount}%`;
     } else {
       // @ts-ignore
       let w = new this.upgrade.weaponClass();
